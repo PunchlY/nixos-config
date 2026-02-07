@@ -94,6 +94,53 @@
           modules = [
             home-manager.nixosModules.default
             agenix.nixosModules.default
+            ./hardware/gpd-win-max-2-2022.nix
+          ]
+          ++ (importAll ./modules)
+          ++ (importAll ./host)
+          ++ (lib.singleton {
+            nixpkgs = {
+              inherit overlays;
+              config = {
+                allowUnfree = true;
+                allowBroken = true;
+              };
+            };
+
+            nix.registry = {
+              nixpkgs.flake = nixpkgs;
+              self.flake = self;
+              templates.flake = inputs.templates;
+            };
+
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+              extraSpecialArgs = specialArgs;
+              users.${username} = {
+                imports = importAll ./home;
+                home = {
+                  inherit username;
+                  homeDirectory = "/home/${username}";
+                };
+              };
+            };
+          });
+        };
+
+      nixosConfigurations.nixos =
+        let
+          system = "x86_64-linux";
+          username = "punchly";
+          specialArgs = inputs;
+        in
+        lib.nixosSystem {
+          inherit system specialArgs;
+          modules = [
+            home-manager.nixosModules.default
+            agenix.nixosModules.default
+            ./hardware/lenovo-legion-15ach6h-hybrid.nix
           ]
           ++ (importAll ./modules)
           ++ (importAll ./host)
