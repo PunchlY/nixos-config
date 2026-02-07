@@ -95,6 +95,14 @@ let
         merge_with_next = true;
       }
       {
+        block = "net";
+        format = " $icon |";
+        inactive_format = "";
+        missing_format = "";
+        device = "^eno1$";
+        merge_with_next = true;
+      }
+      {
         block = "memory";
         format = " $icon $mem_used_percents.eng(w:2) ";
         # format_alt = " $icon_swap $swap_used_percents.eng(w:2) ";

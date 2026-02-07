@@ -6,7 +6,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "winmax2";
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";

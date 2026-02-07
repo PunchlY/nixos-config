@@ -30,15 +30,15 @@
       PROTON_USE_RAW_INPUT = "1";
     };
   };
-  jovian.decky-loader = {
-    enable = false;
-    extraPackages = with pkgs; [
-      coreutils
-      systemd
-      python3
-      steam
-    ];
-  };
+  # jovian.decky-loader = {
+  #   enable = true;
+  #   extraPackages = with pkgs; [
+  #     coreutils
+  #     systemd
+  #     python3
+  #     steam
+  #   ];
+  # };
 
   services.seatd.enable = true;
 

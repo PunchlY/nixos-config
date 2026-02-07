@@ -99,6 +99,7 @@
           ++ (importAll ./modules)
           ++ (importAll ./host)
           ++ (lib.singleton {
+            networking.hostName = "winmax2";
             nixpkgs = {
               inherit overlays;
               config = {
@@ -145,6 +146,8 @@
           ++ (importAll ./modules)
           ++ (importAll ./host)
           ++ (lib.singleton {
+            networking.hostName = "nixos";
+
             nixpkgs = {
               inherit overlays;
               config = {
