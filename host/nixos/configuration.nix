@@ -7,11 +7,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.networkmanager.enable = true;
-  networking.firewall = {
-    allowedTCPPorts = [
-      3000
-    ];
-  };
 
   time.timeZone = "Asia/Shanghai";
 
@@ -88,4 +83,19 @@
   services.searx.enable = true;
 
   services.mihomo.enable = true;
+
+  hardware.graphics.enable = true;
+
+  programs.niri.enable = true;
+
+  programs.localsend = {
+    enable = true;
+    package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
+  };
+
+  jovian.steam.enable = true;
+
+  services.seatd.enable = true;
+
+  programs.tuigreet.enable = true;
 }

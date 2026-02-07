@@ -1,5 +1,6 @@
 {
   nixosConfig,
+  config,
   lib,
   ...
 }:
@@ -9,7 +10,6 @@ in
 {
   config = lib.mkIf config.programs.swaylock.enable {
     programs.swaylock = {
-      enable = true;
       settings = with colors.hex_stripped; {
         image = "${wallpaper}";
 

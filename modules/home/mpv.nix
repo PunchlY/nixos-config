@@ -9,7 +9,7 @@ let
   inherit (nixosConfig.theme) font colors;
 in
 {
-  config = lib.mkIf programs.mpv.enable {
+  config = lib.mkIf config.programs.mpv.enable {
     programs.yt-dlp = {
       enable = true;
       settings = {

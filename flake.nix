@@ -78,101 +78,63 @@
       };
     })
     // {
-      nixosConfigurations.winmax2 =
-        let
-          system = "x86_64-linux";
-          username = "punchly";
-          specialArgs = inputs;
-        in
-        lib.nixosSystem {
-          inherit system specialArgs;
-          modules = [
-            home-manager.nixosModules.default
-            agenix.nixosModules.default
-            ./hardware/gpd-win-max-2-2022.nix
-          ]
-          ++ (importAll ./modules/nixos)
-          ++ (importAll ./host)
-          ++ (lib.singleton {
-            home-manager.sharedModules = importAll ./modules/home;
-            networking.hostName = "winmax2";
-            nixpkgs = {
-              inherit overlays;
-              config = {
-                allowUnfree = true;
-                allowBroken = true;
-              };
-            };
+      nixosConfigurations =
+        lib.mapAttrs
+          (
+            hostName:
+            { system, username }:
+            lib.nixosSystem {
+              inherit system;
+              specialArgs = inputs;
+              modules = [
+                home-manager.nixosModules.default
+              ]
+              ++ (importAll ./modules/nixos)
+              ++ (importAll ./host/${hostName})
+              ++ (lib.singleton {
+                home-manager.sharedModules = importAll ./modules/home;
 
-            nix.registry = {
-              nixpkgs.flake = nixpkgs;
-              self.flake = self;
-              templates.flake = inputs.templates;
-            };
+                networking.hostName = hostName;
 
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "backup";
-              extraSpecialArgs = specialArgs;
-              users.${username} = {
-                imports = importAll ./home;
-                home = {
-                  inherit username;
-                  homeDirectory = "/home/${username}";
+                nixpkgs = {
+                  inherit overlays;
+                  config = {
+                    allowUnfree = true;
+                    allowBroken = true;
+                  };
                 };
-              };
-            };
-          });
-        };
 
-      nixosConfigurations.nixos =
-        let
-          system = "x86_64-linux";
-          username = "punchly";
-          specialArgs = inputs;
-        in
-        lib.nixosSystem {
-          inherit system specialArgs;
-          modules = [
-            home-manager.nixosModules.default
-            agenix.nixosModules.default
-            ./hardware/lenovo-legion-15ach6h-hybrid.nix
-          ]
-          ++ (importAll ./modules/nixos)
-          ++ (importAll ./host)
-          ++ (lib.singleton {
-            home-manager.sharedModules = importAll ./modules/home;
-            networking.hostName = "nixos";
-
-            nixpkgs = {
-              inherit overlays;
-              config = {
-                allowUnfree = true;
-                allowBroken = true;
-              };
-            };
-
-            nix.registry = {
-              nixpkgs.flake = nixpkgs;
-              self.flake = self;
-              templates.flake = inputs.templates;
-            };
-
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "backup";
-              extraSpecialArgs = specialArgs;
-              users.${username} = {
-                imports = importAll ./home;
-                home = {
-                  inherit username;
-                  homeDirectory = "/home/${username}";
+                nix.registry = {
+                  nixpkgs.flake = nixpkgs;
+                  self.flake = self;
+                  templates.flake = inputs.templates;
                 };
-              };
+
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  backupFileExtension = "backup";
+                  extraSpecialArgs = inputs;
+                  users.${username} = {
+                    imports = importAll ./home/${username};
+                    home = {
+                      inherit username;
+                      homeDirectory = "/home/${username}";
+                    };
+                  };
+                };
+              });
+            }
+          )
+          {
+            winmax2 = {
+              system = "x86_64-linux";
+              username = "punchly";
             };
-          });
-        };
+            nixos = {
+              system = "x86_64-linux";
+              username = "punchly";
+            };
+          };
     };
 }

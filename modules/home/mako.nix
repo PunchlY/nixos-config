@@ -9,7 +9,7 @@ let
   alpha = lib.toHexString (builtins.ceil (opacity * 255));
 in
 {
-  config = lib.mkIf services.mako.enable {
+  config = lib.mkIf config.services.mako.enable {
     services.mako = {
       settings = with colors.hex; {
         outer-margin = 0;
