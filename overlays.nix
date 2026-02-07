@@ -8,9 +8,6 @@
 }@inputs:
 
 [
-  (final: prev: {
-    # inherit (inputs) river-src;
-  })
   jovian.overlays.default
   aagl.overlays.default
   agenix.overlays.default

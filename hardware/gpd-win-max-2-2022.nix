@@ -1,24 +1,28 @@
 {
   pkgs,
   nixos-hardware,
+  gpd-fan-driver,
   ...
 }:
 
 {
-  imports = with nixos-hardware.nixosModules; [
-    common-pc-laptop
-    common-pc-ssd
-    common-hidpi
-    common-cpu-amd
-    common-cpu-amd-pstate
-    common-gpu-amd
-  ];
+  imports =
+    with nixos-hardware.nixosModules;
+    [
+      common-pc-laptop
+      common-pc-ssd
+      common-hidpi
+      common-cpu-amd
+      common-cpu-amd-pstate
+      common-gpu-amd
+    ]
+    ++ [
+      gpd-fan-driver.nixosModules.default
+    ];
 
   environment.systemPackages = with pkgs; [
     pywincontrols
   ];
-
-  hardware.gpd.ppt.enable = true;
 
   hardware.gpd-fan.enable = true;
 
@@ -48,4 +52,21 @@
   ];
 
   security.pam.services.greetd.fprintAuth = false;
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="power_supply", KERNEL=="ADP1", ATTR{online}=="1", RUN+="${pkgs.ryzenadj}/bin/ryzenadj ${
+      lib.cli.toCommandLineShellGNU { } {
+        stapm-limit = 28000;
+        fast-limit = 35000;
+        slow-limit = 32000;
+      }
+    }"
+    SUBSYSTEM=="power_supply", KERNEL=="ADP1", ATTR{online}=="0", RUN+="${pkgs.ryzenadj}/bin/ryzenadj ${
+      lib.cli.toCommandLineShellGNU { } {
+        stapm-limit = 22000;
+        fast-limit = 24000;
+        slow-limit = 22000;
+      }
+    }"
+  '';
 }

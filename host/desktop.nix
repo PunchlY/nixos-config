@@ -8,12 +8,7 @@
 {
   hardware.graphics.enable = true;
 
-  programs.niri = {
-    enable = true;
-    useNautilus = false;
-  };
-  # security.pam.services.waylock = { };
-
+  programs.niri.enable = true;
   programs.localsend = {
     enable = false;
     package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
@@ -24,21 +19,7 @@
     package = pkgs.wshowkeys-symbols;
   };
 
-  jovian.steam = {
-    enable = true;
-    environment = {
-      PROTON_USE_RAW_INPUT = "1";
-    };
-  };
-  # jovian.decky-loader = {
-  #   enable = true;
-  #   extraPackages = with pkgs; [
-  #     coreutils
-  #     systemd
-  #     python3
-  #     steam
-  #   ];
-  # };
+  jovian.steam.enable = true;
 
   services.seatd.enable = true;
 

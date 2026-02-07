@@ -37,12 +37,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    md3 = {
-      url = "github:PunchlY/md3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    filestash.url = "github:dermetfan/filestash.nix";
+    md3.url = "github:PunchlY/md3";
   };
 
   inputs = {
