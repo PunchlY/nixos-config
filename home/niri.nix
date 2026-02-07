@@ -1,4 +1,5 @@
 {
+  nixosConfig,
   config,
   lib,
   pkgs,
@@ -6,7 +7,7 @@
 }:
 
 let
-  inherit (config.theme) cursor colors;
+  inherit (nixosConfig.theme) cursor colors;
 in
 {
   home.shellAliases = {

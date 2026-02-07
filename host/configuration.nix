@@ -6,18 +6,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-    wifi.powersave = false;
-  };
+  networking.networkmanager.enable = true;
   networking.firewall = {
-    enable = true;
     allowedTCPPorts = [
       3000
     ];
   };
-  networking.nftables.enable = true;
 
   time.timeZone = "Asia/Shanghai";
 
@@ -42,14 +36,6 @@
   services.xserver.xkb = {
     layout = "cn";
     variant = "";
-  };
-
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    accept-flake-config = true;
   };
 
   system.stateVersion = "25.05";
@@ -91,34 +77,15 @@
 
   services.unblockneteasemusic.enable = true;
 
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        Experimental = true;
-        FastConnectable = true;
-      };
-      Policy = {
-        AutoEnable = true;
-      };
-    };
-  };
+  hardware.bluetooth.enable = true;
 
-  services.aria2 = {
-    enable = true;
-    openPorts = false;
-    rpcSecretFile = pkgs.writeText "secret" "aria2rpc";
-  };
+  services.aria2.enable = true;
 
-  services.nginx = {
-    enable = true;
-    virtualHosts._ = {
-      default = true;
-      rejectSSL = true;
-      extraConfig = "return 444;";
-    };
-  };
+  services.nginx.enable = true;
 
   security.polkit.enable = true;
+
+  services.searx.enable = true;
+
+  services.mihomo.enable = true;
 }

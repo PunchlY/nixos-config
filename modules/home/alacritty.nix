@@ -1,14 +1,14 @@
 {
+  nixosConfig,
   config,
   lib,
   ...
 }:
 let
-  inherit (config.theme) colors font opacity;
+  inherit (nixosConfig.theme) colors font opacity;
 in
 {
-  programs.alacritty = {
-    enable = false;
+  programs.alacritty = lib.mkIf config.programs.alacritty.enable {
     settings = {
       font = {
         normal = {

@@ -91,9 +91,10 @@
             agenix.nixosModules.default
             ./hardware/gpd-win-max-2-2022.nix
           ]
-          ++ (importAll ./modules)
+          ++ (importAll ./modules/nixos)
           ++ (importAll ./host)
           ++ (lib.singleton {
+            home-manager.sharedModules = importAll ./modules/home;
             networking.hostName = "winmax2";
             nixpkgs = {
               inherit overlays;
@@ -138,9 +139,10 @@
             agenix.nixosModules.default
             ./hardware/lenovo-legion-15ach6h-hybrid.nix
           ]
-          ++ (importAll ./modules)
+          ++ (importAll ./modules/nixos)
           ++ (importAll ./host)
           ++ (lib.singleton {
+            home-manager.sharedModules = importAll ./modules/home;
             networking.hostName = "nixos";
 
             nixpkgs = {

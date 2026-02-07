@@ -154,21 +154,4 @@ in
       '';
     };
   };
-
-  config.home-manager.sharedModules = lib.singleton {
-    options.theme = lib.mkOption {
-      type = lib.types.attrs;
-      readOnly = true;
-      default = cfg;
-    };
-
-    config = {
-      home.pointerCursor = {
-        inherit (cfg.cursor) name package;
-        size = cfg.cursor.size;
-        x11.enable = true;
-        gtk.enable = true;
-      };
-    };
-  };
 }

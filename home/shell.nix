@@ -99,49 +99,6 @@
     initExtra = lib.mkOrder 0 ''
       PS0=
       PS1='\[\e[30m\e[46m\] '$(. /etc/os-release;printf "%s" "$NAME")' \[\e[44m\] \u@\h:\w \[\e[0m\]\n\$ '
-
-      __add_prompt_command() {
-        local command=$1 IFS=$' \t\n'
-        if ((BASH_VERSINFO[0] > 5 || BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] >= 1)); then
-          if [[ " ''${PROMPT_COMMAND[*]-} " != *" $command "* ]]; then
-            PROMPT_COMMAND[0]=''${PROMPT_COMMAND[0]:-}
-            eval 'PROMPT_COMMAND+=("$command")'
-          fi
-        elif [[ -z ''${PROMPT_COMMAND-} ]]; then
-          PROMPT_COMMAND="$command"
-        elif [[ $PROMPT_COMMAND != *"$command"* ]]; then
-          PROMPT_COMMAND="$command;''${PROMPT_COMMAND#;}"
-        fi
-      }
-
-      PS0+='\e]133;C\e\\'
-      command_done() {
-        printf '\e]133;D\e\\'
-      }
-      __add_prompt_command command_done
-
-      prompt_marker() {
-        printf '\e]133;A\e\\'
-      }
-      __add_prompt_command prompt_marker
-
-      osc7_cwd() {
-        local strlen=''${#PWD}
-        local encoded=""
-        local pos c o
-        for (( pos=0; pos<strlen; pos++ )); do
-          c=''${PWD:$pos:1}
-          case "$c" in
-            [-/:_.!\'\(\)~[:alnum:]] ) o="$c" ;;
-            * ) printf -v o '%%%02X' "'$c" ;;
-          esac
-          encoded+="''${o}"
-        done
-        printf '\e]7;file://%s%s\e\\' "''${HOSTNAME}" "''${encoded}"
-      }
-      __add_prompt_command osc7_cwd
-
-      unset -f __add_prompt_command
     '';
     sessionVariables = {
       EDITOR = "nvim";

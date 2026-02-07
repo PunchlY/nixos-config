@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   nixos-hardware,
   gpd-fan-driver,
   ...

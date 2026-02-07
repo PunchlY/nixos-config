@@ -1,4 +1,5 @@
 {
+  nixosConfig,
   config,
   lib,
   pkgs,
@@ -37,6 +38,45 @@
     '')
   ];
 
+  xdg.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+  };
+  xdg.terminal-exec.enable = true;
+  xdg.autostart.enable = true;
+  xdg.mime.enable = true;
+
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+
+    desktop = null;
+    publicShare = null;
+    documents = "${config.home.homeDirectory}/doc";
+    download = "${config.home.homeDirectory}/dls";
+    music = "${config.home.homeDirectory}/med/music";
+    pictures = "${config.home.homeDirectory}/med/pictures";
+    videos = "${config.home.homeDirectory}/med/videos";
+    templates = "${config.xdg.userDirs.documents}/templates";
+
+    extraConfig = {
+      XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/screenshots";
+      XDG_PROJECTS_DIR = "${config.home.homeDirectory}/src";
+      XDG_GAME_DIR = "${config.home.homeDirectory}/med/games";
+    };
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    # defaultApplicationPackages = config.home.packages;
+  };
+
+  xdg.terminal-exec.settings = {
+    niri = [ "foot.desktop" ];
+  };
+
   xdg.desktopEntries.bluetui = {
     name = "Bluetui";
     genericName = "Bluetooth Manager";
@@ -58,6 +98,11 @@
 
   home.preferXdgDirectories = true;
 
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+  };
+
   programs.vscode = {
     enable = true;
     mutableExtensionsDir = true;
@@ -75,6 +120,10 @@
 
   programs.imv.enable = true;
 
+  programs.yazi.enable = true;
+
+  programs.foot.enable = true;
+
   programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
@@ -84,46 +133,34 @@
     ];
   };
 
-  services.udiskie.enable = true;
+  programs.wiliwili.enable = true;
 
-  xdg.enable = true;
+  programs.mpv.enable = true;
 
-  xdg.portal = {
+  programs.swaylock.enable = true;
+
+  programs.fuzzel.enable = true;
+
+  services.mako = {
     enable = true;
-    xdgOpenUsePortal = true;
-  };
-  xdg.terminal-exec.enable = true;
-  xdg.autostart.enable = true;
-  xdg.mime.enable = true;
-
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplicationPackages = with pkgs; [
-      config.programs.mpv.package
-      config.programs.imv.package
-      telegram-desktop
-      google-chrome
-      config.programs.neovim.package
-    ];
+    settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
   };
 
-  xdg.userDirs = {
-    enable = true;
-    createDirectories = true;
+  systemd.user.services.wbg = {
+    Install = {
+      WantedBy = [ config.wayland.systemd.target ];
+    };
 
-    desktop = null;
-    publicShare = null;
-    documents = "${config.home.homeDirectory}/doc";
-    download = "${config.home.homeDirectory}/dls";
-    music = "${config.home.homeDirectory}/med/music";
-    pictures = "${config.home.homeDirectory}/med/pictures";
-    videos = "${config.home.homeDirectory}/med/videos";
-    templates = "${config.xdg.userDirs.documents}/templates";
+    Unit = {
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+      PartOf = [ config.wayland.systemd.target ];
+      After = [ config.wayland.systemd.target ];
+    };
 
-    extraConfig = {
-      XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/screenshots";
-      XDG_PROJECTS_DIR = "${config.home.homeDirectory}/src";
-      XDG_GAME_DIR = "${config.home.homeDirectory}/med/games";
+    Service = {
+      ExecStart = "${lib.getExe pkgs.wbg} --stretch ${nixosConfig.theme.wallpaper}";
+      Restart = "always";
+      RestartSec = "10";
     };
   };
 }
