@@ -6,27 +6,6 @@
 }:
 let
   cfg = config.theme;
-
-  themePackage = pkgs.runCommand "generated-theme" {
-    nativeBuildInputs = [ pkgs.md3 ];
-    image = pkgs.runCommand "wallpaper-resize.png" {
-      nativeBuildInputs = [ pkgs.imagemagick ];
-    } "magick ${cfg.wallpaper} -resize 128x128 $out";
-  } "md3 --image=$image --output=$out --dark --json={rgb}";
-
-  colors = rec {
-    rgb = lib.importJSON themePackage;
-    hex = builtins.mapAttrs (name: value: "#${value}") hex_stripped;
-    hex_stripped = builtins.mapAttrs (
-      name:
-      {
-        r,
-        g,
-        b,
-      }:
-      lib.fixedWidthString 6 "0" (lib.toHexString (r * 65536 + g * 256 + b))
-    ) rgb;
-  };
 in
 {
   options.theme = {
@@ -36,9 +15,7 @@ in
     };
 
     colors = lib.mkOption {
-      inherit (pkgs.formats.json { }) type;
-      readOnly = true;
-      default = colors;
+      internal = true;
     };
 
     font = rec {
@@ -83,6 +60,27 @@ in
   };
 
   config = {
+    theme.colors = rec {
+      rgb = lib.importJSON (
+        pkgs.runCommand "generated-theme" {
+          nativeBuildInputs = [ pkgs.md3 ];
+          image = pkgs.runCommand "wallpaper-resize.png" {
+            nativeBuildInputs = [ pkgs.imagemagick ];
+          } "magick ${cfg.wallpaper} -resize 128x128 $out";
+        } "md3 --image=$image --output=$out --dark --json={rgb}"
+      );
+      hex = builtins.mapAttrs (name: value: "#${value}") hex_stripped;
+      hex_stripped = builtins.mapAttrs (
+        name:
+        {
+          r,
+          g,
+          b,
+        }:
+        lib.fixedWidthString 6 "0" (lib.toHexString (r * 65536 + g * 256 + b))
+      ) rgb;
+    };
+
     environment.variables.XCURSOR_SIZE = toString cfg.cursor.size;
 
     fonts = {
