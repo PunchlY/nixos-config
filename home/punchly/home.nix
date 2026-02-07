@@ -70,7 +70,7 @@
 
   xdg.mimeApps = {
     enable = true;
-    # defaultApplicationPackages = config.home.packages;
+    defaultApplicationPackages = [ config.home.path ];
   };
 
   xdg.terminal-exec.settings = {
