@@ -65,6 +65,13 @@
         matches = [ { app-id = "^gcr-prompter$"; } ];
         block-out-from = "screencast";
       }
+      {
+        matches = [
+          { app-id = "^term-file-chooser$"; }
+          { app-id = "^term-dmenu-desktop$"; }
+        ];
+        open-floating = true;
+      }
     ];
 
     layer-rules = [
