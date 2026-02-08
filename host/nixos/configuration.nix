@@ -86,7 +86,12 @@
 
   hardware.graphics.enable = true;
 
-  programs.niri.enable = true;
+  programs.niri = {
+    enable = true;
+    settings = {
+      outputs."eDP-1".scale = 1.2;
+    };
+  };
 
   programs.localsend = {
     enable = true;

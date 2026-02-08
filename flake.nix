@@ -38,13 +38,8 @@
     };
 
     md3.url = "github:PunchlY/md3";
-  };
 
-  inputs = {
-    river-src = {
-      url = "github:riverwm/river";
-      flake = false;
-    };
+    niri.url = "github:sodiboo/niri-flake";
   };
 
   nixConfig.substituters = [

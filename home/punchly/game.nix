@@ -21,7 +21,7 @@
     })
 
     (gtk-nocsd.wrapper gnome-mines)
-    (gtk-nocsd.wrapper sleepy-launcher)
+    # (gtk-nocsd.wrapper sleepy-launcher)
   ];
 
   programs.retroarch = {
