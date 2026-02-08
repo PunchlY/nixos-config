@@ -26,8 +26,8 @@
     builtins.listToAttrs (
       map (file: {
         name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
-        value = final.callPackage ./pkgs/${file} { };
-      }) (builtins.attrNames (builtins.readDir ./pkgs))
+        value = final.callPackage ./packages/${file} { };
+      }) (builtins.attrNames (builtins.readDir ./packages))
     )
   )
   (
