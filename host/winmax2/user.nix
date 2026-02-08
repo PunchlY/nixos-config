@@ -5,7 +5,7 @@
 }:
 {
   age.identityPaths = [
-    "/home/punchly/.ssh/id_ed25519"
+    "${config.users.users.punchly.home}/.ssh/id_ed25519"
   ];
 
   users.users.punchly = {
@@ -21,7 +21,6 @@
       "seat"
       "aria2"
     ];
-    packages = with pkgs; [ ];
   };
   nix.settings.trusted-users = [ "punchly" ];
 }

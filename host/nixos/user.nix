@@ -5,7 +5,7 @@
 }:
 {
   age.identityPaths = [
-    "/home/punchly/.ssh/id_rsa"
+    "${config.users.users.punchly.home}/.ssh/id_ed25519"
   ];
 
   users.users.punchly = {

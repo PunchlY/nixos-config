@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    flake-utils.url = "github:numtide/flake-utils";
+    systems.url = "github:nix-systems/default";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -17,7 +17,6 @@
 
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     gpd-fan-driver = {
@@ -27,10 +26,7 @@
 
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
 
-    waydroid-script = {
-      url = "github:casualsnek/waydroid_script";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    waydroid-script.url = "github:casualsnek/waydroid_script";
 
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix";
@@ -54,81 +50,66 @@
 
   outputs =
     {
-      self,
       nixpkgs,
-      flake-utils,
+      systems,
       home-manager,
-      agenix,
       ...
     }@inputs:
     let
-      lib = nixpkgs.lib;
+      inherit (nixpkgs) lib;
       overlays = import ./overlays.nix inputs;
-      importAll =
+      eachSystem = lib.genAttrs (import systems);
+      readModules =
         path: builtins.map (name: path + "/${name}") (builtins.attrNames (builtins.readDir path));
     in
-    flake-utils.lib.eachDefaultSystem (system: {
-      packages = import nixpkgs {
-        inherit system overlays;
-      };
-    })
-    // {
+    {
+      packages = eachSystem (
+        system:
+        import nixpkgs {
+          inherit system overlays;
+          config.allowUnfree = true;
+        }
+      );
+
       nixosConfigurations =
-        lib.mapAttrs
+        builtins.mapAttrs
           (
             hostName:
-            { system, username }:
+            { system, users }:
             lib.nixosSystem {
               inherit system;
               specialArgs = inputs;
               modules = [
                 home-manager.nixosModules.default
+                {
+                  networking.hostName = hostName;
+
+                  nixpkgs = {
+                    inherit overlays;
+                    config.allowUnfree = true;
+                  };
+
+                  home-manager = {
+                    sharedModules = readModules ./modules/home;
+                    extraSpecialArgs = inputs;
+                  };
+                }
               ]
-              ++ (importAll ./modules/nixos)
-              ++ (importAll ./host/${hostName})
-              ++ (lib.singleton {
-                home-manager.sharedModules = importAll ./modules/home;
-
-                networking.hostName = hostName;
-
-                nixpkgs = {
-                  inherit overlays;
-                  config = {
-                    allowUnfree = true;
-                    allowBroken = true;
-                  };
-                };
-
-                nix.registry = {
-                  nixpkgs.flake = nixpkgs;
-                  self.flake = self;
-                  templates.flake = inputs.templates;
-                };
-
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  backupFileExtension = "backup";
-                  extraSpecialArgs = inputs;
-                  users.${username} = {
-                    imports = importAll ./home/${username};
-                    home = {
-                      inherit username;
-                      homeDirectory = "/home/${username}";
-                    };
-                  };
-                };
-              });
+              ++ (readModules ./modules/nixos)
+              ++ (readModules ./host/${hostName})
+              ++ (map (username: {
+                home-manager.users.${username}.imports = readModules ./home/${username};
+              }) users);
             }
           )
           {
             winmax2 = {
               system = "x86_64-linux";
-              username = "punchly";
+              users = [ "punchly" ];
             };
             nixos = {
               system = "x86_64-linux";
-              username = "punchly";
+              users = [ "punchly" ];
             };
           };
     };

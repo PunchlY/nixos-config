@@ -145,22 +145,4 @@
     enable = true;
     settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
   };
-
-  systemd.user.services.wbg = {
-    Install = {
-      WantedBy = [ config.wayland.systemd.target ];
-    };
-
-    Unit = {
-      ConditionEnvironment = "WAYLAND_DISPLAY";
-      PartOf = [ config.wayland.systemd.target ];
-      After = [ config.wayland.systemd.target ];
-    };
-
-    Service = {
-      ExecStart = "${lib.getExe pkgs.wbg} --stretch ${nixosConfig.theme.wallpaper}";
-      Restart = "always";
-      RestartSec = "10";
-    };
-  };
 }

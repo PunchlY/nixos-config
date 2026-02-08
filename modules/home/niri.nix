@@ -77,6 +77,24 @@ in
       };
     };
 
+    systemd.user.services.wbg = {
+      Unit = {
+        ConditionEnvironment = "WAYLAND_DISPLAY";
+        PartOf = [ "niri.service" ];
+        After = [ "niri.service" ];
+      };
+
+      Service = {
+        ExecStart = "${lib.getExe pkgs.wbg} --stretch ${nixosConfig.theme.wallpaper}";
+        Restart = "always";
+        RestartSec = "10";
+      };
+
+      Install = {
+        WantedBy = [ "niri.service" ];
+      };
+    };
+
     programs.niri.settings = with colors.hex; {
       environment = {
         MOZ_ENABLE_WAYLAND = "1";
