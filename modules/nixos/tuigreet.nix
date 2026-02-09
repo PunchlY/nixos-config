@@ -21,7 +21,7 @@ in
       settings.default_session.command = "${lib.getExe pkgs.tuigreet} ${
         lib.cli.toCommandLineShellGNU { } {
           sessions = "${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
-          session-wrapper = "${pkgs.execline}/bin/exec > /dev/null";
+          session-wrapper = "${pkgs.execline}/bin/exec >/dev/null";
           time = true;
           time-format = "%H:%M";
           user-menu = true;
