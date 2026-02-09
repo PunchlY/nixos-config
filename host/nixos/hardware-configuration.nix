@@ -1,3 +1,4 @@
+
 {
   config,
   lib,
@@ -35,9 +36,9 @@
     ];
   };
 
-  swapDevices = [ ];
-
-  networking.useDHCP = lib.mkDefault true;
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/50af5df8-02e4-400f-b44c-1b917e9e5b3e"; }
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
