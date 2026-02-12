@@ -6,14 +6,6 @@
 }:
 {
   home.packages = with pkgs; [
-    (hmcl.override {
-      hmclJdk = graalvmPackages.graalvm-ce;
-      minecraftJdks = [
-        graalvmPackages.graalvm-ce
-        # zulu17
-        # zulu21
-      ];
-    })
     (mcaselector.override {
       jre = zulu.override {
         enableJavaFX = true;
@@ -23,6 +15,20 @@
     (gtk-nocsd.wrapper gnome-mines)
     # (gtk-nocsd.wrapper sleepy-launcher)
   ];
+
+  programs.hmcl = {
+    enable = true;
+    package =
+      with pkgs;
+      hmcl.override {
+        hmclJdk = graalvmPackages.graalvm-ce;
+        minecraftJdks = [
+          graalvmPackages.graalvm-ce
+          # zulu17
+          # zulu21
+        ];
+      };
+  };
 
   programs.retroarch = {
     enable = true;

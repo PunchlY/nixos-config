@@ -35,5 +35,10 @@ in
             ln -s "$(fc-match ${lib.escapeShellArg nixosConfig.theme.font.name} --format %{file})" "$out"
           '';
     };
+
+    services.steam-shortcuts.shortcuts.wiliwili = lib.mkIf config.services.steam-shortcuts.enable {
+      appname = "WiliWili";
+      exe = lib.getExe cfg.package;
+    };
   };
 }

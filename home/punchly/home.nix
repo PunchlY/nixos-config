@@ -114,7 +114,7 @@
 
   programs.aria2.enable = true;
 
-  # programs.cava.enable = true;
+  programs.cava.enable = true;
 
   # programs.zathura.enable = true;
 
@@ -144,5 +144,10 @@
   services.mako = {
     enable = true;
     settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
+  };
+
+  services.steam-shortcuts = {
+    enable = true;
+    steamUserId = 1072827295;
   };
 }
