@@ -35,9 +35,22 @@
         hostnames.remove = [
           ''(.*\.)?csdn\.net$''
           ''(.*\.)?nixos\.wiki$''
+          ''(.*\.)?gitee\.(com|net)$''
+          ''(.*\.)?gitcode\.(com|net|host)$''
+          ''(.*\.)?sohu\.com$''
+          ''(.*\.)?sina\.cn$''
+          ''(.*\.)?163\.com$''
+          ''(.*\.)?doubao\.com$''
+          ''(.*\.)?toutiao\.com$''
+          ''(.*\.)?news?\.qq\.com$''
+          ''(.*\.)?cloud\.tencent\.(com|cn)$''
+          ''(.*\.)?taobao\.com$''
+          ''(.*\.)?1688\.com$''
+          ''(.*\.)?jd\.(com|hk)$''
         ];
         hostnames.high_priority = [
           ''^wiki\.nixos\.org$''
+          ''^github\.com$''
         ];
 
         search = {
