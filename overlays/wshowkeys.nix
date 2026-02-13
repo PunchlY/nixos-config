@@ -1,9 +1,5 @@
-{
-  wshowkeys,
-  fetchFromGitHub,
-}:
-
-wshowkeys.overrideAttrs (_: {
+final: prev:
+prev.wshowkeys.overrideAttrs (_: {
   pname = "wshowkeys-symbols";
   patches = [
     (builtins.toFile "symbols.patch" ''

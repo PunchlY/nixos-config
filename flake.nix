@@ -15,9 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
-    };
+    agenix.url = "github:ryantm/agenix";
 
     gpd-fan-driver = {
       url = "github:Cryolitia/gpd-fan-driver";
@@ -28,10 +26,7 @@
 
     waydroid-script.url = "github:casualsnek/waydroid_script";
 
-    aagl = {
-      url = "github:ezKEa/aagl-gtk-on-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    aagl.url = "github:ezKEa/aagl-gtk-on-nix";
 
     md3.url = "github:PunchlY/md3";
 
@@ -57,7 +52,26 @@
     }@inputs:
     let
       inherit (nixpkgs) lib;
-      overlays = import ./overlays.nix inputs;
+      overlays = [
+        (
+          final: prev:
+          builtins.listToAttrs (
+            map (file: {
+              name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
+              value = final.callPackage ./packages/${file} { };
+            }) (builtins.attrNames (builtins.readDir ./packages))
+          )
+        )
+        (
+          final: prev:
+          builtins.listToAttrs (
+            map (file: {
+              name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
+              value = import ./overlays/${file} final prev;
+            }) (builtins.attrNames (builtins.readDir ./overlays))
+          )
+        )
+      ];
       eachSystem = lib.genAttrs (import systems);
       readModules =
         path: builtins.map (name: path + "/${name}") (builtins.attrNames (builtins.readDir path));

@@ -49,4 +49,25 @@
       ppsspp.enable = true; # PSP
     };
   };
+
+  services.steam-shortcuts.shortcuts."0.5players" =
+    let
+      assets = pkgs.fetchzip {
+        url = "https://github.com/al13n321/0.5players/releases/download/v1.0.3/0.5players.zip";
+        hash = "sha256-DRzTZaOv8EPPFLjOSM4ksA6z1WIRnbaHRbhtPVEl44k=";
+      };
+    in
+    {
+      exe = "${assets}/0.5players.exe";
+    };
+
+  services.steam-shortcuts.shortcuts."PVZRH" = {
+    appname = "Plants Vs Zombies: RH";
+    exe = "${config.xdg.userDirs.extraConfig.GAME}/PVZRH/PlantsVsZombiesRH.exe";
+  };
+
+  services.steam-shortcuts.shortcuts."BD2" = {
+    appname = "Brown Dust 2";
+    exe = "${config.xdg.userDirs.extraConfig.GAME}/BD2StarterSetup_gpg_240430.exe";
+  };
 }

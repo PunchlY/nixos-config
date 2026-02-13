@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  md3,
   ...
 }:
 let
@@ -63,7 +64,9 @@ in
     theme.colors = rec {
       rgb = lib.importJSON (
         pkgs.runCommand "generated-theme" {
-          nativeBuildInputs = [ pkgs.md3 ];
+          nativeBuildInputs = [
+            md3.packages.${pkgs.stdenv.hostPlatform.system}.default
+          ];
           image = pkgs.runCommand "wallpaper-resize.png" {
             nativeBuildInputs = [ pkgs.imagemagick ];
           } "magick ${cfg.wallpaper} -resize 128x128 $out";

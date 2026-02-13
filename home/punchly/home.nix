@@ -7,7 +7,7 @@
 }:
 
 {
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
 
   home.packages = with pkgs; [
     libnotify
@@ -62,15 +62,22 @@
     templates = "${config.xdg.userDirs.documents}/templates";
 
     extraConfig = {
-      XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/screenshots";
-      XDG_PROJECTS_DIR = "${config.home.homeDirectory}/src";
-      XDG_GAME_DIR = "${config.home.homeDirectory}/med/games";
+      SCREENSHOTS = "${config.xdg.userDirs.pictures}/screenshots";
+      PROJECTS = "${config.home.homeDirectory}/src";
+      GAME = "${config.home.homeDirectory}/med/games";
     };
   };
 
   xdg.mimeApps = {
     enable = true;
-    defaultApplicationPackages = [ config.home.path ];
+    defaultApplications = {
+      "text/html" = "google-chrome.desktop";
+      "x-scheme-handler/http" = "google-chrome.desktop";
+      "x-scheme-handler/https" = "google-chrome.desktop";
+      "x-scheme-handler/about" = "google-chrome.desktop";
+      "x-scheme-handler/unknown" = "google-chrome.desktop";
+    };
+    # defaultApplicationPackages = [ config.home.path ];
   };
 
   xdg.terminal-exec.settings = {

@@ -103,10 +103,7 @@
     package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
   };
 
-  programs.wshowkeys = {
-    enable = true;
-    package = pkgs.wshowkeys-symbols;
-  };
+  programs.wshowkeys.enable = true;
 
   jovian.steam.enable = true;
 

@@ -1,3 +1,6 @@
+# https://github.com/kira-bruneau/nixos-config/blob/d2561703b25cfd72c1e650a1dfc4d07ec26e230b/home/hosts/peridot.nix
+# https://github.com/ChrisOboe/json2steamshortcut/blob/7d43d5b6e198542649c712573b91f27247068aed/flake.nix
+
 {
   config,
   pkgs,

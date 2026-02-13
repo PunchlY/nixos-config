@@ -46,7 +46,7 @@
       LC_TIME = "zh_CN.UTF-8";
     };
 
-    screenshot-path = "${config.xdg.userDirs.extraConfig.XDG_SCREENSHOTS_DIR}/%Y-%m-%d-%H%M%S.png";
+    screenshot-path = "${config.xdg.userDirs.extraConfig.SCREENSHOTS}/%Y-%m-%d-%H%M%S.png";
 
     window-rules = [
       {

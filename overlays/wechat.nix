@@ -1,9 +1,5 @@
-{
-  wechat,
-  makeWrapper,
-}:
-
-wechat.overrideAttrs (super: {
+final: prev:
+prev.wechat.overrideAttrs (super: {
     extraPreBwrapCmds = ''
       if [[ "''${WECHAT_DATA_DIR}" ]]; then
         WECHAT_DATA_DIR=$(readlink -f -- "''${WECHAT_DATA_DIR}")

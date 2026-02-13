@@ -40,5 +40,16 @@ in
       appname = "WiliWili";
       exe = lib.getExe cfg.package;
     };
+
+    home.file."${config.services.steam-shortcuts.userConfigDir}/grid/${
+      toString (config.services.steam-shortcuts.shortcuts.wiliwili.appid + 4294967296)
+    }p.png" =
+      {
+        source = pkgs.fetchurl {
+          url = "https://cdn2.steamgriddb.com/grid/cdb2e2fb22b25e5aaacad92dbcd518d3.png";
+          hash = "sha256-E/iNjTJQkARR/pT9TTyktZ6dRaPSEAlA7nWCOYmtG8A=";
+        };
+        force = true;
+      };
   };
 }

@@ -58,6 +58,69 @@
     };
   };
 
+  programs.bat.enable = true;
+
+  programs.ripgrep.enable = true;
+
+  programs.television = {
+    enable = true;
+    settings = {
+      ui = {
+        orientation = "portrait";
+      };
+      ui.input_bar = {
+        position = "bottom";
+        border_type = "thick";
+      };
+      ui.results_panel = {
+        border_type = "thick";
+      };
+      ui.preview_panel = {
+        size = 70;
+        border_type = "thick";
+      };
+      ui.remote_control.disabled = true;
+    };
+    channels = {
+      tldr = {
+        metadata = {
+          name = "tldr";
+          description = "Browse and preview TLDR help pages";
+          requirements = [ "tldr" ];
+        };
+        source.command = "tldr --list";
+        preview.command = "tldr '{}'";
+        keybindings.ctrl-e = "actions:open";
+        actions.open = {
+          description = "Open TLDR page in pager";
+          command = "tldr '{}' | less";
+          mode = "fork";
+        };
+      };
+      journal = {
+        metadata = {
+          name = "journal";
+          description = "Browse systemd journal log identifiers and their logs";
+          requirements = [ "journalctl" ];
+        };
+        source.command = "journalctl --field SYSLOG_IDENTIFIER 2>/dev/null | sort -f";
+        preview.command = "journalctl -b --no-pager -o short-iso -n 50 SYSLOG_IDENTIFIER='{}' 2>/dev/null";
+        actions = {
+          logs = {
+            description = "Follow live logs for the selected identifier";
+            command = "journalctl -f SYSLOG_IDENTIFIER='{}'";
+            mode = "execute";
+          };
+          full = {
+            description = "View all logs for the selected identifier in a pager";
+            command = "journalctl -b --no-pager -o short-iso SYSLOG_IDENTIFIER='{}' | less";
+            mode = "fork";
+          };
+        };
+      };
+    };
+  };
+
   programs.eza = {
     enable = true;
     enableBashIntegration = true;
@@ -111,7 +174,7 @@
 
     settings = {
       logo = {
-        # https://github.com/elenapan/dotfiles/blob/master/bin/bunnyfetch
+        # https://github.com/elenapan/dotfiles/blob/deddf27a486535ea555ec87d2ae7ee895d02fb3e/bin/bunnyfetch
         source = lib.strings.concatMapStrings (x: "    " + x + "\n") [
           ''$1(\ /)''
           "( . .)"
