@@ -37,7 +37,7 @@ in
           '';
     };
 
-    services.steam-shortcuts = lib.mkIf config.services.steam-shortcuts.enable {
+    services.steam = lib.mkIf config.services.steam.enable {
       shortcuts.wiliwili = {
         appname = "WiliWili";
         exe = lib.getExe cfg.package;

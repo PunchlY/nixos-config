@@ -153,7 +153,7 @@
     settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
   };
 
-  services.steam-shortcuts = {
+  services.steam = {
     enable = true;
     steamUserId = 1072827295;
   };

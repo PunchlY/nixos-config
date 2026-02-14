@@ -8,7 +8,7 @@
   ...
 }:
 let
-  cfg = config.services.steam-shortcuts;
+  cfg = config.services.steam;
 
   steamConfDirRelative =
     if pkgs.stdenv.hostPlatform.isDarwin then "Library/Application Support/Steam" else ".steam/steam";
@@ -51,9 +51,32 @@ let
       ''
         "$buildCommandPython" "$valuePath" "$out"
       '';
+
+  shortcuts = lib.mapAttrsToList (_: lib.filterAttrs (_: value: value != null)) cfg.shortcuts;
+
+  grids = lib.concatMapAttrs (
+    name:
+    {
+      grid,
+      horizontal,
+      hero,
+      logo,
+    }:
+    lib.optionalAttrs (builtins.hasAttr name cfg.shortcuts) (
+      let
+        id = toString (cfg.shortcuts.${name}.appid + 4294967296);
+      in
+      lib.filterAttrs (_: value: value != null) {
+        "${id}p.png" = grid;
+        "${id}.png" = horizontal;
+        "${id}_hero.png" = hero;
+        "${id}_logo.png" = logo;
+      }
+    )
+  ) cfg.grids;
 in
 {
-  options.services.steam-shortcuts = {
+  options.services.steam = {
     enable = lib.mkEnableOption "Steam shortcuts management";
 
     steamUserId = lib.mkOption {
@@ -131,50 +154,28 @@ in
   config = lib.mkIf cfg.enable {
     home.file = {
       "${cfg.userConfigDir}/shortcuts.vdf" = {
-        source = json2vdf "shortcuts.vdf" {
-          shortcuts = lib.mapAttrsToList (
-            _: lib.attrsets.filterAttrs (_: value: value != null)
-          ) cfg.shortcuts;
-        };
+        source = json2vdf "shortcuts.vdf" { inherit shortcuts; };
         force = true;
       };
-    }
-    // lib.attrsets.mergeAttrsList (
-      lib.attrsets.mapAttrsToList (
-        name:
-        {
-          grid,
-          horizontal,
-          hero,
-          logo,
-        }:
-        if (builtins.hasAttr name cfg.shortcuts) then
-          (
-            let
-              id = toString (cfg.shortcuts.${name}.appid + 4294967296);
-            in
-            {
-              "${cfg.userConfigDir}/grid/${id}p.png" = lib.mkIf (grid != null) {
-                source = grid;
-                force = true;
-              };
-              "${cfg.userConfigDir}/grid/${id}.png" = lib.mkIf (horizontal != null) {
-                source = horizontal;
-                force = true;
-              };
-              "${cfg.userConfigDir}/grid/${id}_hero.png" = lib.mkIf (hero != null) {
-                source = hero;
-                force = true;
-              };
-              "${cfg.userConfigDir}/grid/${id}_logo.png" = lib.mkIf (logo != null) {
-                source = logo;
-                force = true;
-              };
-            }
+      "${cfg.userConfigDir}/grid" = {
+        source = pkgs.runCommand "grid" { } (
+          ''
+            mkdir $out
+            cd $out
+          ''
+          + lib.concatStrings (
+            lib.mapAttrsToList (name: file: ''
+              ln -s ${
+                lib.escapeShellArgs [
+                  file
+                  name
+                ]
+              }
+            '') grids
           )
-        else
-          null
-      ) cfg.grids
-    );
+        );
+        force = true;
+      };
+    };
   };
 }

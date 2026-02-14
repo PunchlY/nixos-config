@@ -18,7 +18,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = lib.mkIf (cfg.package != null) [ cfg.package ];
 
-    services.steam-shortcuts.shortcuts.hmcl = lib.mkIf config.services.steam-shortcuts.enable {
+    services.steam.shortcuts.hmcl = lib.mkIf config.services.steam.enable {
       appname = lib.mkDefault "HMCL";
       exe = lib.getExe cfg.package;
     };

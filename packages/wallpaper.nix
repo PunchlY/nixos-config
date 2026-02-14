@@ -15,11 +15,11 @@ let
     runCommand "${name}.png" {
       src = input;
       nativeBuildInputs = [ imagemagick ];
-      passthru = lib.attrsets.mapAttrs (_: operation: operation input) (operations args);
+      passthru = lib.mapAttrs (_: operation: operation input) (operations args);
     } "magick $src ${lib.escapeShellArgs args} $out";
   operations =
     args:
-    lib.attrsets.mapAttrs (_: args2: magick (args ++ args2)) {
+    lib.mapAttrs (_: args2: magick (args ++ args2)) {
       crop = [
         "-fuzz"
         "10%"

@@ -14,7 +14,7 @@
       shellWrapperName = "y";
       theme = {
         icon.prepend_dirs =
-          lib.attrsets.mapAttrsToList
+          lib.mapAttrsToList
             (name: text: {
               inherit name text;
             })
