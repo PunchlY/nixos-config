@@ -102,30 +102,27 @@ in
 
     grids = lib.mkOption {
       type = lib.types.attrsOf (
-        lib.types.submodule (
-          { name, ... }:
-          {
-            freeformType = lib.types.attrsOf lib.types.anything;
-            options = {
-              grid = lib.mkOption {
-                type = lib.types.nullOr lib.types.path;
-                default = null;
-              };
-              horizontal = lib.mkOption {
-                type = lib.types.nullOr lib.types.path;
-                default = null;
-              };
-              hero = lib.mkOption {
-                type = lib.types.nullOr lib.types.path;
-                default = null;
-              };
-              logo = lib.mkOption {
-                type = lib.types.nullOr lib.types.path;
-                default = null;
-              };
+        lib.types.submodule {
+          freeformType = lib.types.attrsOf lib.types.anything;
+          options = {
+            grid = lib.mkOption {
+              type = lib.types.nullOr lib.types.path;
+              default = null;
             };
-          }
-        )
+            horizontal = lib.mkOption {
+              type = lib.types.nullOr lib.types.path;
+              default = null;
+            };
+            hero = lib.mkOption {
+              type = lib.types.nullOr lib.types.path;
+              default = null;
+            };
+            logo = lib.mkOption {
+              type = lib.types.nullOr lib.types.path;
+              default = null;
+            };
+          };
+        }
       );
       default = { };
     };
