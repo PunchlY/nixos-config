@@ -71,12 +71,6 @@ in
       default = "${cfg.steamHomeDir}/${steamConfDirRelative}/userdata/${builtins.toString cfg.steamUserId}/config";
     };
 
-    shortcutsPath = lib.mkOption {
-      type = lib.types.str;
-      internal = true;
-      default = "${cfg.userConfigDir}/shortcuts.vdf";
-    };
-
     shortcuts = lib.mkOption {
       type = lib.types.attrsOf (
         lib.types.submodule (
@@ -105,16 +99,85 @@ in
       );
       default = { };
     };
+
+    grids = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule (
+          { name, ... }:
+          {
+            freeformType = lib.types.attrsOf lib.types.anything;
+            options = {
+              grid = lib.mkOption {
+                type = lib.types.nullOr lib.types.path;
+                default = null;
+              };
+              horizontal = lib.mkOption {
+                type = lib.types.nullOr lib.types.path;
+                default = null;
+              };
+              hero = lib.mkOption {
+                type = lib.types.nullOr lib.types.path;
+                default = null;
+              };
+              logo = lib.mkOption {
+                type = lib.types.nullOr lib.types.path;
+                default = null;
+              };
+            };
+          }
+        )
+      );
+      default = { };
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    home.file."${cfg.shortcutsPath}" = {
-      source = json2vdf "shortcuts.vdf" {
-        shortcuts = lib.mapAttrsToList (
-          _: lib.attrsets.filterAttrs (_: value: value != null)
-        ) cfg.shortcuts;
+    home.file = {
+      "${cfg.userConfigDir}/shortcuts.vdf" = {
+        source = json2vdf "shortcuts.vdf" {
+          shortcuts = lib.mapAttrsToList (
+            _: lib.attrsets.filterAttrs (_: value: value != null)
+          ) cfg.shortcuts;
+        };
+        force = true;
       };
-      force = true;
-    };
+    }
+    // lib.attrsets.mergeAttrsList (
+      lib.attrsets.mapAttrsToList (
+        name:
+        {
+          grid,
+          horizontal,
+          hero,
+          logo,
+        }:
+        if (builtins.hasAttr name cfg.shortcuts) then
+          (
+            let
+              id = toString (cfg.shortcuts.${name}.appid + 4294967296);
+            in
+            {
+              "${cfg.userConfigDir}/grid/${id}p.png" = lib.mkIf (grid != null) {
+                source = grid;
+                force = true;
+              };
+              "${cfg.userConfigDir}/grid/${id}.png" = lib.mkIf (horizontal != null) {
+                source = horizontal;
+                force = true;
+              };
+              "${cfg.userConfigDir}/grid/${id}_hero.png" = lib.mkIf (hero != null) {
+                source = hero;
+                force = true;
+              };
+              "${cfg.userConfigDir}/grid/${id}_logo.png" = lib.mkIf (logo != null) {
+                source = logo;
+                force = true;
+              };
+            }
+          )
+        else
+          null
+      ) cfg.grids
+    );
   };
 }

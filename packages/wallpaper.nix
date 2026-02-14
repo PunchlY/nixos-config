@@ -13,9 +13,10 @@ let
       name = if m == null then input.name else builtins.elemAt m 0;
     in
     runCommand "${name}.png" {
+      src = input;
       nativeBuildInputs = [ imagemagick ];
       passthru = lib.attrsets.mapAttrs (_: operation: operation input) (operations args);
-    } "magick ${input} ${lib.escapeShellArgs args} $out";
+    } "magick $src ${lib.escapeShellArgs args} $out";
   operations =
     args:
     lib.attrsets.mapAttrs (_: args2: magick (args ++ args2)) {

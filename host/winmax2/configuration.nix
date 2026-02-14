@@ -38,7 +38,7 @@
     variant = "";
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 
   services.openssh.enable = true;
 
