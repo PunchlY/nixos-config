@@ -114,7 +114,8 @@ in
                   ));
               };
               exe = lib.mkOption {
-                type = lib.types.str;
+                type = lib.types.either lib.types.str (lib.types.listOf lib.types.str);
+                apply = v: lib.escapeShellArgs (if lib.isList v then v else [ v ]);
               };
             };
           }

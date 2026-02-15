@@ -59,6 +59,7 @@
     in
     {
       exe = "${assets}/0.5players.exe";
+      StartDir = "${assets}";
     };
 
   services.steam.shortcuts."PVZRH" = {
