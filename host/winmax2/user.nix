@@ -33,18 +33,15 @@
     ];
   };
 
-  security.pam.services = {
-    greetd.text = ''
-      auth      requisite     pam_nologin.so
-      auth      sufficient    pam_succeed_if.so user = player quiet_success
-      auth      required      pam_unix.so
-
-      account   sufficient    pam_unix.so
-
-      password  required      pam_deny.so
-
-      session   optional      pam_keyinit.so revoke
-      session   include       login
-    '';
+  security.pam.services.greetd.rules.auth.autologin = {
+    enable = true;
+    order = 9000;
+    control = "sufficient";
+    modulePath = "${pkgs.pam}/lib/security/pam_succeed_if.so";
+    args = [
+      "user"
+      "="
+      "player"
+    ];
   };
 }
