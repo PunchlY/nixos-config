@@ -1,6 +1,12 @@
 {
   programs.opencode = {
     enable = true;
+    settings = {
+      permission = {
+        bash = "ask";
+        edit = "ask";
+      };
+    };
     rules = ''
       - 使用中文进行交流.
       - 坚持前瞻性视角, 基于趋势与长期演进进行分析与判断.
