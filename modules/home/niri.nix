@@ -7,7 +7,6 @@
   ...
 }:
 let
-  inherit (nixosConfig.theme) cursor colors;
   cfg = config.programs.niri;
 in
 {
@@ -95,7 +94,7 @@ in
       };
     };
 
-    programs.niri.settings = with colors.hex; {
+    programs.niri.settings = {
       environment = {
         MOZ_ENABLE_WAYLAND = "1";
         GTK_USE_PORTAL = "1";
@@ -110,57 +109,36 @@ in
         GTK_CSD = "0";
       };
 
-      cursor = {
-        size = cursor.size;
-        theme = cursor.name;
-        hide-after-inactive-ms = 3000;
-      };
-
-      layout = {
-        focus-ring.enable = false;
-        gaps = 8;
-        center-focused-column = "on-overflow";
-        always-center-single-column = true;
-        border = {
-          enable = true;
-          width = 2;
-          active.color = primary;
-          inactive.color = surface_variant;
-        };
-        background-color = "transparent";
-        preset-column-widths = [
-          { proportion = 1. / 3.; }
-          { proportion = 1. / 2.; }
-          { proportion = 2. / 3.; }
-        ];
-        default-column-width.proportion = 2. / 3.;
-      };
-
-      overview = {
-        backdrop-color = background;
-        workspace-shadow.enable = false;
-      };
-
-      xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
-
-      clipboard.disable-primary = true;
-
-      prefer-no-csd = true;
-
-      gestures.hot-corners.enable = false;
-      hotkey-overlay.skip-at-startup = true;
+      inherit (nixosConfig.programs.niri.settings) cursor layout input;
 
       window-rules = [
         {
-          draw-border-with-background = false;
-          geometry-corner-radius = {
-            bottom-left = 8.0;
-            bottom-right = 8.0;
-            top-left = 8.0;
-            top-right = 8.0;
-          };
-          clip-to-geometry = true;
-          # open-maximized-to-edges = false;
+          matches = [
+            { app-id = "^term-file-chooser$"; }
+          ];
+          open-floating = true;
+        }
+        {
+          matches = [
+            { app-id = "^gcr-prompter$"; }
+          ];
+          block-out-from = "screencast";
+        }
+      ];
+
+      layer-rules = [
+        {
+          matches = [
+            { namespace = "^wallpaper$"; }
+          ];
+          place-within-backdrop = true;
+        }
+        {
+          matches = [
+            { namespace = "^notifications$"; }
+            { namespace = "^fuzzel-polkit-agent$"; }
+          ];
+          block-out-from = "screencast";
         }
       ];
 

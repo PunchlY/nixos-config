@@ -1,11 +1,12 @@
 {
+  nixosConfig,
   config,
   lib,
   pkgs,
   ...
 }:
 
-{
+lib.optionalAttrs nixosConfig.programs.niri.enable {
   home.shellAliases = {
     spawn = ''niri msg action spawn -- env --chdir="$(pwd)"'';
   };
@@ -60,31 +61,6 @@
           { app-id = "^Alacritty$"; }
         ];
         default-column-width.proportion = 1. / 3;
-      }
-      {
-        matches = [ { app-id = "^gcr-prompter$"; } ];
-        block-out-from = "screencast";
-      }
-      {
-        matches = [
-          { app-id = "^term-file-chooser$"; }
-          { app-id = "^term-dmenu-desktop$"; }
-        ];
-        open-floating = true;
-      }
-    ];
-
-    layer-rules = [
-      {
-        matches = [ { namespace = "^wallpaper$"; } ];
-        place-within-backdrop = true;
-      }
-      {
-        matches = [
-          { namespace = "^notifications$"; }
-          { namespace = "^fuzzel-polkit-agent$"; }
-        ];
-        block-out-from = "screencast";
       }
     ];
 

@@ -77,7 +77,7 @@ let
 in
 {
   options.services.steam = {
-    enable = lib.mkEnableOption "Steam shortcuts management";
+    enable = lib.mkEnableOption "steam";
 
     steamUserId = lib.mkOption {
       type = lib.types.int;

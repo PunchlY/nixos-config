@@ -20,6 +20,60 @@ in
         cfg.finalConfig;
 
     programs.niri.settings = with colors.hex; {
+      cursor = {
+        size = cursor.size;
+        theme = cursor.name;
+        hide-after-inactive-ms = 3000;
+      };
+
+      layout = {
+        focus-ring.enable = false;
+        gaps = 8;
+        center-focused-column = "on-overflow";
+        always-center-single-column = true;
+        border = {
+          enable = true;
+          width = 2;
+          active.color = primary;
+          inactive.color = surface_variant;
+        };
+        background-color = "transparent";
+        preset-column-widths = [
+          { proportion = 1. / 3.; }
+          { proportion = 1. / 2.; }
+          { proportion = 2. / 3.; }
+        ];
+        default-column-width.proportion = 2. / 3.;
+      };
+
+      overview = {
+        backdrop-color = background;
+        workspace-shadow.enable = false;
+      };
+
+      xwayland-satellite.path = lib.mkDefault (lib.getExe pkgs.xwayland-satellite);
+
+      clipboard.disable-primary = true;
+
+      prefer-no-csd = true;
+
+      gestures.hot-corners.enable = false;
+      hotkey-overlay.skip-at-startup = true;
+
+      window-rules = [
+        {
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            bottom-left = 8.0;
+            bottom-right = 8.0;
+            top-left = 8.0;
+            top-right = 8.0;
+          };
+          clip-to-geometry = true;
+          # open-maximized-to-edges = false;
+        }
+      ];
+
       binds = {
         "Mod+O".action.toggle-overview = { };
 
