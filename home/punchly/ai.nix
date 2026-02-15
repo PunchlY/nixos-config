@@ -6,6 +6,8 @@
         bash = "ask";
         edit = "ask";
       };
+      provider = {
+      };
     };
     rules = ''
       - 使用中文进行交流.
