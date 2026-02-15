@@ -3,7 +3,19 @@
     enable = true;
     settings = {
       permission = {
-        bash = "ask";
+        bash = {
+          "*" = "ask";
+          "git status" = "allow";
+          "git diff" = "allow";
+          "git log" = "allow";
+          "git branch" = "allow";
+          "ls" = "allow";
+          "cd" = "allow";
+          "pwd" = "allow";
+          "cat" = "allow";
+          "head" = "allow";
+          "tail" = "allow";
+        };
         edit = "ask";
       };
       provider = {
