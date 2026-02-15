@@ -1,48 +1,66 @@
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  allExeNames = [
+    "git status"
+    "git log"
+    "git diff"
+    "git show"
+    "git branch"
+    "git remote"
+    "git config"
+    "git rev-parse"
+    "git ls-files"
+    "git ls-remote"
+    "git describe"
+    "git tag --list"
+    "git blame"
+    "git shortlog"
+    "git reflog"
+    "git add"
+    "nix search"
+    "nix eval"
+    "nix show-config"
+    "nix flake show"
+    "nix flake check"
+    "nix log"
+    "ls"
+    "pwd"
+    "find"
+    "grep"
+    "rg"
+    "cat"
+    "head"
+    "tail"
+    "mkdir"
+    "chmod"
+    "systemctl list-units"
+    "systemctl list-timers"
+    "systemctl status"
+    "journalctl"
+    "dmesg"
+  ];
+in
+{
   programs.opencode = {
     enable = true;
     settings = {
       permission = {
         bash = {
           "*" = "ask";
-          "git status *" = "allow";
-          "git log *" = "allow";
-          "git diff *" = "allow";
-          "git show *" = "allow";
-          "git branch *" = "allow";
-          "git remote *" = "allow";
-          "git config *" = "allow";
-          "git rev-parse *" = "allow";
-          "git ls-files *" = "allow";
-          "git ls-remote *" = "allow";
-          "git describe *" = "allow";
-          "git tag --list *" = "allow";
-          "git blame *" = "allow";
-          "git shortlog *" = "allow";
-          "git reflog *" = "allow";
-          "git add *" = "allow";
-          "nix search *" = "allow";
-          "nix eval *" = "allow";
-          "nix show-config *" = "allow";
-          "nix flake show *" = "allow";
-          "nix flake check *" = "allow";
-          "nix log *" = "allow";
-          "ls *" = "allow";
-          "pwd *" = "allow";
-          "find *" = "allow";
-          "grep *" = "allow";
-          "rg *" = "allow";
-          "cat *" = "allow";
-          "head *" = "allow";
-          "tail *" = "allow";
-          "mkdir *" = "allow";
-          "chmod *" = "allow";
-          "systemctl list-units *" = "allow";
-          "systemctl list-timers *" = "allow";
-          "systemctl status *" = "allow";
-          "journalctl *" = "allow";
-          "dmesg *" = "allow";
-        };
+        }
+        // lib.foldl (
+          acc: cmd:
+          acc
+          // {
+            ${cmd} = "allow";
+            "${cmd} *" = "allow";
+          }
+        ) { } allExeNames;
         edit = "ask";
       };
       provider = {
