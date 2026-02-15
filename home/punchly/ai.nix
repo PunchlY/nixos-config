@@ -22,6 +22,7 @@ let
     "git shortlog"
     "git reflog"
     "git add"
+    "git commit -m"
     "nix search"
     "nix eval"
     "nix show-config"
