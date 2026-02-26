@@ -61,10 +61,7 @@
               value = final.callPackage ./packages/${file} { };
             }) (builtins.attrNames (builtins.readDir ./packages))
           )
-        )
-        (
-          final: prev:
-          builtins.listToAttrs (
+          // builtins.listToAttrs (
             map (file: {
               name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
               value = import ./overlays/${file} final prev;
