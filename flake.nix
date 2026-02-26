@@ -45,6 +45,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       systems,
       home-manager,
@@ -52,32 +53,33 @@
     }@inputs:
     let
       inherit (nixpkgs) lib;
-      overlays = [
-        (
-          final: prev:
-          builtins.listToAttrs (
-            map (file: {
-              name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
-              value = final.callPackage ./packages/${file} { };
-            }) (builtins.attrNames (builtins.readDir ./packages))
-          )
-          // builtins.listToAttrs (
-            map (file: {
-              name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
-              value = import ./overlays/${file} final prev;
-            }) (builtins.attrNames (builtins.readDir ./overlays))
-          )
-        )
-      ];
       eachSystem = lib.genAttrs (import systems);
       readModules =
         path: builtins.map (name: path + "/${name}") (builtins.attrNames (builtins.readDir path));
     in
     {
+      overlays.default =
+        final: prev:
+        builtins.listToAttrs (
+          map (file: {
+            name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
+            value = final.callPackage ./packages/${file} { };
+          }) (builtins.attrNames (builtins.readDir ./packages))
+        )
+        // builtins.listToAttrs (
+          map (file: {
+            name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
+            value = import ./overlays/${file} final prev;
+          }) (builtins.attrNames (builtins.readDir ./overlays))
+        );
+
       packages = eachSystem (
         system:
         import nixpkgs {
-          inherit system overlays;
+          inherit system;
+          overlays = [
+            self.overlays.default
+          ];
           config.allowUnfree = true;
         }
       );
@@ -96,7 +98,9 @@
                   networking.hostName = hostName;
 
                   nixpkgs = {
-                    inherit overlays;
+                    overlays = [
+                      self.overlays.default
+                    ];
                     config.allowUnfree = true;
                   };
 
