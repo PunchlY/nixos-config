@@ -71,7 +71,7 @@ in
           nativeBuildInputs = [
             md3.packages.${pkgs.stdenv.hostPlatform.system}.default
           ];
-        } "md3 --image=$src --output=$out --dark --json={rgb}"
+        } "md3 --dark --json={rgb} <$src >$out"
       );
       hex = builtins.mapAttrs (name: value: "#${value}") hex_stripped;
       hex_stripped = builtins.mapAttrs (
