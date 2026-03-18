@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  browser-previews,
   ...
 }:
 
@@ -29,7 +30,7 @@
 
     scrcpy
 
-    google-chrome
+    browser-previews.packages.${system}.google-chrome
     telegram-desktop
     (gtk-nocsd.wrapper netease-cloud-music-gtk)
 

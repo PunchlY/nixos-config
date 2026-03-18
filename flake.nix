@@ -31,6 +31,11 @@
     md3.url = "github:PunchlY/md3";
 
     niri.url = "github:sodiboo/niri-flake";
+
+    browser-previews = {
+      url = "github:nix-community/browser-previews";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig.substituters = [
