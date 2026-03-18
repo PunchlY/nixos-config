@@ -149,6 +149,11 @@
 
   programs.fuzzel.enable = true;
 
+  programs.kew = {
+    enable = true;
+    musicPath = config.xdg.userDirs.music;
+  };
+
   services.mako = {
     enable = true;
     settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
