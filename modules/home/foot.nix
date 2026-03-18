@@ -39,7 +39,7 @@ in
         font = "${font.name}:size=${toString font.size}";
         dpi-aware = "no";
       };
-      colors = with colors.hex_stripped; {
+      colors-dark = with colors.hex_stripped; {
         alpha = opacity;
         foreground = on_surface;
         background = surface;
