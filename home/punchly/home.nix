@@ -26,7 +26,7 @@
     bluetui
 
     (gtk-nocsd.wrapper pwvucontrol)
-    (gtk-nocsd.wrapper helvum)
+    (gtk-nocsd.wrapper crosspipe)
 
     scrcpy
 
