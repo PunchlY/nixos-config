@@ -12,7 +12,7 @@
     networking.firewall.trustedInterfaces = [ "mihomo0" ];
     networking.firewall.checkReversePath = false;
 
-    # systemd.services.mihomo.wantedBy = lib.mkForce [ ];
+    systemd.services.mihomo.wantedBy = lib.mkForce [ ];
 
     services.mihomo = {
       tunMode = true;
