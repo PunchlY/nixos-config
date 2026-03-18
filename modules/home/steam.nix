@@ -10,8 +10,8 @@
 let
   cfg = config.services.steam;
 
-  steamConfDirRelative =
-    if pkgs.stdenv.hostPlatform.isDarwin then "Library/Application Support/Steam" else ".steam/steam";
+  dataDir =
+    if pkgs.stdenv.hostPlatform.isDarwin then "Library/Application Support" else config.xdg.dataHome;
 
   json2vdf =
     name: value:
@@ -83,15 +83,10 @@ in
       type = lib.types.int;
     };
 
-    steamHomeDir = lib.mkOption {
-      type = lib.types.str;
-      default = config.home.homeDirectory;
-    };
-
     userConfigDir = lib.mkOption {
       type = lib.types.str;
       internal = true;
-      default = "${cfg.steamHomeDir}/${steamConfDirRelative}/userdata/${builtins.toString cfg.steamUserId}/config";
+      default = "${dataDir}/Steam/userdata/${builtins.toString cfg.steamUserId}/config";
     };
 
     shortcuts = lib.mkOption {
