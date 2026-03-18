@@ -1,4 +1,10 @@
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   services.keyd = {
     enable = true;
     keyboards = {
@@ -15,6 +21,4 @@
       };
     };
   };
-  systemd.services.keyd.serviceConfig.Group = "keyd";
-  users.groups.keyd = { };
 }

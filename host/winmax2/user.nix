@@ -17,7 +17,6 @@
       "audio"
       "video"
       "input"
-      "keyd"
       "seat"
       "aria2"
     ];
