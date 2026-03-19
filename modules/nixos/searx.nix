@@ -1,5 +1,7 @@
 { config, lib, ... }:
-
+let
+  cfg = config.services.searx;
+in
 {
   config = lib.mkIf config.services.searx.enable {
     services.searx = {
@@ -72,5 +74,16 @@
     };
 
     networking.hosts."127.0.0.1" = [ config.services.searx.domain ];
+
+    programs.chromium = lib.mkIf config.programs.chromium.enable {
+      extraOpts = {
+        DefaultSearchProviderEnabled = true;
+        DefaultSearchProviderImageURL = "http://${cfg.domain}/static/themes/simple/img/favicon.svg";
+        DefaultSearchProviderKeyword = cfg.domain;
+        DefaultSearchProviderName = "Searx";
+        DefaultSearchProviderSearchURL = "http://${cfg.domain}/search?q={searchTerms}";
+        DefaultSearchProviderSuggestURL = "http://${cfg.domain}/autocompleter?q={searchTerms}";
+      };
+    };
   };
 }

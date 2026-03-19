@@ -125,4 +125,6 @@
   services.seatd.enable = true;
 
   programs.tuigreet.enable = true;
+
+  programs.chromium.enable = true;
 }
