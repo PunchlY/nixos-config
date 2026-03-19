@@ -126,5 +126,10 @@
 
   programs.tuigreet.enable = true;
 
-  programs.chromium.enable = true;
+  programs.chromium = {
+    enable = true;
+    extraOpts = {
+      RestoreOnStartup = 1;
+    };
+  };
 }
