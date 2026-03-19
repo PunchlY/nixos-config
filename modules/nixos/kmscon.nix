@@ -5,13 +5,16 @@
   ...
 }:
 let
-  inherit (config.theme) colors font cursor;
+  inherit (config.theme) colors font emoji;
   rgbToKmscon = name: with colors.rgb.${name}; "${toString r},${toString g},${toString b}";
 in
 {
   config = lib.mkIf config.services.kmscon.enable {
     services.kmscon = {
-      fonts = [ { inherit (font) name package; } ];
+      fonts = [
+        { inherit (font) name package; }
+        { inherit (emoji) name package; }
+      ];
       extraConfig = ''
         font-size=${toString font.size}
         palette=custom

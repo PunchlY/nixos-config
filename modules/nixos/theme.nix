@@ -125,35 +125,5 @@ in
           ];
         };
     };
-
-    systemd.services.set-tty-colors = {
-      description = "Apply Kanagawa TTY colors and font";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "systemd-vconsole-setup.service" ];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-      };
-      script = with cfg.colors.hex_stripped; ''
-        for tty in /dev/tty{1..6}; do
-          echo -en "\e]P0${black}" > "$tty"
-          echo -en "\e]P1${red_dim}" > "$tty"
-          echo -en "\e]P2${green_dim}" > "$tty"
-          echo -en "\e]P3${yellow_dim}" > "$tty"
-          echo -en "\e]P4${blue_dim}" > "$tty"
-          echo -en "\e]P5${magenta_dim}" > "$tty"
-          echo -en "\e]P6${cyan_dim}" > "$tty"
-          echo -en "\e]P7${white}" > "$tty"
-          echo -en "\e]P8${gray}" > "$tty"
-          echo -en "\e]P9${red}" > "$tty"
-          echo -en "\e]PA${green}" > "$tty"
-          echo -en "\e]PB${yellow}" > "$tty"
-          echo -en "\e]PC${blue}" > "$tty"
-          echo -en "\e]PD${magenta}" > "$tty"
-          echo -en "\e]PE${cyan}" > "$tty"
-          echo -en "\e]PF${white_bright}" > "$tty"
-        done
-      '';
-    };
   };
 }

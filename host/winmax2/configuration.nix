@@ -48,9 +48,10 @@
 
   services.kmscon = {
     enable = true;
+    hwRender = true;
     extraConfig = ''
-      hwaccel
-      font-dpi=${toString (96 * 1.5)}
+      no-mouse
+      font-dpi=144
     '';
   };
 
