@@ -7,60 +7,24 @@
 
 {
   imports = builtins.map (name: ./plugins/${name}) (builtins.attrNames (builtins.readDir ./plugins));
-  
+
   config = lib.mkIf config.programs.yazi.enable {
     programs.yazi = {
       enableBashIntegration = true;
       shellWrapperName = "y";
       theme = {
-        icon.prepend_dirs =
-          lib.mapAttrsToList
-            (name: text: {
-              inherit name text;
-            })
-            {
-              dls = "";
-              doc = "";
-              med = "";
-              music = "";
-              pictures = "";
-              videos = "";
-              games = "";
-              src = "";
-              nixos-config = "";
-              ".minecraft" = "󰍳";
-            };
-      };
-      settings = {
-        opener = {
-          edit = [
-            {
-              run = ''$EDITOR "$@"'';
-              block = true;
-            }
-            {
-              run = ''code "$@"'';
-              orphan = true;
-            }
-          ];
+        icon.prepend_dirs = lib.mapAttrsToList (name: text: { inherit name text; }) {
+          dls = "";
+          doc = "";
+          med = "";
+          music = "";
+          pictures = "";
+          videos = "";
+          games = "";
+          src = "";
+          nixos-config = "";
+          ".minecraft" = "󰍳";
         };
-        rules = [
-          {
-            name = "*/";
-            use = [
-              "edit"
-              "open"
-              "reveal"
-            ];
-          }
-          {
-            mime = "text/*";
-            use = [
-              "edit"
-              "reveal"
-            ];
-          }
-        ];
       };
       keymap.input.prepend_keymap = [
         {

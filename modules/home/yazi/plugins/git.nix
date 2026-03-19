@@ -16,12 +16,12 @@
     settings.plugin.prepend_fetchers = [
       {
         id = "git";
-        name = "*";
+        url = "*";
         run = "git";
       }
       {
         id = "git";
-        name = "*/";
+        url = "*/";
         run = "git";
       }
     ];
