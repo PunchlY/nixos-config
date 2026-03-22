@@ -110,6 +110,9 @@
                   home-manager = {
                     sharedModules = readModules ./modules/home;
                     extraSpecialArgs = inputs;
+                    useGlobalPkgs = true;
+                    useUserPackages = true;
+                    backupFileExtension = "backup";
                   };
                 }
               ]

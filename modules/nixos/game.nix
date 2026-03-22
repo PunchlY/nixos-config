@@ -10,6 +10,8 @@
     jovian.nixosModules.default
   ];
 
-  jovian.steam.environment.PROTON_USE_RAW_INPUT = "1";
-
+  jovian.steam = lib.mkIf config.jovian.steam.enable {
+    user = config.user.name;
+    environment.PROTON_USE_RAW_INPUT = "1";
+  };
 }

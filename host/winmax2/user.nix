@@ -6,35 +6,12 @@
   ...
 }:
 {
-  imports = [
-    (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" "punchly" ])
-    (lib.mkAliasOptionModule [ "user" ] [ "users" "users" "punchly" ])
-  ];
-
   age.identityPaths = [
-    "${config.users.users.punchly.home}/.ssh/id_ed25519"
+    "${config.user.home}/.ssh/id_ed25519"
   ];
-
-  users.users.punchly = {
-    isNormalUser = true;
-    description = "PunchlY";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "audio"
-      "video"
-      "input"
-      "aria2"
-    ];
-    uid = 1000;
-  };
-  nix.settings.trusted-users = [ "punchly" ];
-
-  hm.services.steam.steamUserId = 1072827295;
 
   jovian.steam = {
     enable = true;
-    user = "punchly";
     autoStart = true;
     desktopSession = "niri";
   };
@@ -48,57 +25,58 @@
     '';
   };
 
-  programs.niri.enable = true;
-
   services.displayManager.defaultSession = lib.mkForce "niri";
 
-  hm.programs.niri.settings = {
-    outputs."eDP-1".scale = 1.5;
+  programs.niri = {
+    enable = true;
+    settings = {
+      outputs."eDP-1".scale = 1.5;
 
-    window-rules = [
-      {
-        matches = [ { app-id = "^Waydroid$"; } ];
-        open-fullscreen = true;
-      }
-      {
-        matches = [
-          { app-id = "^footclient$"; }
-          { app-id = "^foot$"; }
-          { app-id = "^Alacritty$"; }
-        ];
-        default-column-width.proportion = 1. / 3;
-      }
-    ];
+      window-rules = [
+        {
+          matches = [ { app-id = "^Waydroid$"; } ];
+          open-fullscreen = true;
+        }
+        {
+          matches = [
+            { app-id = "^footclient$"; }
+            { app-id = "^foot$"; }
+            { app-id = "^Alacritty$"; }
+          ];
+          default-column-width.proportion = 1. / 3;
+        }
+      ];
 
-    binds = {
-      "Mod+D" = {
-        hotkey-overlay.title = "Open Application Launcher";
-        action.spawn = [
-          "fuzzel"
-        ]
-        ++ lib.cli.toCommandLineGNU { } {
-          show-actions = true;
-          terminal = "xdg-terminal-exec -- {cmd}";
-          launch-prefix = pkgs.writeShellScript "launch-prefix" ''
-            if [ -z "$DESKTOP_ENTRY_ID" ]; then
-              set -- xdg-terminal-exec -- "$@"
-            fi
-            exec niri msg action spawn -- "$@"
-          '';
+      binds = {
+        "Mod+D" = {
+          hotkey-overlay.title = "Open Application Launcher";
+          action.spawn = [
+            "fuzzel"
+          ]
+          ++ lib.cli.toCommandLineGNU { } {
+            show-actions = true;
+            terminal = "xdg-terminal-exec -- {cmd}";
+            launch-prefix = pkgs.writeShellScript "launch-prefix" ''
+              if [ -z "$DESKTOP_ENTRY_ID" ]; then
+                set -- xdg-terminal-exec -- "$@"
+              fi
+              exec niri msg action spawn -- "$@"
+            '';
+          };
         };
-      };
-      "Mod+V" = {
-        hotkey-overlay.title = "Open Clipboard";
-        action.spawn = lib.getExe pkgs.fuzzel-clipboard;
-      };
-      "Mod+Escape" = {
-        hotkey-overlay.title = "Open Command Menu";
-        action.spawn = lib.getExe pkgs.fuzzel-cmd-menu;
-      };
-      "Mod+Alt+L" = {
-        hotkey-overlay.title = "Lock the Screen";
-        allow-inhibiting = false;
-        action.spawn = "swaylock";
+        "Mod+V" = {
+          hotkey-overlay.title = "Open Clipboard";
+          action.spawn = lib.getExe pkgs.fuzzel-clipboard;
+        };
+        "Mod+Escape" = {
+          hotkey-overlay.title = "Open Command Menu";
+          action.spawn = lib.getExe pkgs.fuzzel-cmd-menu;
+        };
+        "Mod+Alt+L" = {
+          hotkey-overlay.title = "Lock the Screen";
+          allow-inhibiting = false;
+          action.spawn = "swaylock";
+        };
       };
     };
   };
@@ -117,13 +95,7 @@
     type = "fcitx5";
   };
 
-  hm.programs.git = {
-    enable = true;
-    settings = {
-      user.name = "Punchly";
-      user.email = "punchly9lin@gmail.com";
-    };
-  };
+  hm.programs.git.enable = true;
 
   hm.programs.vscode = {
     enable = true;

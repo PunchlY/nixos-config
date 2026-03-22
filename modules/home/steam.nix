@@ -6,6 +6,7 @@
   config,
   pkgs,
   lib,
+  self,
   ...
 }:
 let
@@ -84,6 +85,7 @@ in
 
     steamUserId = lib.mkOption {
       type = lib.types.int;
+      default = (import "${self}/me.nix").steamUserId;
     };
 
     userConfigDir = lib.mkOption {
