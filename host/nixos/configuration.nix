@@ -64,4 +64,13 @@
   security.polkit.enable = true;
 
   services.mihomo.enable = true;
+
+  jovian.steam = {
+    enable = true;
+    autoStart = true;
+  };
+
+  age.identityPaths = [
+    "${config.user.home}/.ssh/id_rsa"
+  ];
 }
