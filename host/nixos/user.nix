@@ -4,6 +4,14 @@
   ...
 }:
 {
+  imports = [ (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" "punchly" ]) ];
+
+  jovian.steam = {
+    enable = true;
+    user = "punchly";
+    autoStart = true;
+  };
+
   age.identityPaths = [
     "${config.users.users.punchly.home}/.ssh/id_rsa"
   ];
@@ -17,8 +25,6 @@
       "audio"
       "video"
       "input"
-      "seat"
-      "aria2"
     ];
   };
   nix.settings.trusted-users = [ "punchly" ];

@@ -44,17 +44,6 @@
     variant = "";
   };
 
-  system.stateVersion = "26.05";
-
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    extraConfig = ''
-      no-mouse
-      font-dpi=144
-    '';
-  };
-
   services.openssh.enable = true;
 
   services.udisks2.enable = true;
@@ -103,28 +92,6 @@
   services.searx.enable = true;
 
   services.mihomo.enable = true;
-
-  hardware.graphics.enable = true;
-
-  programs.niri = {
-    enable = true;
-    settings = {
-      outputs."eDP-1".scale = 1.5;
-    };
-  };
-
-  programs.localsend = {
-    enable = true;
-    package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
-  };
-
-  programs.wshowkeys.enable = true;
-
-  jovian.steam.enable = true;
-
-  services.seatd.enable = true;
-
-  programs.tuigreet.enable = true;
 
   programs.chromium = {
     enable = true;

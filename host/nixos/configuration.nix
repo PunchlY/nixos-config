@@ -33,8 +33,6 @@
     variant = "";
   };
 
-  system.stateVersion = "26.05";
-
   services.openssh.enable = true;
 
   services.udisks2.enable = true;
@@ -49,16 +47,7 @@
     jack.enable = true;
   };
 
-  programs.kdeconnect.enable = true;
-
   services.swapspace.enable = true;
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    enableBrowserSocket = true;
-    pinentryPackage = pkgs.pinentry-gnome3;
-  };
 
   services.logind.settings.Login = {
     powerKey = "suspend";
@@ -70,37 +59,9 @@
 
   services.dbus.enable = true;
 
-  services.unblockneteasemusic.enable = true;
-
   hardware.bluetooth.enable = true;
-
-  services.aria2.enable = true;
-
-  services.nginx.enable = true;
 
   security.polkit.enable = true;
 
-  services.searx.enable = true;
-
   services.mihomo.enable = true;
-
-  hardware.graphics.enable = true;
-
-  programs.niri = {
-    enable = true;
-    settings = {
-      outputs."eDP-1".scale = 1.2;
-    };
-  };
-
-  programs.localsend = {
-    enable = true;
-    package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
-  };
-
-  jovian.steam.enable = true;
-
-  services.seatd.enable = true;
-
-  programs.tuigreet.enable = true;
 }
