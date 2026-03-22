@@ -201,12 +201,9 @@ in
       ];
 
       binds = {
-        "Mod+E" = lib.mkIf config.xdg.enable{
+        "Mod+E" = lib.mkIf config.xdg.enable {
           hotkey-overlay.title = "Open File Manager";
-          action.spawn = [
-            "xdg-open"
-            "~"
-          ];
+          action.spawn-sh = "exec xdg-open ~";
         };
         "Mod+T" = lib.mkIf config.xdg.terminal-exec.enable {
           hotkey-overlay.title = "Open Terminal";
