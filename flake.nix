@@ -26,8 +26,6 @@
 
     waydroid-script.url = "github:casualsnek/waydroid_script";
 
-    aagl.url = "github:ezKEa/aagl-gtk-on-nix";
-
     md3.url = "github:PunchlY/md3";
 
     niri.url = "github:sodiboo/niri-flake";
@@ -93,7 +91,7 @@
         builtins.mapAttrs
           (
             hostName:
-            { system, users }:
+            { system }:
             lib.nixosSystem {
               inherit system;
               specialArgs = inputs;
@@ -116,21 +114,12 @@
                 }
               ]
               ++ (readModules ./modules/nixos)
-              ++ (readModules ./host/${hostName})
-              ++ (map (username: {
-                home-manager.users.${username}.imports = readModules ./home/${username};
-              }) users);
+              ++ (readModules ./host/${hostName});
             }
           )
           {
-            winmax2 = {
-              system = "x86_64-linux";
-              users = [ "punchly" ];
-            };
-            nixos = {
-              system = "x86_64-linux";
-              users = [ "punchly" ];
-            };
+            winmax2.system = "x86_64-linux";
+            nixos.system = "x86_64-linux";
           };
     };
 }
