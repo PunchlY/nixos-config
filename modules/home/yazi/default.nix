@@ -4,11 +4,17 @@
   pkgs,
   ...
 }:
-
+let
+  cfg = config.programs.yazi;
+in
 {
   imports = builtins.map (name: ./plugins/${name}) (builtins.attrNames (builtins.readDir ./plugins));
 
-  config = lib.mkIf config.programs.yazi.enable {
+  config = lib.mkIf cfg.enable {
+    xdg.mimeApps.defaultApplicationPackages = [
+      cfg.package
+    ];
+
     programs.yazi = {
       enableBashIntegration = true;
       shellWrapperName = "y";

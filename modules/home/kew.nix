@@ -350,7 +350,7 @@ in
 
     musicPath = lib.mkOption {
       type = lib.types.path;
-      default = config.home.homeDirectory + "/Music";
+      default = config.xdg.userDirs.music or "${config.home.homeDirectory}/Music";
     };
 
     theme = lib.mkOption {

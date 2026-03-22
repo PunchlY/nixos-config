@@ -15,6 +15,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    services.seatd.enable = true;
+
     services.greetd = {
       enable = true;
       useTextGreeter = true;

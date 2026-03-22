@@ -2,6 +2,7 @@
 # https://github.com/ChrisOboe/json2steamshortcut/blob/7d43d5b6e198542649c712573b91f27247068aed/flake.nix
 
 {
+  nixosConfig,
   config,
   pkgs,
   lib,
@@ -77,7 +78,9 @@ let
 in
 {
   options.services.steam = {
-    enable = lib.mkEnableOption "steam";
+    enable = lib.mkEnableOption "steam" // {
+      default = nixosConfig.programs.steam.enable;
+    };
 
     steamUserId = lib.mkOption {
       type = lib.types.int;
