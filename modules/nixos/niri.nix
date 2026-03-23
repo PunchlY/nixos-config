@@ -13,30 +13,24 @@ in
   imports = [ niri.lib.internal.settings-module ];
 
   config = lib.mkIf cfg.enable {
+    xdg.terminal-exec = {
+      enable = true;
+      settings.niri = [ "foot.desktop" ];
+    };
+
+    xdg.portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+    };
+
     programs.niri.useNautilus = lib.mkDefault false;
 
-    hm.xdg.configFile."niri/config.kdl".source =
+    environment.etc."niri/config.kdl".source =
       niri.lib.internal.validated-config-for pkgs cfg.package
         cfg.finalConfig;
 
-    hm.xdg.portal = {
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-gnome
-      ];
-      config.niri = {
-        default = [
-          "gnome"
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.Access" = "gtk";
-        "org.freedesktop.impl.portal.Notification" = "gtk";
-        "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
-      };
-    };
-
-    hm.systemd.user.targets.niri-session = {
-      Unit = {
+    systemd.user.targets.niri-session = {
+      unitConfig = {
         Description = "niri compositor session";
         Documentation = [ "man:systemd.special(7)" ];
         BindsTo = [ "graphical-session.target" ];
@@ -45,41 +39,30 @@ in
       };
     };
 
-    hm.systemd.user.services.fuzzel-polkit-agent = {
-      Unit = {
-        Description = "Fuzzel Polkit Agent";
-        After = [ "graphical-session.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-
-      Service = {
+    systemd.user.services.niri-flake-polkit = {
+      wantedBy = [ "niri.service" ];
+      after = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.fuzzel-polkit-agent}/libexec/fuzzel-polkit-agent";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
-
-      Install = {
-        WantedBy = [ "niri.service" ];
-      };
     };
 
-    hm.systemd.user.services.wbg = {
-      Unit = {
-        ConditionEnvironment = "WAYLAND_DISPLAY";
-        PartOf = [ "niri.service" ];
-        After = [ "niri.service" ];
-      };
-
-      Service = {
+    systemd.user.services.niri-wallpaper = {
+      wantedBy = [ "niri.service" ];
+      after = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      serviceConfig = {
         ExecStart = "${lib.getExe pkgs.wbg} --stretch ${wallpaper}";
         Restart = "always";
-        RestartSec = "10";
+        RestartSec = 10;
       };
-
-      Install = {
-        WantedBy = [ "niri.service" ];
+      unitConfig = {
+        ConditionEnvironment = "WAYLAND_DISPLAY";
       };
     };
 
@@ -167,6 +150,18 @@ in
           ];
           block-out-from = "screencast";
         }
+        {
+          matches = [ { app-id = "^Waydroid$"; } ];
+          open-fullscreen = true;
+        }
+        {
+          matches = [
+            { app-id = "^footclient$"; }
+            { app-id = "^foot$"; }
+            { app-id = "^Alacritty$"; }
+          ];
+          default-column-width.proportion = 1. / 3;
+        }
       ];
 
       layer-rules = [
@@ -192,13 +187,43 @@ in
       ];
 
       binds = {
-        "Mod+E" = lib.mkIf config.hm.xdg.enable {
+        "Mod+E" = {
           hotkey-overlay.title = "Open File Manager";
           action.spawn-sh = "exec xdg-open ~";
         };
-        "Mod+T" = lib.mkIf config.hm.xdg.terminal-exec.enable {
+        "Mod+T" = {
           hotkey-overlay.title = "Open Terminal";
           action.spawn = "xdg-terminal-exec";
+        };
+
+        "Mod+D" = {
+          hotkey-overlay.title = "Open Application Launcher";
+          action.spawn = [
+            "fuzzel"
+          ]
+          ++ lib.cli.toCommandLineGNU { } {
+            show-actions = true;
+            terminal = "xdg-terminal-exec -- {cmd}";
+            launch-prefix = pkgs.writeShellScript "launch-prefix" ''
+              if [ -z "$DESKTOP_ENTRY_ID" ]; then
+                set -- xdg-terminal-exec -- "$@"
+              fi
+              exec niri msg action spawn -- "$@"
+            '';
+          };
+        };
+        "Mod+V" = {
+          hotkey-overlay.title = "Open Clipboard";
+          action.spawn = lib.getExe pkgs.fuzzel-clipboard;
+        };
+        "Mod+Escape" = {
+          hotkey-overlay.title = "Open Command Menu";
+          action.spawn = lib.getExe pkgs.fuzzel-cmd-menu;
+        };
+        "Mod+Alt+L" = {
+          hotkey-overlay.title = "Lock the Screen";
+          allow-inhibiting = false;
+          action.spawn = "swaylock";
         };
 
         "Mod+O".action.toggle-overview = { };

@@ -1,23 +1,23 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }:
 {
-  home.preferXdgDirectories = lib.mkDefault config.xdg.enable;
+  home.packages = with pkgs; [
+    xdg-utils
+  ];
 
-  home.shellAliases = lib.mkIf config.xdg.enable {
+  home.preferXdgDirectories = true;
+
+  home.shellAliases = {
     # o = "env --unset=NIXOS_XDG_OPEN_USE_PORTAL xdg-open";
     o = "xdg-open";
   };
 
-  xdg = lib.mkIf config.xdg.enable {
-    portal = {
-      enable = true;
-      xdgOpenUsePortal = lib.mkDefault true;
-    };
-    terminal-exec.enable = true;
-    mime.enable = true;
+  xdg = {
+    enable = true;
     mimeApps.enable = true;
     userDirs = {
       enable = true;

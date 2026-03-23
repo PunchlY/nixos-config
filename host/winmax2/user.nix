@@ -25,59 +25,14 @@
     '';
   };
 
+  theme.wallpaper = pkgs.wallpapers.pixiv_68936009;
+
   services.displayManager.defaultSession = lib.mkForce "niri";
 
   programs.niri = {
     enable = true;
     settings = {
       outputs."eDP-1".scale = 1.5;
-
-      window-rules = [
-        {
-          matches = [ { app-id = "^Waydroid$"; } ];
-          open-fullscreen = true;
-        }
-        {
-          matches = [
-            { app-id = "^footclient$"; }
-            { app-id = "^foot$"; }
-            { app-id = "^Alacritty$"; }
-          ];
-          default-column-width.proportion = 1. / 3;
-        }
-      ];
-
-      binds = {
-        "Mod+D" = {
-          hotkey-overlay.title = "Open Application Launcher";
-          action.spawn = [
-            "fuzzel"
-          ]
-          ++ lib.cli.toCommandLineGNU { } {
-            show-actions = true;
-            terminal = "xdg-terminal-exec -- {cmd}";
-            launch-prefix = pkgs.writeShellScript "launch-prefix" ''
-              if [ -z "$DESKTOP_ENTRY_ID" ]; then
-                set -- xdg-terminal-exec -- "$@"
-              fi
-              exec niri msg action spawn -- "$@"
-            '';
-          };
-        };
-        "Mod+V" = {
-          hotkey-overlay.title = "Open Clipboard";
-          action.spawn = lib.getExe pkgs.fuzzel-clipboard;
-        };
-        "Mod+Escape" = {
-          hotkey-overlay.title = "Open Command Menu";
-          action.spawn = lib.getExe pkgs.fuzzel-cmd-menu;
-        };
-        "Mod+Alt+L" = {
-          hotkey-overlay.title = "Lock the Screen";
-          allow-inhibiting = false;
-          action.spawn = "swaylock";
-        };
-      };
     };
   };
 
@@ -147,32 +102,6 @@
   hm.services.bar.enable = true;
 
   hm.programs.retroarch.enable = true;
-
-  hm.xdg.portal = {
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-termfilechooser
-    ];
-    config.niri = {
-      "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
-    };
-  };
-
-  hm.xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = lib.generators.toINI { } {
-    filechooser = {
-      cmd = "${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh";
-      env = lib.strings.toShellVars {
-        TERMCMD = "xdg-terminal-exec --app-id=term-file-chooser --";
-      };
-      open_mode = "suggested";
-      save_mode = "last";
-    };
-  };
-
-  hm.xdg.enable = true;
-
-  hm.xdg.terminal-exec.settings = {
-    niri = [ "foot.desktop" ];
-  };
 
   hm.xdg.desktopEntries.bluetui = {
     name = "Bluetui";

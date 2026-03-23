@@ -12,7 +12,7 @@ in
   options.theme = {
     wallpaper = lib.mkOption {
       type = lib.types.path;
-      default = pkgs.wallpaper.default;
+      default = pkgs.nixos-artwork.wallpapers.nineish-catppuccin-mocha.src;
     };
 
     colors = lib.mkOption {

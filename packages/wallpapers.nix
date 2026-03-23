@@ -38,8 +38,6 @@ let
 in
 with (operations [ ]);
 rec {
-  default = pixiv_68936009;
-
   pixiv_68936009 = crop (fetchurl {
     url = "https://i.pixiv.re/img-original/img/2018/05/26/23/51/57/68936009_p0.jpg";
     sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
