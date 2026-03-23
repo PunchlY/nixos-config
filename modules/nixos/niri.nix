@@ -13,6 +13,18 @@ in
   imports = [ niri.lib.internal.settings-module ];
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      (writeShellApplication {
+        name = "niri-spawn";
+        runtimeInputs = [
+          niri
+        ];
+        text = ''
+          niri msg action spawn -- env --chdir="$(pwd)" "$@"
+        '';
+      })
+    ];
+
     xdg.terminal-exec = {
       enable = true;
       settings.niri = [ "foot.desktop" ];
