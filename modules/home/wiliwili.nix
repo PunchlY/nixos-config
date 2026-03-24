@@ -37,6 +37,21 @@ in
           '';
     };
 
+    xdg.configFile."wiliwili/emoji.ttf" = {
+      source =
+        pkgs.runCommand "wiliwili-emoji"
+          {
+            nativeBuildInputs = [ pkgs.fontconfig ];
+            fontName = nixosConfig.theme.emoji.name;
+            FONTCONFIG_FILE = pkgs.makeFontsConf {
+              fontDirectories = [ nixosConfig.theme.emoji.package ];
+            };
+          }
+          ''
+            ln -s "$(fc-match "$fontName" --format %{file})" "$out"
+          '';
+    };
+
     services.steam = lib.mkIf config.services.steam.enable {
       shortcuts.wiliwili = {
         appname = "WiliWili";
