@@ -184,6 +184,11 @@
 
   hm.programs.foot.enable = true;
 
+  xdg.terminal-exec = {
+    enable = true;
+    settings.niri = [ "foot.desktop" ];
+  };
+
   hm.programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [

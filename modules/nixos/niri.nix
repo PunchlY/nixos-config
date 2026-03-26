@@ -25,11 +25,6 @@ in
       })
     ];
 
-    xdg.terminal-exec = {
-      enable = true;
-      settings.niri = [ "foot.desktop" ];
-    };
-
     xdg.portal = {
       enable = true;
       xdgOpenUsePortal = true;
