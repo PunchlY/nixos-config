@@ -6,7 +6,7 @@
 }:
 let
   inherit (config.theme) colors font emoji;
-  rgbToKmscon = name: with colors.rgb.${name}; "${toString r},${toString g},${toString b}";
+  rgbToKmscon = name: with colors.${name}.rgb; "${toString r},${toString g},${toString b}";
 in
 {
   config = lib.mkIf config.services.kmscon.enable {
@@ -18,24 +18,24 @@ in
       extraConfig = ''
         font-size=${toString font.size}
         palette=custom
-        palette-black=${rgbToKmscon "black"}
-        palette-red=${rgbToKmscon "red_dim"}
-        palette-green=${rgbToKmscon "green_dim"}
-        palette-yellow=${rgbToKmscon "yellow_dim"}
-        palette-blue=${rgbToKmscon "blue_dim"}
-        palette-magenta=${rgbToKmscon "magenta_dim"}
-        palette-cyan=${rgbToKmscon "cyan_dim"}
-        palette-light-grey=${rgbToKmscon "white"}
-        palette-dark-grey=${rgbToKmscon "gray"}
-        palette-light-red=${rgbToKmscon "red"}
-        palette-light-green=${rgbToKmscon "green"}
-        palette-light-yellow=${rgbToKmscon "yellow"}
-        palette-light-blue=${rgbToKmscon "blue"}
-        palette-light-magenta=${rgbToKmscon "magenta"}
-        palette-light-cyan=${rgbToKmscon "cyan"}
-        palette-light-white=${rgbToKmscon "white_bright"}
-        palette-foreground=${rgbToKmscon "white"}
-        palette-background=${rgbToKmscon "black"}
+        palette-black=${rgbToKmscon "color0"}
+        palette-red=${rgbToKmscon "color1"}
+        palette-green=${rgbToKmscon "color2"}
+        palette-yellow=${rgbToKmscon "color3"}
+        palette-blue=${rgbToKmscon "color4"}
+        palette-magenta=${rgbToKmscon "color5"}
+        palette-cyan=${rgbToKmscon "color6"}
+        palette-light-grey=${rgbToKmscon "color7"}
+        palette-dark-grey=${rgbToKmscon "color8"}
+        palette-light-red=${rgbToKmscon "color9"}
+        palette-light-green=${rgbToKmscon "color10"}
+        palette-light-yellow=${rgbToKmscon "color11"}
+        palette-light-blue=${rgbToKmscon "color12"}
+        palette-light-magenta=${rgbToKmscon "color13"}
+        palette-light-cyan=${rgbToKmscon "color14"}
+        palette-light-white=${rgbToKmscon "color15"}
+        palette-foreground=${rgbToKmscon "on_surface"}
+        palette-background=${rgbToKmscon "surface"}
       '';
     };
   };

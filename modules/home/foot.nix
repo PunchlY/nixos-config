@@ -39,32 +39,33 @@ in
         font = "${font.name}:size=${toString font.size}";
         dpi-aware = "no";
       };
-      colors-dark = with colors.hex_stripped; {
+      colors-dark = {
         alpha = opacity;
-        foreground = on_surface;
-        background = surface;
-        regular0 = black;
-        regular1 = red_dim;
-        regular2 = green_dim;
-        regular3 = yellow_dim;
-        regular4 = blue_dim;
-        regular5 = magenta_dim;
-        regular6 = cyan_dim;
-        regular7 = white;
-        bright0 = gray;
-        bright1 = red;
-        bright2 = green;
-        bright3 = yellow;
-        bright4 = blue;
-        bright5 = magenta;
-        bright6 = cyan;
-        bright7 = white_bright;
-      };
-
-      desktop-notifications.command = "notify-send -a \${app-id} -i \${app-id} \${title} \${body}";
+        foreground = colors.on_surface.hex_stripped;
+        background = colors.surface.hex_stripped;
+        flash = colors.primary.hex_stripped;
+      }
+      // builtins.listToAttrs (
+        builtins.genList (i: {
+          name = "regular${toString i}";
+          value = colors."color${toString i}".hex_stripped;
+        }) 8
+      )
+      // builtins.listToAttrs (
+        builtins.genList (i: {
+          name = "bright${toString i}";
+          value = colors."color${toString (i + 8)}".hex_stripped;
+        }) 8
+      )
+      // builtins.listToAttrs (
+        builtins.genList (i: {
+          name = toString i;
+          value = colors."color${toString i}".hex_stripped;
+        }) 256
+      );
 
       key-bindings = {
-        pipe-command-output = ''[sh -c "xdg-terminal-exec --app-id=pipe-command-output -- nvim /proc/$$/fd/0"] Control+Shift+g'';
+        pipe-command-output = ''[sh -c 'foot -- nvim /proc/$$/fd/0'] Control+Shift+g'';
       };
     };
 

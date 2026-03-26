@@ -18,7 +18,7 @@ in
     };
 
     programs.mpv = {
-      config = with colors.hex; {
+      config = with colors; {
         gpu-context = "auto";
         hwdec = "auto-safe";
         vo = "gpu-next";
@@ -43,11 +43,11 @@ in
         osc = false;
         osd-bar = false;
 
-        background-color = surface;
-        osd-back-color = surface;
-        osd-border-color = surface;
-        osd-color = on_surface;
-        osd-shadow-color = shadow;
+        background-color = surface.hex;
+        osd-back-color = surface.hex;
+        osd-border-color = surface.hex;
+        osd-color = on_surface.hex;
+        osd-shadow-color = shadow.hex;
 
         osd-font = font.name;
         sub-font = font.name;
@@ -128,14 +128,14 @@ in
         languages = "slang,en";
 
         color =
-          with colors.hex_stripped;
+          with colors;
           lib.concatMapAttrsStringSep "," (name: value: "${name}=${value}") {
-            foreground = on_surface;
-            foreground_text = surface;
-            background = surface;
-            background_text = on_surface;
-            success = green;
-            error = error;
+            foreground = on_surface.hex_stripped;
+            foreground_text = surface.hex_stripped;
+            background = surface.hex_stripped;
+            background_text = on_surface.hex_stripped;
+            success = green.hex_stripped;
+            error = error.hex_stripped;
           };
       };
 

@@ -19,30 +19,30 @@ in
     xdg.mimeApps.defaultApplicationPackages = plugins;
 
     programs.zathura = {
-      options = with colors.hex; {
-        default-bg = surface;
-        default-fg = on_surface;
+      options = with colors; {
+        default-bg = surface.hex;
+        default-fg = on_surface.hex;
 
-        inputbar-bg = surface_container_low;
-        inputbar-fg = primary;
+        inputbar-bg = surface_container_low.hex;
+        inputbar-fg = primary.hex;
 
-        statusbar-bg = surface_container;
-        statusbar-fg = on_surface;
+        statusbar-bg = surface_container.hex;
+        statusbar-fg = on_surface.hex;
 
-        completion-bg = surface_container;
-        completion-fg = on_surface;
+        completion-bg = surface_container.hex;
+        completion-fg = on_surface.hex;
 
-        completion-highlight-bg = primary;
-        completion-highlight-fg = on_primary;
+        completion-highlight-bg = primary.hex;
+        completion-highlight-fg = on_primary.hex;
 
-        completion-group-bg = surface_variant;
-        completion-group-fg = on_surface_variant;
+        completion-group-bg = surface_variant.hex;
+        completion-group-fg = on_surface_variant.hex;
 
-        notification-error-bg = error;
-        notification-error-fg = on_error;
+        notification-error-bg = error.hex;
+        notification-error-fg = on_error.hex;
 
-        notification-warning-bg = orange;
-        notification-warning-fg = on_orange;
+        notification-warning-bg = orange.hex;
+        notification-warning-fg = on_orange.hex;
 
         font = "${font.name} ${toString font.size}";
       };

@@ -61,29 +61,28 @@ in
   };
 
   config = {
-    theme.colors = rec {
-      rgb = lib.importJSON (
-        pkgs.runCommand "generated-theme" {
-          src = pkgs.runCommand "wallpaper-resize.png" {
-            src = cfg.wallpaper;
-            nativeBuildInputs = [ pkgs.imagemagick ];
-          } "magick $src -resize 128x128 $out";
-          nativeBuildInputs = [
-            md3.packages.${pkgs.stdenv.hostPlatform.system}.default
-          ];
-        } "md3 --dark --json={rgb} <$src >$out"
-      );
-      hex = builtins.mapAttrs (name: value: "#${value}") hex_stripped;
-      hex_stripped = builtins.mapAttrs (
-        name:
-        {
-          r,
-          g,
-          b,
-        }:
-        lib.fixedWidthString 6 "0" (lib.toHexString (r * 65536 + g * 256 + b))
-      ) rgb;
-    };
+    theme.colors =
+      builtins.mapAttrs
+        (
+          name: value:
+          value
+          // {
+            hex_stripped = builtins.substring 1 6 value.hex;
+          }
+        )
+        (
+          lib.importJSON (
+            pkgs.runCommand "generated-theme" {
+              src = pkgs.runCommand "wallpaper-resize.png" {
+                src = cfg.wallpaper;
+                nativeBuildInputs = [ pkgs.imagemagick ];
+              } "magick $src -resize 128x128 $out";
+              nativeBuildInputs = [
+                md3.packages.${pkgs.stdenv.hostPlatform.system}.default
+              ];
+            } "md3 --dark <$src >$out"
+          )
+        );
 
     environment.variables.XCURSOR_SIZE = toString cfg.cursor.size;
 

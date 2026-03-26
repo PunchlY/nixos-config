@@ -18,31 +18,31 @@ in
         size = font.size;
       };
       window.opacity = opacity;
-      colors = with colors.hex; {
+      colors = with colors; {
         primary = {
-          foreground = on_surface;
-          background = surface;
-          bright_foreground = on_surface;
+          foreground = on_surface.hex;
+          background = surface.hex;
+          bright_foreground = on_surface.hex;
         };
         normal = {
-          black = black;
-          red = red_dim;
-          green = green_dim;
-          yellow = yellow_dim;
-          blue = blue_dim;
-          magenta = magenta_dim;
-          cyan = cyan_dim;
-          white = white;
+          black = color0.hex;
+          red = color1.hex;
+          green = color2.hex;
+          yellow = color3.hex;
+          blue = color4.hex;
+          magenta = color5.hex;
+          cyan = color6.hex;
+          white = color7.hex;
         };
         bright = {
-          black = gray;
-          red = red;
-          green = green;
-          yellow = yellow;
-          blue = blue;
-          magenta = magenta;
-          cyan = cyan;
-          white = white;
+          black = color8.hex;
+          red = color9.hex;
+          green = color10.hex;
+          yellow = color11.hex;
+          blue = color12.hex;
+          magenta = color13.hex;
+          cyan = color14.hex;
+          white = color15.hex;
         };
       };
       keyboard.bindings = [

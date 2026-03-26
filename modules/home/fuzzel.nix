@@ -24,19 +24,19 @@ in
           radius = 8;
           selection-radius = 8;
         };
-        colors = with colors.hex_stripped; {
-          background = "${surface}${lib.toHexString (builtins.ceil (opacity * 255))}";
-          text = "${on_surface}ff";
-          message = "${orange}ff";
-          prompt = "${secondary}ff";
-          placeholder = "${tertiary}ff";
-          input = "${primary}ff";
-          match = "${primary}ff";
-          selection = "${primary}ff";
-          selection-text = "${on_primary}ff";
-          selection-match = "${on_primary}ff";
-          counter = "${secondary}ff";
-          border = "${primary}ff";
+        colors = with colors; {
+          background = "${surface.hex_stripped}${lib.toHexString (builtins.ceil (opacity * 255))}";
+          text = "${on_surface.hex_stripped}ff";
+          message = "${orange.hex_stripped}ff";
+          prompt = "${secondary.hex_stripped}ff";
+          placeholder = "${tertiary.hex_stripped}ff";
+          input = "${primary.hex_stripped}ff";
+          match = "${primary.hex_stripped}ff";
+          selection = "${primary.hex_stripped}ff";
+          selection-text = "${on_primary.hex_stripped}ff";
+          selection-match = "${on_primary.hex_stripped}ff";
+          counter = "${secondary.hex_stripped}ff";
+          border = "${primary.hex_stripped}ff";
         };
       };
     };

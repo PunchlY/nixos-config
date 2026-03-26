@@ -17,33 +17,16 @@ in
         font-size = font.size;
         theme = "md3";
       };
-      themes.md3 = with colors.hex_stripped; {
-        palette = [
-          "0=#${black}"
-          "1=#${red_dim}"
-          "2=#${green_dim}"
-          "3=#${yellow_dim}"
-          "4=#${blue_dim}"
-          "5=#${magenta_dim}"
-          "6=#${cyan_dim}"
-          "7=#${white}"
-          "8=#${gray}"
-          "9=#${red}"
-          "10=#${green}"
-          "11=#${yellow}"
-          "12=#${blue}"
-          "13=#${magenta}"
-          "14=#${cyan}"
-          "15=#${white_bright}"
-        ];
+      themes.md3 = with colors; {
+        palette = builtins.genList (i: "${toString i}=${colors."color${toString i}".hex}") 256;
         palette-generate = true;
-        selection-background = primary;
-        selection-foreground = on_primary;
-        background = surface;
-        foreground = on_surface;
-        background-opacity = opacity;
-        cursor-color = on_surface;
-        cursor-text = surface;
+        selection-background = primary.hex_stripped;
+        selection-foreground = on_primary.hex_stripped;
+        background = surface.hex_stripped;
+        foreground = on_surface.hex_stripped;
+        background-opacity = opacity.hex_stripped;
+        cursor-color = on_surface.hex_stripped;
+        cursor-text = surface.hex_stripped;
         cursor-style = "block";
         minimum-contrast = 1.1;
       };

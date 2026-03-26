@@ -10,22 +10,22 @@ let
 
   formatter = pkgs.formats.toml { };
 
-  i3bar-river-config = with colors.hex; {
+  i3bar-river-config = with colors; {
     height = font.size * 2;
     font = "${font.name} ${toString font.size}";
 
     tags_padding = font.size;
     tags_margin = 0;
     separator_width = 0;
-    background = surface;
-    tag_fg = on_surface;
-    tag_bg = surface;
-    tag_focused_fg = on_primary;
-    tag_focused_bg = primary;
-    tag_urgent_fg = on_error;
-    tag_urgent_bg = error;
-    tag_inactive_bg = surface;
-    tag_inactive_fg = on_surface;
+    background = surface.hex;
+    tag_fg = on_surface.hex;
+    tag_bg = surface.hex;
+    tag_focused_fg = on_primary.hex;
+    tag_focused_bg = primary.hex;
+    tag_urgent_fg = on_error.hex;
+    tag_urgent_bg = error.hex;
+    tag_inactive_bg = surface.hex;
+    tag_inactive_fg = on_surface.hex;
 
     hide_inactive_tags = false;
 
@@ -36,13 +36,12 @@ let
       (formatter.generate "i3status-rust.toml" i3status-rust-config)
     ];
   };
-  i3status-rust-config = with colors.hex; {
+  i3status-rust-config = with colors; {
     icons.icons = "material-nf";
     theme.theme = formatter.generate "i3status-theme.toml" {
-      idle_bg = surface;
-      idle_fg = on_surface;
+      idle_bg = surface.hex;
+      idle_fg = on_surface.hex;
       alternating_tint_bg =
-        with colors.rgb;
         let
           toInt =
             {
@@ -52,15 +51,17 @@ let
             }:
             r * 65536 + g * 256 + b;
         in
-        "#${lib.fixedWidthString 6 "0" (lib.toHexString ((toInt surface_bright) - (toInt surface)))}00";
-      info_bg = surface;
-      info_fg = blue;
-      good_bg = surface;
-      good_fg = green;
-      warning_bg = surface;
-      warning_fg = orange;
-      critical_bg = surface;
-      critical_fg = error;
+        "#${
+          lib.fixedWidthString 6 "0" (lib.toHexString ((toInt surface_bright.rgb) - (toInt surface.rgb)))
+        }00";
+      info_bg = surface.hex;
+      info_fg = blue.hex;
+      good_bg = surface.hex;
+      good_fg = green.hex;
+      warning_bg = surface.hex;
+      warning_fg = orange.hex;
+      critical_bg = surface.hex;
+      critical_fg = error.hex;
       separator = "";
     };
     block = [

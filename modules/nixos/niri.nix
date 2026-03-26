@@ -102,8 +102,8 @@ in
         border = {
           enable = true;
           width = 2;
-          active.color = colors.hex.primary;
-          inactive.color = colors.hex.surface_variant;
+          active.color = colors.primary.hex;
+          inactive.color = colors.surface_variant.hex;
         };
         background-color = "transparent";
         preset-column-widths = [
@@ -115,7 +115,7 @@ in
       };
 
       overview = {
-        backdrop-color = colors.hex.background;
+        backdrop-color = colors.background.hex;
         workspace-shadow.enable = false;
       };
 

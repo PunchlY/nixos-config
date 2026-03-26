@@ -76,7 +76,7 @@ in
         TrayFont = "${font.name} ${toString font.size}";
       };
 
-      themes.matugen = with colors.hex; {
+      themes.matugen = with colors; {
         theme = {
           Metadata = {
             Name = "Matugen";
@@ -87,10 +87,10 @@ in
 
           InputPanel = {
             EnableBlur = false;
-            NormalColor = on_surface;
-            HighlightCandidateColor = on_primary;
-            HighlightColor = on_primary;
-            HighlightBackgroundColor = surface;
+            NormalColor = on_surface.hex;
+            HighlightCandidateColor = on_primary.hex;
+            HighlightColor = on_primary.hex;
+            HighlightBackgroundColor = surface.hex;
             Spacing = 3;
           };
           "InputPanel/TextMargin" = {
@@ -100,7 +100,7 @@ in
             Bottom = 6;
           };
 
-          "InputPanel/Background".Color = surface;
+          "InputPanel/Background".Color = surface.hex;
           "InputPanel/Background/Margin" = {
             Left = 2;
             Right = 2;
@@ -108,7 +108,7 @@ in
             Bottom = 2;
           };
 
-          "InputPanel/Highlight".Color = primary;
+          "InputPanel/Highlight".Color = primary.hex;
           "InputPanel/Highlight/Margin" = {
             Left = 10;
             Right = 10;

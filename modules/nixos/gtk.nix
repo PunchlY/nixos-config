@@ -7,23 +7,23 @@
 let
   inherit (config.theme) colors font cursor;
 
-  gtkCss = with colors.hex; ''
+  gtkCss = with colors; ''
     ${lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (name: value: "@define-color ${name} ${value};") colors.hex
+      lib.mapAttrsToList (name: value: "@define-color ${name} ${value.hex};") colors
     )}
-    @define-color accent_color ${primary_fixed_dim};
-    @define-color accent_fg_color ${on_primary_fixed};
-    @define-color accent_bg_color ${primary_fixed_dim};
-    @define-color window_bg_color ${surface_dim};
-    @define-color window_fg_color ${on_surface};
-    @define-color headerbar_bg_color ${surface_dim};
-    @define-color headerbar_fg_color ${on_surface};
-    @define-color popover_bg_color ${surface_dim};
-    @define-color popover_fg_color ${on_surface};
-    @define-color view_bg_color ${surface};
-    @define-color view_fg_color ${on_surface};
-    @define-color card_bg_color ${surface};
-    @define-color card_fg_color ${on_surface};
+    @define-color accent_color ${primary_fixed_dim.hex};
+    @define-color accent_fg_color ${on_primary_fixed.hex};
+    @define-color accent_bg_color ${primary_fixed_dim.hex};
+    @define-color window_bg_color ${surface_dim.hex};
+    @define-color window_fg_color ${on_surface.hex};
+    @define-color headerbar_bg_color ${surface_dim.hex};
+    @define-color headerbar_fg_color ${on_surface.hex};
+    @define-color popover_bg_color ${surface_dim.hex};
+    @define-color popover_fg_color ${on_surface.hex};
+    @define-color view_bg_color ${surface.hex};
+    @define-color view_fg_color ${on_surface.hex};
+    @define-color card_bg_color ${surface.hex};
+    @define-color card_fg_color ${on_surface.hex};
     @define-color sidebar_bg_color @window_bg_color;
     @define-color sidebar_fg_color @window_fg_color;
     @define-color sidebar_border_color @window_bg_color;
