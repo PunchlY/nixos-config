@@ -1,13 +1,13 @@
 {
   pkgs,
-  agenix,
+  inputs,
   ...
 }:
 {
   imports = [
-    agenix.nixosModules.default
+    inputs.agenix.nixosModules.default
   ];
   environment.systemPackages = [
-    agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

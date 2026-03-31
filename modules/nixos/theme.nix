@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  md3,
+  inputs,
   ...
 }:
 let
@@ -78,7 +78,7 @@ in
                 nativeBuildInputs = [ pkgs.imagemagick ];
               } "magick $src -resize 128x128 $out";
               nativeBuildInputs = [
-                md3.packages.${pkgs.stdenv.hostPlatform.system}.default
+                inputs.md3.packages.${pkgs.stdenv.hostPlatform.system}.default
               ];
             } "md3 --dark <$src >$out"
           )

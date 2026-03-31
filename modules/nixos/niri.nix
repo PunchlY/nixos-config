@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  niri,
+  inputs,
   ...
 }:
 let
@@ -10,7 +10,7 @@ let
   cfg = config.programs.niri;
 in
 {
-  imports = [ niri.lib.internal.settings-module ];
+  imports = [ inputs.niri.lib.internal.settings-module ];
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
@@ -33,7 +33,7 @@ in
     programs.niri.useNautilus = lib.mkDefault false;
 
     environment.etc."niri/config.kdl".source =
-      niri.lib.internal.validated-config-for pkgs cfg.package
+      inputs.niri.lib.internal.validated-config-for pkgs cfg.package
         cfg.finalConfig;
 
     systemd.user.targets.niri-session = {

@@ -2,7 +2,7 @@
   config,
   pkgs,
   lib,
-  browser-previews,
+  inputs,
   ...
 }:
 
@@ -265,7 +265,7 @@
 
     scrcpy
 
-    browser-previews.packages.${stdenv.hostPlatform.system}.google-chrome
+    inputs.browser-previews.packages.${stdenv.hostPlatform.system}.google-chrome
     telegram-desktop
     (gtk-nocsd.wrapper netease-cloud-music-gtk)
 

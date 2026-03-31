@@ -2,12 +2,12 @@
   config,
   pkgs,
   lib,
-  jovian,
+  inputs,
   ...
 }:
 {
   imports = [
-    jovian.nixosModules.default
+    inputs.jovian.nixosModules.default
   ];
 
   jovian.steam = lib.mkIf config.jovian.steam.enable {

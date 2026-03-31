@@ -1,14 +1,13 @@
 {
   pkgs,
   lib,
-  nixos-hardware,
-  gpd-fan-driver,
+  inputs,
   ...
 }:
 
 {
   imports =
-    with nixos-hardware.nixosModules;
+    with inputs.nixos-hardware.nixosModules;
     [
       common-pc-laptop
       common-pc-ssd
@@ -18,7 +17,7 @@
       common-gpu-amd
     ]
     ++ [
-      gpd-fan-driver.nixosModules.default
+      inputs.gpd-fan-driver.nixosModules.default
     ];
 
   environment.systemPackages = with pkgs; [

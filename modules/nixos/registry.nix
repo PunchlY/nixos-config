@@ -1,14 +1,11 @@
 {
-  self,
-  nixpkgs,
-  flake-utils,
-  templates,
+  inputs,
   ...
 }:
 {
   nix.registry = {
-    nixpkgs.flake = nixpkgs;
-    self.flake = self;
-    templates.flake = templates;
+    nixpkgs.flake = inputs.nixpkgs;
+    self.flake = inputs.self;
+    templates.flake = inputs.templates;
   };
 }

@@ -47,18 +47,13 @@
   ];
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      systems,
-      home-manager,
-      ...
-    }@inputs:
+    inputs:
     let
-      inherit (nixpkgs) lib;
-      eachSystem = lib.genAttrs (import systems);
+      inherit (inputs.nixpkgs) lib;
+      eachSystem = lib.genAttrs (import inputs.systems);
       readModules =
         path: builtins.map (name: path + "/${name}") (builtins.attrNames (builtins.readDir path));
+      me = import ./me.nix;
     in
     {
       overlays.default =
@@ -78,10 +73,10 @@
 
       packages = eachSystem (
         system:
-        import nixpkgs {
+        import inputs.nixpkgs {
           inherit system;
           overlays = [
-            self.overlays.default
+            inputs.self.overlays.default
           ];
           config.allowUnfree = true;
         }
@@ -94,22 +89,26 @@
             { system }:
             lib.nixosSystem {
               inherit system;
-              specialArgs = inputs;
+              specialArgs = {
+                inherit inputs me;
+              };
               modules = [
-                home-manager.nixosModules.default
+                inputs.home-manager.nixosModules.default
                 {
                   networking.hostName = hostName;
 
                   nixpkgs = {
                     overlays = [
-                      self.overlays.default
+                      inputs.self.overlays.default
                     ];
                     config.allowUnfree = true;
                   };
 
                   home-manager = {
                     sharedModules = readModules ./modules/home;
-                    extraSpecialArgs = inputs;
+                    extraSpecialArgs = {
+                      inherit inputs me;
+                    };
                     useGlobalPkgs = true;
                     useUserPackages = true;
                     backupFileExtension = "backup";

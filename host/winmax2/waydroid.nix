@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  waydroid-script,
+  inputs,
   ...
 }:
 
@@ -39,7 +39,7 @@
       })
     ]
     ++ [
-      waydroid-script.packages.${stdenv.hostPlatform.system}.default
+      inputs.waydroid-script.packages.${stdenv.hostPlatform.system}.default
     ];
 
   virtualisation.waydroid.enable = true;

@@ -1,11 +1,10 @@
 {
   config,
   lib,
-  self,
+  me,
   ...
 }:
 let
-  me = import "${self}/me.nix";
   name = lib.toLower me.userName;
 in
 {
