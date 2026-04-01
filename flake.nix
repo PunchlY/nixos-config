@@ -99,6 +99,8 @@
                     config.allowUnfree = true;
                   };
 
+                  nix.registry.self.flake = inputs.self;
+
                   home-manager = {
                     sharedModules = readModules ./modules/home;
                     extraSpecialArgs = {
