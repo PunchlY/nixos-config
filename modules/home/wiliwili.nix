@@ -56,6 +56,10 @@ in
       shortcuts.wiliwili = {
         appname = "WiliWili";
         exe = lib.getExe cfg.package;
+        icon = pkgs.fetchurl {
+          url = "https://cdn2.steamgriddb.com/icon/875668539d0d91f5501966dfe31fa372.png";
+          hash = "sha256-qkWYPYDzuFa96rOuUF47rHT1W9KszGM8ndTX4yxN0l4=";
+        };
       };
       grids.wiliwili = {
         grid = pkgs.fetchurl {
