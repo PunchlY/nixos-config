@@ -25,7 +25,9 @@ in
           selection-radius = 8;
         };
         colors = with colors; {
-          background = "${surface.hex_stripped}${lib.toHexString (builtins.ceil (opacity * 255))}";
+          background = "${surface.hex_stripped}${
+            lib.fixedWidthString 2 "0" (lib.toHexString (builtins.ceil (opacity * 255)))
+          }";
           text = "${on_surface.hex_stripped}ff";
           message = "${orange.hex_stripped}ff";
           prompt = "${secondary.hex_stripped}ff";
