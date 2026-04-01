@@ -272,11 +272,7 @@
     telegram-desktop
     (gtk-nocsd.wrapper netease-cloud-music-gtk)
 
-    (mcaselector.override {
-      jre = zulu.override {
-        enableJavaFX = true;
-      };
-    })
+    mcaselector
     (gtk-nocsd.wrapper gnome-mines)
   ];
 
@@ -304,7 +300,7 @@
   };
 
   hm.services.steam.shortcuts."PVZRH" = {
-    appname = "Plants Vs Zombies: RH";
+    appname = "Plants vs. Zombies: RH";
     exe = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
   };
 }
