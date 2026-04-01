@@ -286,14 +286,16 @@
     }}";
   };
 
-  hm.programs.hmcl = {
+  hm.programs.minecraft = {
     enable = true;
     package =
       with pkgs;
-      hmcl.override {
-        hmclJdk = graalvmPackages.graalvm-ce;
-        minecraftJdks = [
-          graalvmPackages.graalvm-ce
+      prismlauncher.override {
+        jdks = [
+          zulu25
+          zulu21
+          zulu17
+          zulu8
         ];
       };
   };
