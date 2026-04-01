@@ -132,26 +132,6 @@
         "type": "github"
       }
     },
-    "gpd-fan-driver": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1764125601,
-        "narHash": "sha256-QKXCUADJGFtRxRLg7qfkxumR8YaOjMzOhAU29i/6U0U=",
-        "owner": "Cryolitia",
-        "repo": "gpd-fan-driver",
-        "rev": "49bd324cbd76478eb0f3136d416c3f1fb86cd5a1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Cryolitia",
-        "repo": "gpd-fan-driver",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -484,7 +464,6 @@
       "inputs": {
         "agenix": "agenix",
         "browser-previews": "browser-previews",
-        "gpd-fan-driver": "gpd-fan-driver",
         "home-manager": "home-manager_2",
         "jovian": "jovian",
         "md3": "md3",

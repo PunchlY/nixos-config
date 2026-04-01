@@ -6,25 +6,18 @@
 }:
 
 {
-  imports =
-    with inputs.nixos-hardware.nixosModules;
-    [
-      common-pc-laptop
-      common-pc-ssd
-      common-hidpi
-      common-cpu-amd
-      common-cpu-amd-pstate
-      common-gpu-amd
-    ]
-    ++ [
-      inputs.gpd-fan-driver.nixosModules.default
-    ];
+  imports = with inputs.nixos-hardware.nixosModules; [
+    common-pc-laptop
+    common-pc-ssd
+    common-hidpi
+    common-cpu-amd
+    common-cpu-amd-pstate
+    common-gpu-amd
+  ];
 
   environment.systemPackages = with pkgs; [
     pywincontrols
   ];
-
-  hardware.gpd-fan.enable = true;
 
   hardware.sensor.iio.enable = true;
 

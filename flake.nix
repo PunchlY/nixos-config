@@ -17,11 +17,6 @@
 
     agenix.url = "github:ryantm/agenix";
 
-    gpd-fan-driver = {
-      url = "github:Cryolitia/gpd-fan-driver";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
 
     waydroid-script.url = "github:casualsnek/waydroid_script";
