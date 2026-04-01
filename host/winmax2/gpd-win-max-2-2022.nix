@@ -29,8 +29,8 @@
         src = final.fetchFromGitHub {
           owner = "archeYR";
           repo = "libfprint-CS9711";
-          rev = "c2d163f";
-          sha256 = "sha256-JygOJ3SybXKR3CjLxLbAZDaYCl9LuQYDQfFC8Si5oaw=";
+          rev = "02b285c9703c38d308fbe47a3c566ef1e7f883ca";
+          sha256 = "sha256-QGrBNqbRNqLZIURI66xkenlQamNW+DQU4WS+CLN4zM8=";
         };
         nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [
           final.opencv
