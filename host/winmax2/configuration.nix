@@ -150,6 +150,9 @@
     enable = true;
     settings = {
       outputs."eDP-1".scale = 1.5;
+      environment = {
+        QT_SCALE_FACTOR = toString 1.5;
+      };
     };
   };
 
