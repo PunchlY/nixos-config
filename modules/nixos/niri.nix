@@ -200,11 +200,15 @@ in
             show-actions = true;
             launch-prefix = pkgs.writeShellScript "launch-prefix" ''
               if [ -n "$DESKTOP_ENTRY_ID" ]; then
-                set -- app2unit -t service -- "$DESKTOP_ENTRY_ID"
+                if [ -n "$DESKTOP_ENTRY_ACTION" ]; then
+                  set -- "$DESKTOP_ENTRY_ID:$DESKTOP_ENTRY_ACTION"
+                else
+                  set -- "$DESKTOP_ENTRY_ID"
+                fi
+                set -- app2unit -t service -- "$@"
               else
                 set -- app2unit-term-service -- "$@"
               fi
-              # exec niri msg action spawn -- "$@"
               exec "$@"
             '';
           };
