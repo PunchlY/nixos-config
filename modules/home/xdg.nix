@@ -11,11 +11,6 @@
 
   home.preferXdgDirectories = true;
 
-  home.shellAliases = {
-    # o = "env --unset=NIXOS_XDG_OPEN_USE_PORTAL xdg-open";
-    o = "xdg-open";
-  };
-
   xdg = {
     enable = true;
     mimeApps.enable = true;

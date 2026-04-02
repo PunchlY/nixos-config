@@ -13,17 +13,16 @@ in
   imports = [ inputs.niri.lib.internal.settings-module ];
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      (writeShellApplication {
-        name = "niri-spawn";
-        runtimeInputs = [
-          niri
-        ];
-        text = ''
-          niri msg action spawn -- env --chdir="$(pwd)" "$@"
-        '';
-      })
-    ];
+    programs.uwsm = {
+      enable = true;
+      waylandCompositors = {
+        niri = {
+          prettyName = "Niri";
+          comment = "Niri compositor managed by UWSM";
+          binPath = "/run/current-system/sw/bin/niri --session";
+        };
+      };
+    };
 
     xdg.portal = {
       enable = true;
@@ -36,19 +35,9 @@ in
       inputs.niri.lib.internal.validated-config-for pkgs cfg.package
         cfg.finalConfig;
 
-    systemd.user.targets.niri-session = {
-      unitConfig = {
-        Description = "niri compositor session";
-        Documentation = [ "man:systemd.special(7)" ];
-        BindsTo = [ "graphical-session.target" ];
-        Wants = [ "graphical-session-pre.target" ];
-        After = [ "graphical-session-pre.target" ];
-      };
-    };
-
     systemd.user.services.niri-flake-polkit = {
-      wantedBy = [ "niri.service" ];
-      after = [ "graphical-session.target" ];
+      after = [ "wayland-wm@niri.service" ];
+      wantedBy = [ "graphical-session.target" ];
       partOf = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
@@ -60,34 +49,33 @@ in
     };
 
     systemd.user.services.niri-wallpaper = {
-      wantedBy = [ "niri.service" ];
-      after = [ "graphical-session.target" ];
+      after = [ "wayland-wm@niri.service" ];
+      wantedBy = [ "graphical-session.target" ];
       partOf = [ "graphical-session.target" ];
       serviceConfig = {
         ExecStart = "${lib.getExe pkgs.wbg} --stretch ${wallpaper}";
-        Restart = "always";
-        RestartSec = 10;
+        Restart = "on-failure";
       };
       unitConfig = {
         ConditionEnvironment = "WAYLAND_DISPLAY";
       };
     };
 
-    programs.niri.settings = {
-      environment = {
-        MOZ_ENABLE_WAYLAND = "1";
-        GTK_USE_PORTAL = "1";
-        NIXOS_OZONE_WL = "1";
-        QT_QPA_PLATFORM = "wayland;xcb";
-        ELECTRON_OZONE_PLATFORM_HINT = "auto";
-        SDL_VIDEODRIVER = "wayland";
-        STEAM_USE_WAYLAND = "1";
-        GDK_BACKEND = "wayland";
-        QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-        QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-        GTK_CSD = "0";
-      };
+    hm.programs.uwsm.desktopEnv.niri = {
+      MOZ_ENABLE_WAYLAND = "1";
+      GTK_USE_PORTAL = "1";
+      NIXOS_OZONE_WL = "1";
+      QT_QPA_PLATFORM = "wayland;xcb";
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
+      SDL_VIDEODRIVER = "wayland";
+      STEAM_USE_WAYLAND = "1";
+      GDK_BACKEND = "wayland";
+      QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      GTK_CSD = "0";
+    };
 
+    programs.niri.settings = {
       cursor = {
         size = cursor.size;
         theme = cursor.name;
@@ -189,18 +177,18 @@ in
 
       spawn-at-startup = [
         {
-          sh = "${pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all && systemctl --user stop niri-session.target && systemctl --user start niri-session.target";
+          sh = "uwsm finalize";
         }
       ];
 
       binds = {
         "Mod+E" = {
           hotkey-overlay.title = "Open File Manager";
-          action.spawn-sh = "exec xdg-open ~";
+          action.spawn-sh = "xdg-mime query default inode/directory | xargs -r app2unit -t service --";
         };
         "Mod+T" = {
           hotkey-overlay.title = "Open Terminal";
-          action.spawn = "xdg-terminal-exec";
+          action.spawn = "app2unit-term-service";
         };
 
         "Mod+D" = {
@@ -210,12 +198,14 @@ in
           ]
           ++ lib.cli.toCommandLineGNU { } {
             show-actions = true;
-            terminal = "xdg-terminal-exec -- {cmd}";
             launch-prefix = pkgs.writeShellScript "launch-prefix" ''
-              if [ -z "$DESKTOP_ENTRY_ID" ]; then
-                set -- xdg-terminal-exec -- "$@"
+              if [ -n "$DESKTOP_ENTRY_ID" ]; then
+                set -- app2unit -t service -- "$DESKTOP_ENTRY_ID"
+              else
+                set -- app2unit-term-service -- "$@"
               fi
-              exec niri msg action spawn -- "$@"
+              # exec niri msg action spawn -- "$@"
+              exec "$@"
             '';
           };
         };

@@ -131,7 +131,7 @@
   jovian.steam = {
     enable = true;
     autoStart = true;
-    desktopSession = "niri";
+    desktopSession = "niri-uwsm";
   };
 
   services.kmscon = {
@@ -145,14 +145,13 @@
 
   theme.wallpaper = pkgs.wallpapers.pixiv_68936009;
 
-  services.displayManager.defaultSession = lib.mkForce "niri";
+  hm.programs.uwsm.desktopEnv.niri = {
+    QT_SCALE_FACTOR = "1.5";
+  };
   programs.niri = {
     enable = true;
     settings = {
       outputs."eDP-1".scale = 1.5;
-      environment = {
-        QT_SCALE_FACTOR = toString 1.5;
-      };
     };
   };
 

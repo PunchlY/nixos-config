@@ -159,8 +159,11 @@ in
 
   config = lib.mkIf config.services.bar.enable {
     systemd.user.services.bar = {
+      Install.WantedBy = [ config.wayland.systemd.target ];
+
       Unit = {
         After = [ config.wayland.systemd.target ];
+        PartOf = [ config.wayland.systemd.target ];
         ConditionEnvironment = "WAYLAND_DISPLAY";
       };
 
@@ -170,8 +173,6 @@ in
         KillMode = "mixed";
         Restart = "on-failure";
       };
-
-      Install.WantedBy = [ config.wayland.systemd.target ];
     };
   };
 }

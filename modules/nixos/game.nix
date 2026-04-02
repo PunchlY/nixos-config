@@ -14,4 +14,8 @@
     user = config.user.name;
     environment.PROTON_USE_RAW_INPUT = "1";
   };
+
+  services.displayManager.defaultSession = lib.mkIf config.jovian.steam.autoStart (
+    lib.mkForce config.jovian.steam.desktopSession
+  );
 }
