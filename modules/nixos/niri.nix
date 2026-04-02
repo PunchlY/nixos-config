@@ -230,7 +230,7 @@ in
         "Mod+Alt+L" = {
           hotkey-overlay.title = "Lock the Screen";
           allow-inhibiting = false;
-          action.spawn = "swaylock";
+          action.spawn-sh = "loginctl lock-session";
         };
 
         "Mod+O".action.toggle-overview = { };

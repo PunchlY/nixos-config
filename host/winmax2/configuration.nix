@@ -156,6 +156,8 @@
     };
   };
 
+  services.swaylock.enable = true;
+
   programs.localsend = {
     enable = true;
     package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
@@ -200,8 +202,6 @@
       obs-pipewire-audio-capture
     ];
   };
-
-  hm.programs.swaylock.enable = true;
 
   hm.programs.wiliwili.enable = true;
 
