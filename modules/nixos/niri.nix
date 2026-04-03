@@ -184,7 +184,7 @@ in
       binds = {
         "Mod+E" = {
           hotkey-overlay.title = "Open File Manager";
-          action.spawn-sh = "xdg-mime query default inode/directory | xargs -r app2unit -t service --";
+          action.spawn-sh = "app2unit-open-service ~";
         };
         "Mod+T" = {
           hotkey-overlay.title = "Open Terminal";

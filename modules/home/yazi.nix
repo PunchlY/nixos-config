@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -11,6 +12,10 @@
     ];
 
     programs.yazi = {
+      package = pkgs.yazi.override {
+        _7zz = pkgs._7zz-rar;
+        yazi-unwrapped = inputs.yazi.packages.${pkgs.stdenv.hostPlatform.system}.yazi-unwrapped;
+      };
       extraPackages = with pkgs; [
         hexyl
       ];

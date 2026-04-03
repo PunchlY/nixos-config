@@ -29,6 +29,8 @@
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    yazi.url = "github:sxyazi/yazi";
   };
 
   nixConfig.substituters = [
