@@ -1,7 +1,10 @@
-final: prev:
+{
+  prev,
+  fetchFromGitHub,
+}:
 prev.cmd-polkit.overrideAttrs (oldAttrs: {
   version = "git";
-  src = final.fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "OmarCastro";
     repo = "cmd-polkit";
     rev = "0b52f76";

@@ -1,4 +1,6 @@
-final: prev:
+{
+  prev,
+}:
 prev.wshowkeys.overrideAttrs (_: {
   pname = "wshowkeys-symbols";
   patches = [

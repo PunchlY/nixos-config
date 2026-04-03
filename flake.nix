@@ -48,39 +48,32 @@
     let
       inherit (inputs.nixpkgs) lib;
       eachSystem = lib.genAttrs (import inputs.systems);
-      readModules =
-        path: builtins.map (name: path + "/${name}") (builtins.attrNames (builtins.readDir path));
-      me = import ./me.nix;
+      readModules = path: lib.map (name: path + "/${name}") (lib.attrNames (lib.readDir path));
+      callFunctionWith =
+        autoArgs: fn:
+        if lib.isFunction fn then (fn (lib.intersectAttrs (lib.functionArgs fn) autoArgs)) else fn;
+      me = callFunctionWith inputs (import ./me.nix);
     in
     {
       overlays.default =
         final: prev:
-        builtins.listToAttrs (
-          map (file: {
-            name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
-            value = final.callPackage ./packages/${file} { };
-          }) (builtins.attrNames (builtins.readDir ./packages))
-        )
-        // builtins.listToAttrs (
-          map (file: {
-            name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
-            value = import ./overlays/${file} final prev;
-          }) (builtins.attrNames (builtins.readDir ./overlays))
-        );
+        let
+          callPackage = final.newScope { inherit prev inputs; };
+        in
+        lib.mapAttrs' (file: _: {
+          name = lib.removeSuffix ".nix" file;
+          value = callPackage ./packages/${file} { };
+        }) (lib.readDir ./packages);
 
       packages = eachSystem (
         system:
-        import inputs.nixpkgs {
-          inherit system;
-          overlays = [
-            inputs.self.overlays.default
-          ];
-          config.allowUnfree = true;
-        }
+        lib.filterAttrs (_: pkgs: pkgs.stdenv.hostPlatform.system == system) (
+          lib.mapAttrs (hostName: os: os.pkgs) inputs.self.nixosConfigurations
+        )
       );
 
       nixosConfigurations =
-        builtins.mapAttrs
+        lib.mapAttrs
           (
             hostName:
             { system }:
@@ -98,7 +91,12 @@
                     overlays = [
                       inputs.self.overlays.default
                     ];
-                    config.allowUnfree = true;
+                    config = {
+                      allowUnfree = true;
+                      permittedInsecurePackages = [
+                        "python3.12-ecdsa-0.19.1"
+                      ];
+                    };
                   };
 
                   nix.registry.self.flake = inputs.self;

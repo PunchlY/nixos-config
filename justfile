@@ -1,5 +1,5 @@
 rebuild:
-	sudo true && sudo nixos-rebuild switch --flake . --log-format internal-json -v |& nom --json
+	nh os switch .
 
 update:
 	nix flake update

@@ -9,6 +9,7 @@
   home.packages = with pkgs; [
     just
     nix-output-monitor
+    nh
     moreutils
     wget
     q
