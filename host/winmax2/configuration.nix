@@ -302,4 +302,6 @@
     appname = "Plants vs. Zombies: RH";
     exe = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
   };
+
+  hm.programs.katawa-shoujo-re-engineered.enable = true;
 }
