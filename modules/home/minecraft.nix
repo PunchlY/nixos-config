@@ -12,11 +12,11 @@ in
   options.programs.minecraft = {
     enable = lib.mkEnableOption "minecraft";
 
-    package = lib.mkPackageOption pkgs "prismlauncher" { nullable = true; };
+    package = lib.mkPackageOption pkgs "prismlauncher" { };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = lib.mkIf (cfg.package != null) [ cfg.package ];
+    home.packages = [ cfg.package ];
 
     services.steam = lib.mkIf config.services.steam.enable {
       shortcuts.minecraft = {

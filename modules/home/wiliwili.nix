@@ -55,7 +55,7 @@ in
     services.steam = lib.mkIf config.services.steam.enable {
       shortcuts.wiliwili = {
         appname = "WiliWili";
-        exe = lib.getExe cfg.package;
+        exe = "wiliwili";
         icon = pkgs.fetchurl {
           url = "https://cdn2.steamgriddb.com/icon/875668539d0d91f5501966dfe31fa372.png";
           hash = "sha256-qkWYPYDzuFa96rOuUF47rHT1W9KszGM8ndTX4yxN0l4=";
