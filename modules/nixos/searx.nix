@@ -1,9 +1,10 @@
 { config, lib, ... }:
 let
   cfg = config.services.searx;
+  base_url = lib.removeSuffix "/" cfg.settings.server.base_url;
 in
 {
-  config = lib.mkIf config.services.searx.enable {
+  config = lib.mkIf cfg.enable {
     services.searx = {
       domain = "searx.local";
       configureNginx = true;
@@ -78,11 +79,11 @@ in
     programs.chromium = lib.mkIf config.programs.chromium.enable {
       extraOpts = {
         DefaultSearchProviderEnabled = true;
-        DefaultSearchProviderImageURL = "http://${cfg.domain}/static/themes/simple/img/favicon.svg";
+        DefaultSearchProviderImageURL = "${base_url}/static/themes/simple/img/favicon.svg";
         DefaultSearchProviderKeyword = cfg.domain;
         DefaultSearchProviderName = "Searx";
-        DefaultSearchProviderSearchURL = "http://${cfg.domain}/search?q={searchTerms}";
-        DefaultSearchProviderSuggestURL = "http://${cfg.domain}/autocompleter?q={searchTerms}";
+        DefaultSearchProviderSearchURL = "${base_url}/search?q={searchTerms}";
+        DefaultSearchProviderSuggestURL = "${base_url}/autocompleter?q={searchTerms}";
       };
     };
   };
