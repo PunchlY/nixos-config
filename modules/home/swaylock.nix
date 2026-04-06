@@ -3,11 +3,9 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) font colors wallpaper;
-in
-{
+in {
   config = lib.mkIf config.programs.swaylock.enable {
     programs.swaylock = {
       settings = with colors; {

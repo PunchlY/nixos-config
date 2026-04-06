@@ -3,9 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-
-{
+}: {
   home.packages = with pkgs; [
     just
     nix-output-monitor
@@ -36,8 +34,8 @@
   ];
 
   xdg.configFile."tlrc/config.toml" = {
-    source = (pkgs.formats.toml { }).generate "config.toml" {
-      cache.languages = [ "zh" ];
+    source = (pkgs.formats.toml {}).generate "config.toml" {
+      cache.languages = ["zh"];
     };
   };
 
@@ -86,11 +84,10 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    historyControl = [ "ignoredups" ];
+    historyControl = ["ignoredups"];
     initExtra = lib.mkOrder 0 ''
       PS0=
       PS1='\[\e[30m\e[46m\] '$(. /etc/os-release;printf "%s" "$NAME")' \[\e[44m\] \u@\h:\w \[\e[0m\]\n\$ '
     '';
   };
-
 }

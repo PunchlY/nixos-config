@@ -4,11 +4,9 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) font colors;
-in
-{
+in {
   config = lib.mkIf config.programs.mpv.enable {
     programs.yt-dlp = {
       enable = true;
@@ -127,8 +125,7 @@ in
         ];
         languages = "slang,en";
 
-        color =
-          with colors;
+        color = with colors;
           lib.concatMapAttrsStringSep "," (name: value: "${name}=${value}") {
             foreground = on_surface.hex_stripped;
             foreground_text = surface.hex_stripped;

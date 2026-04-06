@@ -1,9 +1,11 @@
-{ config, lib, ... }:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.services.searx;
   base_url = lib.removeSuffix "/" cfg.settings.server.base_url;
-in
-{
+in {
   config = lib.mkIf cfg.enable {
     services.searx = {
       domain = "searx.local";
@@ -74,7 +76,7 @@ in
       };
     };
 
-    networking.hosts."127.0.0.1" = [ config.services.searx.domain ];
+    networking.hosts."127.0.0.1" = [config.services.searx.domain];
 
     programs.chromium = lib.mkIf config.programs.chromium.enable {
       extraOpts = {

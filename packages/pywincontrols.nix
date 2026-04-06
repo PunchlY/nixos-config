@@ -2,7 +2,6 @@
   python3Packages,
   fetchFromGitHub,
 }:
-
 python3Packages.buildPythonApplication rec {
   pname = "pywincontrols";
   version = "1.0.4";
@@ -19,7 +18,7 @@ python3Packages.buildPythonApplication rec {
     sed -i "s/'K406'/'K406','K121','K123'/" gpdconfig/wincontrols/hardware.py
   '';
 
-  nativeBuildInputs = [ python3Packages.setuptools ];
+  nativeBuildInputs = [python3Packages.setuptools];
   propagatedBuildInputs = with python3Packages; [
     hid
   ];

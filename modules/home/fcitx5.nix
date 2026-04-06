@@ -4,12 +4,9 @@
   pkgs,
   lib,
   ...
-}:
-
-let
+}: let
   inherit (nixosConfig.theme) font colors;
-in
-{
+in {
   config = lib.mkIf (config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5") {
     i18n.inputMethod.fcitx5 = {
       waylandFrontend = true;

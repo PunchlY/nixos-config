@@ -4,8 +4,7 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   config = lib.mkIf config.programs.yazi.enable {
     xdg.mimeApps.defaultApplicationPackages = [
       config.programs.yazi.package
@@ -22,7 +21,7 @@
       enableBashIntegration = true;
       shellWrapperName = "y";
       theme = {
-        icon.prepend_dirs = lib.mapAttrsToList (name: text: { inherit name text; }) {
+        icon.prepend_dirs = lib.mapAttrsToList (name: text: {inherit name text;}) {
           dls = "";
           doc = "";
           med = "";

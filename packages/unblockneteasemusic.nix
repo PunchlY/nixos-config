@@ -4,7 +4,6 @@
   nodejs,
   lib,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "unblockneteasemusic";
   version = "0.28.0";

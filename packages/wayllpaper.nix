@@ -10,7 +10,6 @@
   wayland-protocols,
   cairo,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "wayllpaper";
   version = "0.1.0";

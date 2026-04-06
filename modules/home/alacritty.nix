@@ -3,11 +3,9 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) colors font opacity;
-in
-{
+in {
   programs.alacritty = lib.mkIf config.programs.alacritty.enable {
     settings = {
       font = {

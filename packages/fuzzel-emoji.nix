@@ -7,10 +7,9 @@
   wl-clipboard-rs,
   runCommand,
   lib,
-}:
-let
+}: let
   emoji = runCommand "emoji" {
-    nativeBuildInputs = [ bun ];
+    nativeBuildInputs = [bun];
 
     emojidata = fetchurl {
       url = "https://raw.githubusercontent.com/muan/unicode-emoji-json/refs/tags/v0.8.0/data-by-emoji.json";
@@ -26,15 +25,15 @@ let
       for (const [emoji, { name, group }] of Object.entries(emojidata))
         console.log("%s\t%s\t", emoji, name, ...emojilib[emoji], group)
     '';
-    passAsFile = [ "script" ];
+    passAsFile = ["script"];
   } "bun run $scriptPath >$out";
 in
-writeShellApplication {
-  name = "fuzzel-emoji";
-  runtimeInputs = [
-    fuzzel
-    moreutils
-    wl-clipboard-rs
-  ];
-  text = ''<${emoji} fuzzel --dmenu --only-match --with-nth="{1..2}" --accept-nth=1 --match-nth=3 --match-mode=fuzzy | ifne wl-copy'';
-}
+  writeShellApplication {
+    name = "fuzzel-emoji";
+    runtimeInputs = [
+      fuzzel
+      moreutils
+      wl-clipboard-rs
+    ];
+    text = ''<${emoji} fuzzel --dmenu --only-match --with-nth="{1..2}" --accept-nth=1 --match-nth=3 --match-mode=fuzzy | ifne wl-copy'';
+  }

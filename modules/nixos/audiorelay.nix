@@ -3,19 +3,17 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.programs.audiorelay;
-in
-{
+in {
   options.programs.audiorelay = {
     enable = lib.mkEnableOption "audiorelay";
 
-    package = lib.mkPackageOption pkgs "audiorelay" { nullable = true; };
+    package = lib.mkPackageOption pkgs "audiorelay" {nullable = true;};
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = lib.mkIf (cfg.package != null) [ cfg.package ];
+    environment.systemPackages = lib.mkIf (cfg.package != null) [cfg.package];
 
     services.pipewire.extraConfig.pipewire = {
       "10-audiorelay-virtual-speaker-sink" = {

@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   allExeNames = [
     "git status"
     "git log"
@@ -45,22 +44,23 @@ let
     "journalctl"
     "dmesg"
   ];
-in
-{
+in {
   programs.opencode = lib.mkIf config.programs.opencode.enable {
     settings = {
       permission = {
-        bash = {
-          "*" = "ask";
-        }
-        // lib.foldl (
-          acc: cmd:
-          acc
-          // {
-            ${cmd} = "allow";
-            "${cmd} *" = "allow";
+        bash =
+          {
+            "*" = "ask";
           }
-        ) { } allExeNames;
+          // lib.foldl (
+            acc: cmd:
+              acc
+              // {
+                ${cmd} = "allow";
+                "${cmd} *" = "allow";
+              }
+          ) {}
+          allExeNames;
         edit = "ask";
       };
       provider = {

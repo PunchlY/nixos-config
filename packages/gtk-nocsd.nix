@@ -7,7 +7,6 @@
   makeWrapper,
   lib,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "gtk-nocsd";
   version = "git";
@@ -29,12 +28,11 @@ stdenv.mkDerivation (finalAttrs: {
     "PREFIX="
   ];
 
-  passthru.wrapper =
-    package:
+  passthru.wrapper = package:
     symlinkJoin {
       name = "${package.name}-nocsd";
-      paths = [ package ];
-      buildInputs = [ makeWrapper ];
+      paths = [package];
+      buildInputs = [makeWrapper];
       postBuild = ''
         wrapProgram $out/bin/${lib.escapeShellArg package.meta.mainProgram} \
           --prefix LD_PRELOAD : "${finalAttrs.finalPackage}/lib/libgtk-nocsd.so"

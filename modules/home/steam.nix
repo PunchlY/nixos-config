@@ -1,6 +1,5 @@
 # https://github.com/kira-bruneau/nixos-config/blob/d2561703b25cfd72c1e650a1dfc4d07ec26e230b/home/hosts/peridot.nix
 # https://github.com/ChrisOboe/json2steamshortcut/blob/7d43d5b6e198542649c712573b91f27247068aed/flake.nix
-
 {
   nixosConfig,
   config,
@@ -8,80 +7,82 @@
   lib,
   me,
   ...
-}:
-let
+}: let
   cfg = config.services.steam;
 
   dataDir =
-    if pkgs.stdenv.hostPlatform.isDarwin then "Library/Application Support" else config.xdg.dataHome;
+    if pkgs.stdenv.hostPlatform.isDarwin
+    then "Library/Application Support"
+    else config.xdg.dataHome;
 
-  json2vdf =
-    name: value:
+  json2vdf = name: value:
     pkgs.runCommand name
-      {
-        value = builtins.toJSON value;
-        passAsFile = [ "value" ];
+    {
+      value = builtins.toJSON value;
+      passAsFile = ["value"];
 
-        buildCommandPython =
-          pkgs.writers.writePython3 "json2vdf.py"
-            {
-              libraries = [ pkgs.python3Packages.vdf ];
-              doCheck = false;
-            }
-            ''
-              import json
-              import sys
-              import vdf
+      buildCommandPython =
+        pkgs.writers.writePython3 "json2vdf.py"
+        {
+          libraries = [pkgs.python3Packages.vdf];
+          doCheck = false;
+        }
+        ''
+          import json
+          import sys
+          import vdf
 
-              def json2vdf(data):
-                if isinstance(data, dict):
-                  return {k: json2vdf(v) for k, v in data.items()}
-                if isinstance(data, list):
-                  return {str(k): json2vdf(v) for k, v in enumerate(data)}
-                else:
-                  return data
+          def json2vdf(data):
+            if isinstance(data, dict):
+              return {k: json2vdf(v) for k, v in data.items()}
+            if isinstance(data, list):
+              return {str(k): json2vdf(v) for k, v in enumerate(data)}
+            else:
+              return data
 
-              with open(sys.argv[1]) as fp:
-                data = json.load(fp)
+          with open(sys.argv[1]) as fp:
+            data = json.load(fp)
 
-              data = json2vdf(data)
+          data = json2vdf(data)
 
-              with open(sys.argv[2], "wb") as fp:
-                vdf.binary_dump(data, fp)
-            '';
-      }
-      ''
-        "$buildCommandPython" "$valuePath" "$out"
-      '';
+          with open(sys.argv[2], "wb") as fp:
+            vdf.binary_dump(data, fp)
+        '';
+    }
+    ''
+      "$buildCommandPython" "$valuePath" "$out"
+    '';
 
   shortcuts = lib.mapAttrsToList (_: lib.filterAttrs (_: value: value != null)) cfg.shortcuts;
 
-  grids = lib.concatMapAttrs (
-    name:
-    {
-      grid,
-      horizontal,
-      hero,
-      logo,
-    }:
-    lib.optionalAttrs (builtins.hasAttr name cfg.shortcuts) (
-      let
-        id = toString (cfg.shortcuts.${name}.appid + 4294967296);
-      in
-      lib.filterAttrs (_: value: value != null) {
-        "${id}p.png" = grid;
-        "${id}.png" = horizontal;
-        "${id}_hero.png" = hero;
-        "${id}_logo.png" = logo;
-      }
+  grids =
+    lib.concatMapAttrs (
+      name: {
+        grid,
+        horizontal,
+        hero,
+        logo,
+      }:
+        lib.optionalAttrs (builtins.hasAttr name cfg.shortcuts) (
+          let
+            id = toString (cfg.shortcuts.${name}.appid + 4294967296);
+          in
+            lib.filterAttrs (_: value: value != null) {
+              "${id}p.png" = grid;
+              "${id}.png" = horizontal;
+              "${id}_hero.png" = hero;
+              "${id}_logo.png" = logo;
+            }
+        )
     )
-  ) cfg.grids;
-in
-{
+    cfg.grids;
+in {
   options.services.steam = {
-    enable = lib.mkEnableOption "steam" // {
-      default = nixosConfig.programs.steam.enable;
-    };
+    enable =
+      lib.mkEnableOption "steam"
+      // {
+        default = nixosConfig.programs.steam.enable;
+      };
 
     steamUserId = lib.mkOption {
       type = lib.types.int;
@@ -97,8 +98,7 @@ in
     shortcuts = lib.mkOption {
       type = lib.types.attrsOf (
         lib.types.submodule (
-          { name, ... }:
-          {
+          {name, ...}: {
             freeformType = lib.types.attrsOf lib.types.anything;
             options = {
               appname = lib.mkOption {
@@ -115,13 +115,18 @@ in
               };
               exe = lib.mkOption {
                 type = lib.types.either lib.types.str (lib.types.listOf lib.types.str);
-                apply = v: lib.escapeShellArgs (if lib.isList v then v else [ v ]);
+                apply = v:
+                  lib.escapeShellArgs (
+                    if lib.isList v
+                    then v
+                    else [v]
+                  );
               };
             };
           }
         )
       );
-      default = { };
+      default = {};
     };
 
     grids = lib.mkOption {
@@ -148,18 +153,18 @@ in
           };
         }
       );
-      default = { };
+      default = {};
     };
   };
 
   config = lib.mkIf cfg.enable {
     home.file = {
       "${cfg.userConfigDir}/shortcuts.vdf" = {
-        source = json2vdf "shortcuts.vdf" { inherit shortcuts; };
+        source = json2vdf "shortcuts.vdf" {inherit shortcuts;};
         force = true;
       };
       "${cfg.userConfigDir}/grid" = {
-        source = pkgs.runCommand "grid" { } (
+        source = pkgs.runCommand "grid" {} (
           ''
             mkdir $out
             cd $out
@@ -172,7 +177,8 @@ in
                   name
                 ]
               }
-            '') grids
+            '')
+            grids
           )
         );
         force = true;

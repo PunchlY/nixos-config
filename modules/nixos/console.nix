@@ -3,11 +3,9 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (config.theme) colors;
-in
-{
+in {
   config = lib.mkIf config.console.enable {
     console = {
       colors = builtins.genList (i: colors."color${toString i}".hex_stripped) 16;

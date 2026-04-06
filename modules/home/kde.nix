@@ -4,11 +4,9 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) colors font cursor;
-in
-{
+in {
   xdg.configFile."kdeglobals".text = ''
     [ColorEffects:Disabled]
     Color=${colors.surface_dim.hex}

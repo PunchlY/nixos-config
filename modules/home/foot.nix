@@ -4,11 +4,9 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) colors font opacity;
-in
-{
+in {
   config = lib.mkIf config.programs.foot.enable {
     xdg.desktopEntries.foot = {
       name = "Foot";
@@ -39,30 +37,34 @@ in
         font = "${font.name}:size=${toString font.size}";
         dpi-aware = "no";
       };
-      colors-dark = {
-        alpha = opacity;
-        foreground = colors.on_surface.hex_stripped;
-        background = colors.surface.hex_stripped;
-        flash = colors.primary.hex_stripped;
-      }
-      // builtins.listToAttrs (
-        builtins.genList (i: {
-          name = "regular${toString i}";
-          value = colors."color${toString i}".hex_stripped;
-        }) 8
-      )
-      // builtins.listToAttrs (
-        builtins.genList (i: {
-          name = "bright${toString i}";
-          value = colors."color${toString (i + 8)}".hex_stripped;
-        }) 8
-      )
-      // builtins.listToAttrs (
-        builtins.genList (i: {
-          name = toString i;
-          value = colors."color${toString i}".hex_stripped;
-        }) 256
-      );
+      colors-dark =
+        {
+          alpha = opacity;
+          foreground = colors.on_surface.hex_stripped;
+          background = colors.surface.hex_stripped;
+          flash = colors.primary.hex_stripped;
+        }
+        // builtins.listToAttrs (
+          builtins.genList (i: {
+            name = "regular${toString i}";
+            value = colors."color${toString i}".hex_stripped;
+          })
+          8
+        )
+        // builtins.listToAttrs (
+          builtins.genList (i: {
+            name = "bright${toString i}";
+            value = colors."color${toString (i + 8)}".hex_stripped;
+          })
+          8
+        )
+        // builtins.listToAttrs (
+          builtins.genList (i: {
+            name = toString i;
+            value = colors."color${toString i}".hex_stripped;
+          })
+          256
+        );
 
       key-bindings = {
         pipe-command-output = ''[sh -c 'foot -- nvim /proc/$$/fd/0'] Control+Shift+g'';

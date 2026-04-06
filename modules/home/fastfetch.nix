@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   home.shellAliases = lib.mkIf config.programs.fastfetch.enable {
     ff = "fastfetch";
   };

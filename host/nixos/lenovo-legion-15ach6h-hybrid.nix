@@ -4,9 +4,7 @@
   pkgs,
   inputs,
   ...
-}:
-
-{
+}: {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6h-hybrid
   ];

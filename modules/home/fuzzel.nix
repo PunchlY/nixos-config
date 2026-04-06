@@ -3,11 +3,9 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) font colors opacity;
-in
-{
+in {
   config = lib.mkIf config.programs.fuzzel.enable {
     programs.fuzzel = {
       settings = {

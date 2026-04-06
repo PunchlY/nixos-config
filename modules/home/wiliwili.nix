@@ -4,19 +4,17 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.programs.wiliwili;
-in
-{
+in {
   options.programs.wiliwili = {
     enable = lib.mkEnableOption "wiliwili";
 
-    package = lib.mkPackageOption pkgs "wiliwili" { nullable = true; };
+    package = lib.mkPackageOption pkgs "wiliwili" {nullable = true;};
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = lib.mkIf (cfg.package != null) [ cfg.package ];
+    home.packages = lib.mkIf (cfg.package != null) [cfg.package];
 
     xdg.configFile."wiliwili/gamecontrollerdb.txt" = {
       source = "${pkgs.sdl_gamecontrollerdb}/share/gamecontrollerdb.txt";
@@ -25,31 +23,31 @@ in
     xdg.configFile."wiliwili/font.ttf" = {
       source =
         pkgs.runCommand "wiliwili-font"
-          {
-            nativeBuildInputs = [ pkgs.fontconfig ];
-            fontName = nixosConfig.theme.font.name;
-            FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = [ nixosConfig.theme.font.package ];
-            };
-          }
-          ''
-            ln -s "$(fc-match "$fontName" --format %{file})" "$out"
-          '';
+        {
+          nativeBuildInputs = [pkgs.fontconfig];
+          fontName = nixosConfig.theme.font.name;
+          FONTCONFIG_FILE = pkgs.makeFontsConf {
+            fontDirectories = [nixosConfig.theme.font.package];
+          };
+        }
+        ''
+          ln -s "$(fc-match "$fontName" --format %{file})" "$out"
+        '';
     };
 
     xdg.configFile."wiliwili/emoji.ttf" = {
       source =
         pkgs.runCommand "wiliwili-emoji"
-          {
-            nativeBuildInputs = [ pkgs.fontconfig ];
-            fontName = nixosConfig.theme.emoji.name;
-            FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = [ nixosConfig.theme.emoji.package ];
-            };
-          }
-          ''
-            ln -s "$(fc-match "$fontName" --format %{file})" "$out"
-          '';
+        {
+          nativeBuildInputs = [pkgs.fontconfig];
+          fontName = nixosConfig.theme.emoji.name;
+          FONTCONFIG_FILE = pkgs.makeFontsConf {
+            fontDirectories = [nixosConfig.theme.emoji.package];
+          };
+        }
+        ''
+          ln -s "$(fc-match "$fontName" --format %{file})" "$out"
+        '';
     };
 
     services.steam = lib.mkIf config.services.steam.enable {

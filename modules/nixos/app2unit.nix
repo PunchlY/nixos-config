@@ -4,10 +4,8 @@
   pkgs,
   inputs,
   ...
-}:
-let
-in
-{
+}: let
+in {
   config = {
     environment.systemPackages = with pkgs; [
       app2unit

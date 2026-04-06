@@ -5,7 +5,6 @@ let
   ];
   systems = [
   ];
-in
-{
+in {
   "mihomo.age".publicKeys = users ++ systems;
 }

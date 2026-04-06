@@ -11,7 +11,6 @@
   cairo,
   libgbm,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "wleird";
   version = "git";

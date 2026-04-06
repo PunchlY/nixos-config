@@ -4,19 +4,17 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.programs.katawa-shoujo-re-engineered;
-in
-{
+in {
   options.programs.katawa-shoujo-re-engineered = {
     enable = lib.mkEnableOption "Katawa Shoujo: Re-Engineered";
 
-    package = lib.mkPackageOption pkgs "katawa-shoujo-re-engineered" { };
+    package = lib.mkPackageOption pkgs "katawa-shoujo-re-engineered" {};
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [cfg.package];
 
     services.steam = lib.mkIf config.services.steam.enable {
       shortcuts.katawa-shoujo-re-engineered = {

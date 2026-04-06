@@ -3,11 +3,8 @@
   lib,
   inputs,
   ...
-}:
-
-{
-  environment.systemPackages =
-    with pkgs;
+}: {
+  environment.systemPackages = with pkgs;
     [
       (gtk-nocsd.wrapper waydroid-helper)
       (writeShellApplication {

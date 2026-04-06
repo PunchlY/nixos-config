@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   home.shellAliases = lib.mkIf config.programs.neovim.enable {
     n = "nvim";
   };

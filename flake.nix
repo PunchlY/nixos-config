@@ -43,46 +43,42 @@
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
   ];
 
-  outputs =
-    inputs:
-    let
-      inherit (inputs.nixpkgs) lib;
-      eachSystem = lib.genAttrs (import inputs.systems);
-      readModules = path: lib.map (name: path + "/${name}") (lib.attrNames (lib.readDir path));
-      callFunctionWith =
-        autoArgs: fn:
-        if lib.isFunction fn then (fn (lib.intersectAttrs (lib.functionArgs fn) autoArgs)) else fn;
-      me = callFunctionWith inputs (import ./me.nix);
+  outputs = inputs: let
+    inherit (inputs.nixpkgs) lib;
+    eachSystem = lib.genAttrs (import inputs.systems);
+    readModules = path: lib.map (name: path + "/${name}") (lib.attrNames (lib.readDir path));
+    callFunctionWith = autoArgs: fn:
+      if lib.isFunction fn
+      then (fn (lib.intersectAttrs (lib.functionArgs fn) autoArgs))
+      else fn;
+    me = callFunctionWith inputs (import ./me.nix);
+  in {
+    overlays.default = final: prev: let
+      callPackage = final.newScope {inherit prev inputs;};
     in
-    {
-      overlays.default =
-        final: prev:
-        let
-          callPackage = final.newScope { inherit prev inputs; };
-        in
-        lib.mapAttrs' (file: _: {
-          name = lib.removeSuffix ".nix" file;
-          value = callPackage ./packages/${file} { };
-        }) (lib.readDir ./packages);
+      lib.mapAttrs' (file: _: {
+        name = lib.removeSuffix ".nix" file;
+        value = callPackage ./packages/${file} {};
+      }) (lib.readDir ./packages);
 
-      packages = eachSystem (
-        system:
+    packages = eachSystem (
+      system:
         lib.filterAttrs (_: pkgs: pkgs.stdenv.hostPlatform.system == system) (
           lib.mapAttrs (hostName: os: os.pkgs) inputs.self.nixosConfigurations
         )
-      );
+    );
 
-      nixosConfigurations =
-        lib.mapAttrs
-          (
-            hostName:
-            { system }:
-            lib.nixosSystem {
-              inherit system;
-              specialArgs = {
-                inherit inputs me;
-              };
-              modules = [
+    nixosConfigurations =
+      lib.mapAttrs
+      (
+        hostName: {system}:
+          lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs me;
+            };
+            modules =
+              [
                 inputs.home-manager.nixosModules.default
                 {
                   networking.hostName = hostName;
@@ -114,11 +110,11 @@
               ]
               ++ (readModules ./modules/nixos)
               ++ (readModules ./host/${hostName});
-            }
-          )
-          {
-            winmax2.system = "x86_64-linux";
-            nixos.system = "x86_64-linux";
-          };
-    };
+          }
+      )
+      {
+        winmax2.system = "x86_64-linux";
+        nixos.system = "x86_64-linux";
+      };
+  };
 }

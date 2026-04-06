@@ -4,11 +4,9 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) font colors opacity;
-in
-{
+in {
   config = lib.mkIf config.programs.imv.enable {
     xdg.mimeApps.defaultApplications."image/*" = "imv.desktop";
     xdg.mimeApps.defaultApplicationPackages = [

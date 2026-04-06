@@ -3,11 +3,9 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (config.theme) colors;
-in
-{
+in {
   config = lib.mkIf config.programs.chromium.enable {
     programs.chromium = {
       extraOpts = {

@@ -18,6 +18,6 @@ stdenv.mkDerivation {
   buildCommand = ''
     mkdir -p $out
     unzip $src -d $out
-    mv "$out/#U690d#U7269#U5927#U6218#U50f5#U5c38#U878d#U5408#U72483.2/"* "$out" 
+    mv "$out/#U690d#U7269#U5927#U6218#U50f5#U5c38#U878d#U5408#U72483.2/"* "$out"
   '';
 }

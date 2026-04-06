@@ -4,11 +4,9 @@
   pkgs,
   inputs,
   ...
-}:
-let
+}: let
   cfg = config.theme;
-in
-{
+in {
   options.theme = {
     wallpaper = lib.mkOption {
       type = lib.types.path;
@@ -20,7 +18,7 @@ in
     };
 
     font = rec {
-      package = lib.mkPackageOption pkgs.maple-mono "Normal-NF-CN-unhinted" { };
+      package = lib.mkPackageOption pkgs.maple-mono "Normal-NF-CN-unhinted" {};
       name = lib.mkOption {
         type = lib.types.str;
         default = "Maple Mono Normal NF CN";
@@ -32,7 +30,7 @@ in
     };
 
     emoji = {
-      package = lib.mkPackageOption pkgs "noto-fonts-color-emoji" { };
+      package = lib.mkPackageOption pkgs "noto-fonts-color-emoji" {};
       name = lib.mkOption {
         type = lib.types.str;
         default = "Noto Color Emoji";
@@ -63,59 +61,60 @@ in
   config = {
     theme.colors =
       builtins.mapAttrs
-        (
-          name: value:
+      (
+        name: value:
           value
           // {
             hex_stripped = builtins.substring 1 6 value.hex;
           }
+      )
+      (
+        lib.importJSON (
+          pkgs.runCommand "generated-theme" {
+            src = pkgs.runCommand "wallpaper-resize.png" {
+              src = cfg.wallpaper;
+              nativeBuildInputs = [pkgs.imagemagick];
+            } "magick $src -resize 128x128 $out";
+            nativeBuildInputs = [
+              inputs.md3.packages.${pkgs.stdenv.hostPlatform.system}.default
+            ];
+          } "md3 --dark <$src >$out"
         )
-        (
-          lib.importJSON (
-            pkgs.runCommand "generated-theme" {
-              src = pkgs.runCommand "wallpaper-resize.png" {
-                src = cfg.wallpaper;
-                nativeBuildInputs = [ pkgs.imagemagick ];
-              } "magick $src -resize 128x128 $out";
-              nativeBuildInputs = [
-                inputs.md3.packages.${pkgs.stdenv.hostPlatform.system}.default
-              ];
-            } "md3 --dark <$src >$out"
-          )
-        );
+      );
 
     environment.variables.XCURSOR_SIZE = toString cfg.cursor.size;
 
     fonts = {
       enableDefaultPackages = false;
-      packages = [
-        cfg.font.package
-        cfg.emoji.package
-      ]
-      ++ (with pkgs; [
-        noto-fonts
-        noto-fonts-cjk-sans
-        noto-fonts-color-emoji
-        noto-fonts-monochrome-emoji
+      packages =
+        [
+          cfg.font.package
+          cfg.emoji.package
+        ]
+        ++ (with pkgs; [
+          noto-fonts
+          noto-fonts-cjk-sans
+          noto-fonts-color-emoji
+          noto-fonts-monochrome-emoji
 
-        material-icons
-        lmmath
-      ]);
+          material-icons
+          lmmath
+        ]);
       fontconfig.defaultFonts =
         lib.genAttrs
-          [
-            "monospace"
-            "serif"
-            "sansSerif"
-          ]
-          (family: [
-            cfg.font.name
-            cfg.emoji.name
-            "Noto Sans Mono"
-            "Noto Sans Mono CJK SC"
-            "Noto Color Emoji"
-            "Noto Emoji"
-          ])
+        [
+          "monospace"
+          "serif"
+          "sansSerif"
+        ]
+        (family: [
+          cfg.font.name
+          cfg.emoji.name
+          "Noto Sans Mono"
+          "Noto Sans Mono CJK SC"
+          "Noto Color Emoji"
+          "Noto Emoji"
+        ])
         // {
           emoji = [
             cfg.emoji.name

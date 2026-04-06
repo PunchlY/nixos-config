@@ -2,8 +2,7 @@
   config,
   lib,
   ...
-}:
-{
+}: {
   hardware.bluetooth = lib.mkIf config.hardware.bluetooth.enable {
     powerOnBoot = true;
     settings = {

@@ -4,15 +4,13 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) font colors;
 
   plugins = with pkgs.zathuraPkgs; [
     zathura_pdf_mupdf
   ];
-in
-{
+in {
   config = lib.mkIf config.programs.zathura.enable {
     home.packages = plugins;
 

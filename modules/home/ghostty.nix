@@ -4,11 +4,9 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) colors font opacity;
-in
-{
+in {
   config = lib.mkIf config.programs.ghostty.enable {
     programs.ghostty = {
       systemd.enable = true;

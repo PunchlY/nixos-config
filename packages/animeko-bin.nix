@@ -3,9 +3,7 @@
   appimageTools,
   fetchurl,
   stdenvNoCC,
-}:
-
-let
+}: let
   pname = "animeko";
 
   sources = {
@@ -30,15 +28,15 @@ let
     '';
   };
 in
-appimageTools.wrapAppImage {
-  inherit pname version;
+  appimageTools.wrapAppImage {
+    inherit pname version;
 
-  src = appimageContents;
+    src = appimageContents;
 
-  extraPkgs = pkgs: with pkgs; [ libvlc ];
+    extraPkgs = pkgs: with pkgs; [libvlc];
 
-  extraInstallCommands = ''
-    install -m 444 -D ${appimageContents}/animeko.desktop $out/share/applications/${pname}.desktop
-    install -m 444 -D ${appimageContents}/icon.png $out/share/icons/hicolor/512x512/apps/${pname}.png
-  '';
-}
+    extraInstallCommands = ''
+      install -m 444 -D ${appimageContents}/animeko.desktop $out/share/applications/${pname}.desktop
+      install -m 444 -D ${appimageContents}/icon.png $out/share/icons/hicolor/512x512/apps/${pname}.png
+    '';
+  }

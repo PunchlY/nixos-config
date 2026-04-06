@@ -4,13 +4,11 @@
   pkgs,
   inputs,
   ...
-}:
-let
+}: let
   inherit (config.theme) cursor colors wallpaper;
   cfg = config.programs.niri;
-in
-{
-  imports = [ inputs.niri.lib.internal.settings-module ];
+in {
+  imports = [inputs.niri.lib.internal.settings-module];
 
   config = lib.mkIf cfg.enable {
     programs.uwsm = {
@@ -33,12 +31,12 @@ in
 
     environment.etc."niri/config.kdl".source =
       inputs.niri.lib.internal.validated-config-for pkgs cfg.package
-        cfg.finalConfig;
+      cfg.finalConfig;
 
     systemd.user.services.niri-flake-polkit = {
-      after = [ "wayland-wm@niri.service" ];
-      wantedBy = [ "graphical-session.target" ];
-      partOf = [ "graphical-session.target" ];
+      after = ["wayland-wm@niri.service"];
+      wantedBy = ["graphical-session.target"];
+      partOf = ["graphical-session.target"];
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.fuzzel-polkit-agent}/libexec/fuzzel-polkit-agent";
@@ -49,9 +47,9 @@ in
     };
 
     systemd.user.services.niri-wallpaper = {
-      after = [ "wayland-wm@niri.service" ];
-      wantedBy = [ "graphical-session.target" ];
-      partOf = [ "graphical-session.target" ];
+      after = ["wayland-wm@niri.service"];
+      wantedBy = ["graphical-session.target"];
+      partOf = ["graphical-session.target"];
       serviceConfig = {
         ExecStart = "${lib.getExe pkgs.wbg} --stretch ${wallpaper}";
         Restart = "on-failure";
@@ -95,9 +93,9 @@ in
         };
         background-color = "transparent";
         preset-column-widths = [
-          { proportion = 1. / 3.; }
-          { proportion = 1. / 2.; }
-          { proportion = 2. / 3.; }
+          {proportion = 1. / 3.;}
+          {proportion = 1. / 2.;}
+          {proportion = 2. / 3.;}
         ];
         default-column-width.proportion = 2. / 3.;
       };
@@ -135,25 +133,25 @@ in
         }
         {
           matches = [
-            { app-id = "^term-file-chooser$"; }
+            {app-id = "^term-file-chooser$";}
           ];
           open-floating = true;
         }
         {
           matches = [
-            { app-id = "^gcr-prompter$"; }
+            {app-id = "^gcr-prompter$";}
           ];
           block-out-from = "screencast";
         }
         {
-          matches = [ { app-id = "^Waydroid$"; } ];
+          matches = [{app-id = "^Waydroid$";}];
           open-fullscreen = true;
         }
         {
           matches = [
-            { app-id = "^footclient$"; }
-            { app-id = "^foot$"; }
-            { app-id = "^Alacritty$"; }
+            {app-id = "^footclient$";}
+            {app-id = "^foot$";}
+            {app-id = "^Alacritty$";}
           ];
           default-column-width.proportion = 1. / 3;
         }
@@ -162,14 +160,14 @@ in
       layer-rules = [
         {
           matches = [
-            { namespace = "^wallpaper$"; }
+            {namespace = "^wallpaper$";}
           ];
           place-within-backdrop = true;
         }
         {
           matches = [
-            { namespace = "^notifications$"; }
-            { namespace = "^fuzzel-polkit-agent$"; }
+            {namespace = "^notifications$";}
+            {namespace = "^fuzzel-polkit-agent$";}
           ];
           block-out-from = "screencast";
         }
@@ -193,25 +191,26 @@ in
 
         "Mod+D" = {
           hotkey-overlay.title = "Open Application Launcher";
-          action.spawn = [
-            "fuzzel"
-          ]
-          ++ lib.cli.toCommandLineGNU { } {
-            show-actions = true;
-            launch-prefix = pkgs.writeShellScript "launch-prefix" ''
-              if [ -n "$DESKTOP_ENTRY_ID" ]; then
-                if [ -n "$DESKTOP_ENTRY_ACTION" ]; then
-                  set -- "$DESKTOP_ENTRY_ID:$DESKTOP_ENTRY_ACTION"
+          action.spawn =
+            [
+              "fuzzel"
+            ]
+            ++ lib.cli.toCommandLineGNU {} {
+              show-actions = true;
+              launch-prefix = pkgs.writeShellScript "launch-prefix" ''
+                if [ -n "$DESKTOP_ENTRY_ID" ]; then
+                  if [ -n "$DESKTOP_ENTRY_ACTION" ]; then
+                    set -- "$DESKTOP_ENTRY_ID:$DESKTOP_ENTRY_ACTION"
+                  else
+                    set -- "$DESKTOP_ENTRY_ID"
+                  fi
+                  set -- app2unit -t service -- "$@"
                 else
-                  set -- "$DESKTOP_ENTRY_ID"
+                  set -- app2unit-term-service -- "$@"
                 fi
-                set -- app2unit -t service -- "$@"
-              else
-                set -- app2unit-term-service -- "$@"
-              fi
-              exec "$@"
-            '';
-          };
+                exec "$@"
+              '';
+            };
         };
         "Mod+V" = {
           hotkey-overlay.title = "Open Clipboard";
@@ -227,30 +226,30 @@ in
           action.spawn-sh = "loginctl lock-session";
         };
 
-        "Mod+O".action.toggle-overview = { };
+        "Mod+O".action.toggle-overview = {};
 
-        "Mod+F1".action.show-hotkey-overlay = { };
-        "Mod+Shift+Q".action.close-window = { };
+        "Mod+F1".action.show-hotkey-overlay = {};
+        "Mod+Shift+Q".action.close-window = {};
 
-        "Mod+Left".action.focus-column-left = { };
-        "Mod+Down".action.focus-window-down = { };
-        "Mod+Up".action.focus-window-up = { };
-        "Mod+Right".action.focus-column-right = { };
-        "Mod+Shift+WheelScrollUp".action.focus-column-left = { };
-        "Mod+Shift+WheelScrollDown".action.focus-column-right = { };
-        "Mod+H".action.focus-column-left = { };
-        "Mod+J".action.focus-window-down = { };
-        "Mod+K".action.focus-window-up = { };
-        "Mod+L".action.focus-column-right = { };
+        "Mod+Left".action.focus-column-left = {};
+        "Mod+Down".action.focus-window-down = {};
+        "Mod+Up".action.focus-window-up = {};
+        "Mod+Right".action.focus-column-right = {};
+        "Mod+Shift+WheelScrollUp".action.focus-column-left = {};
+        "Mod+Shift+WheelScrollDown".action.focus-column-right = {};
+        "Mod+H".action.focus-column-left = {};
+        "Mod+J".action.focus-window-down = {};
+        "Mod+K".action.focus-window-up = {};
+        "Mod+L".action.focus-column-right = {};
 
-        "Mod+Ctrl+Left".action.move-column-left = { };
-        "Mod+Ctrl+Down".action.move-window-down = { };
-        "Mod+Ctrl+Up".action.move-window-up = { };
-        "Mod+Ctrl+Right".action.move-column-right = { };
-        "Mod+Ctrl+H".action.move-column-left = { };
-        "Mod+Ctrl+J".action.move-window-down = { };
-        "Mod+Ctrl+K".action.move-window-up = { };
-        "Mod+Ctrl+L".action.move-column-right = { };
+        "Mod+Ctrl+Left".action.move-column-left = {};
+        "Mod+Ctrl+Down".action.move-window-down = {};
+        "Mod+Ctrl+Up".action.move-window-up = {};
+        "Mod+Ctrl+Right".action.move-column-right = {};
+        "Mod+Ctrl+H".action.move-column-left = {};
+        "Mod+Ctrl+J".action.move-window-down = {};
+        "Mod+Ctrl+K".action.move-window-up = {};
+        "Mod+Ctrl+L".action.move-column-right = {};
 
         "Mod+Minus".action.set-column-width = "-10%";
         "Mod+Equal".action.set-column-width = "+10%";
@@ -277,18 +276,18 @@ in
         "Mod+Ctrl+8".action.move-column-to-workspace = 8;
         "Mod+Ctrl+9".action.move-column-to-workspace = 9;
 
-        "Mod+Ctrl+Page_Down".action.move-column-to-workspace-down = { };
-        "Mod+Ctrl+Page_Up".action.move-column-to-workspace-up = { };
-        "Mod+Ctrl+U".action.move-column-to-workspace-down = { };
-        "Mod+Ctrl+I".action.move-column-to-workspace-up = { };
+        "Mod+Ctrl+Page_Down".action.move-column-to-workspace-down = {};
+        "Mod+Ctrl+Page_Up".action.move-column-to-workspace-up = {};
+        "Mod+Ctrl+U".action.move-column-to-workspace-down = {};
+        "Mod+Ctrl+I".action.move-column-to-workspace-up = {};
 
         # "Mod+Shift+E".action.quit = { };
 
-        "Mod+R".action.switch-preset-column-width = { };
-        "Mod+F11".action.fullscreen-window = { };
-        "Mod+Shift+F11".action.toggle-windowed-fullscreen = { };
-        "Mod+F".action.maximize-column = { };
-        "Mod+Shift+F".action.maximize-window-to-edges = { };
+        "Mod+R".action.switch-preset-column-width = {};
+        "Mod+F11".action.fullscreen-window = {};
+        "Mod+Shift+F11".action.toggle-windowed-fullscreen = {};
+        "Mod+F".action.maximize-column = {};
+        "Mod+Shift+F".action.maximize-window-to-edges = {};
 
         "Print".action.screenshot = {
           show-pointer = false;

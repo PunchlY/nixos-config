@@ -3,12 +3,10 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) colors font opacity;
   alpha = lib.toHexString (builtins.ceil (opacity * 255));
-in
-{
+in {
   config = lib.mkIf config.services.mako.enable {
     services.mako = {
       settings = with colors; {

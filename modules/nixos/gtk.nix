@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (config.theme) colors font cursor;
 
   gtkCss = with colors; ''
@@ -29,8 +28,7 @@ let
     @define-color sidebar_border_color @window_bg_color;
     @define-color sidebar_backdrop_color @window_bg_color;
   '';
-in
-{
+in {
   config = {
     programs.dconf.enable = true;
   };
@@ -65,6 +63,5 @@ in
         extraCss = gtkCss;
       };
     };
-
   };
 }

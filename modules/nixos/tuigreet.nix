@@ -3,15 +3,13 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.programs.tuigreet;
-in
-{
+in {
   options.programs.tuigreet = {
     enable = lib.mkEnableOption "tuigreet";
 
-    package = lib.mkPackageOption pkgs "tuigreet" { };
+    package = lib.mkPackageOption pkgs "tuigreet" {};
   };
 
   config = lib.mkIf cfg.enable {
@@ -21,7 +19,7 @@ in
       enable = true;
       useTextGreeter = true;
       settings.default_session.command = "${lib.getExe pkgs.tuigreet} ${
-        lib.cli.toCommandLineShellGNU { } {
+        lib.cli.toCommandLineShellGNU {} {
           sessions = "${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
           session-wrapper = "${pkgs.execline}/bin/exec >/dev/null";
           time = true;

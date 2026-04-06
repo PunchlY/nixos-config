@@ -4,9 +4,7 @@
   lib,
   inputs,
   ...
-}:
-
-{
+}: {
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.systemd-boot.enable = true;
@@ -105,7 +103,7 @@
     enable = true;
     keyboards = {
       default = {
-        ids = [ "*" ];
+        ids = ["*"];
         settings = {
           main = {
             capslock = "layer(hyper)";
@@ -190,7 +188,7 @@
 
   xdg.terminal-exec = {
     enable = true;
-    settings.niri = [ "foot.desktop" ];
+    settings.niri = ["foot.desktop"];
   };
 
   hm.programs.obs-studio = {
@@ -286,8 +284,7 @@
 
   hm.programs.minecraft = {
     enable = true;
-    package =
-      with pkgs;
+    package = with pkgs;
       prismlauncher.override {
         jdks = [
           zulu25

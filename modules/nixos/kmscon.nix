@@ -3,17 +3,15 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (config.theme) colors font emoji;
   rgbToKmscon = name: with colors.${name}.rgb; "${toString r},${toString g},${toString b}";
-in
-{
+in {
   config = lib.mkIf config.services.kmscon.enable {
     services.kmscon = {
       fonts = [
-        { inherit (font) name package; }
-        { inherit (emoji) name package; }
+        {inherit (font) name package;}
+        {inherit (emoji) name package;}
       ];
       extraConfig = ''
         font-size=${toString font.size}

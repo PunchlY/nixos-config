@@ -1,13 +1,10 @@
-
 {
   config,
   lib,
   pkgs,
   modulesPath,
   ...
-}:
-
-{
+}: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -18,9 +15,9 @@
     "ahci"
     "usbhid"
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-amd"];
+  boot.extraModulePackages = [];
 
   fileSystems."/" = {
     device = "/dev/disk/by-partlabel/root";
@@ -37,7 +34,7 @@
   };
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/50af5df8-02e4-400f-b44c-1b917e9e5b3e"; }
+    {device = "/dev/disk/by-uuid/50af5df8-02e4-400f-b44c-1b917e9e5b3e";}
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

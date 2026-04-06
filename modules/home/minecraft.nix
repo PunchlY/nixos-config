@@ -4,19 +4,17 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.programs.minecraft;
-in
-{
+in {
   options.programs.minecraft = {
     enable = lib.mkEnableOption "minecraft";
 
-    package = lib.mkPackageOption pkgs "prismlauncher" { };
+    package = lib.mkPackageOption pkgs "prismlauncher" {};
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [cfg.package];
 
     services.steam = lib.mkIf config.services.steam.enable {
       shortcuts.minecraft = {

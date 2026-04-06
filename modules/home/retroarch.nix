@@ -3,11 +3,9 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.programs.retroarch;
-in
-{
+in {
   config = lib.mkIf cfg.enable {
     programs.retroarch = {
       cores = {

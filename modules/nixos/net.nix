@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   networking.networkmanager = lib.mkIf config.networking.networkmanager.enable {
     wifi.backend = "iwd";
     wifi.powersave = false;
@@ -14,7 +13,7 @@
 
   networking.firewall = {
     enable = lib.mkDefault true;
-    allowedUDPPorts = [ 1900 ];
+    allowedUDPPorts = [1900];
     extraInputRules = ''
       udp sport 1900 accept
     '';

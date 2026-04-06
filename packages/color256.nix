@@ -4,7 +4,6 @@
   python3,
   lib,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "color256";
   version = "git";

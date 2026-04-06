@@ -4,11 +4,9 @@
   lib,
   utils,
   ...
-}:
-let
+}: let
   cfg = config.services.unblockneteasemusic;
-in
-{
+in {
   options.services.unblockneteasemusic = {
     enable = lib.mkEnableOption "UnblockNeteaseMusic service";
     port = {
@@ -22,8 +20,7 @@ in
       };
     };
     environment = lib.mkOption {
-      type =
-        with lib.types;
+      type = with lib.types;
         attrsOf (
           nullOr (oneOf [
             str
@@ -31,13 +28,13 @@ in
             package
           ])
         );
-      default = { };
+      default = {};
     };
   };
 
   config = lib.mkIf cfg.enable {
     systemd.services.unblockneteasemusic = {
-      after = [ "network.target" ];
+      after = ["network.target"];
       environment = cfg.environment;
       serviceConfig = {
         ExecStart = utils.escapeSystemdExecArgs [
@@ -55,8 +52,8 @@ in
       unitConfig.StopWhenUnneeded = true;
     };
     systemd.sockets.unblockneteasemusic-proxy = {
-      listenStreams = [ "/run/unblockneteasemusic.sock" ];
-      wantedBy = [ "sockets.target" ];
+      listenStreams = ["/run/unblockneteasemusic.sock"];
+      wantedBy = ["sockets.target"];
     };
     systemd.services.unblockneteasemusic-proxy = {
       requires = [
@@ -73,7 +70,7 @@ in
       };
     };
 
-    security.pki.certificateFiles = [ "${pkgs.unblockneteasemusic}/server.crt" ];
+    security.pki.certificateFiles = ["${pkgs.unblockneteasemusic}/server.crt"];
 
     networking.hosts = lib.mkIf config.services.nginx.enable {
       "127.0.0.1" = [
@@ -108,6 +105,5 @@ in
         '';
       };
     };
-
   };
 }

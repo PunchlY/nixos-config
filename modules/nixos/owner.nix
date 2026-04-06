@@ -3,14 +3,12 @@
   lib,
   me,
   ...
-}:
-let
+}: let
   name = lib.toLower me.userName;
-in
-{
+in {
   imports = [
-    (lib.mkAliasOptionModule [ "user" ] [ "users" "users" name ])
-    (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" name ])
+    (lib.mkAliasOptionModule ["user"] ["users" "users" name])
+    (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" name])
   ];
 
   config = {
@@ -29,7 +27,7 @@ in
       ];
     };
 
-    nix.settings.trusted-users = [ name ];
+    nix.settings.trusted-users = [name];
 
     hm.programs.git = lib.mkIf config.hm.programs.git.enable {
       settings.user = {

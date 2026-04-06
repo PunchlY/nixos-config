@@ -4,16 +4,20 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.programs.kew;
 
-  boolToStr = v: if v then "1" else "0";
+  boolToStr = v:
+    if v
+    then "1"
+    else "0";
 
   toKewINI = lib.generators.toINI {
     mkKeyValue = lib.generators.mkKeyValueDefault {
-      mkValueString =
-        v: if builtins.isBool v then boolToStr v else lib.generators.mkValueStringDefault { } v;
+      mkValueString = v:
+        if builtins.isBool v
+        then boolToStr v
+        else lib.generators.mkValueStringDefault {} v;
     } "=";
   };
 
@@ -23,17 +27,18 @@ let
     disabled = 2;
   };
 
-  keyBindingsText = lib.concatMapStringsSep "\n" (
-    b:
-    let
-      parts = [
-        b.key
-        b.action
-      ]
-      ++ lib.optional (b.arg != "") b.arg;
-    in
-    "bind = ${lib.concatStringsSep ", " parts}"
-  ) cfg.keyBindings;
+  keyBindingsText =
+    lib.concatMapStringsSep "\n" (
+      b: let
+        parts =
+          [
+            b.key
+            b.action
+          ]
+          ++ lib.optional (b.arg != "") b.arg;
+      in "bind = ${lib.concatStringsSep ", " parts}"
+    )
+    cfg.keyBindings;
 
   iniConfig = {
     miscellaneous = {
@@ -341,12 +346,11 @@ let
       arg = "";
     }
   ];
-in
-{
+in {
   options.programs.kew = {
     enable = lib.mkEnableOption "kew";
 
-    package = lib.mkPackageOption pkgs "kew" { nullable = true; };
+    package = lib.mkPackageOption pkgs "kew" {nullable = true;};
 
     musicPath = lib.mkOption {
       type = lib.types.path;
@@ -498,8 +502,8 @@ in
       type = lib.types.listOf (
         lib.types.submodule {
           options = {
-            key = lib.mkOption { type = lib.types.str; };
-            action = lib.mkOption { type = lib.types.str; };
+            key = lib.mkOption {type = lib.types.str;};
+            action = lib.mkOption {type = lib.types.str;};
             arg = lib.mkOption {
               type = lib.types.str;
               default = "";
@@ -517,7 +521,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = lib.mkIf (cfg.package != null) [ cfg.package ];
+    home.packages = lib.mkIf (cfg.package != null) [cfg.package];
 
     xdg.configFile."kew/themes".source = "${cfg.package}/share/kew/themes";
 

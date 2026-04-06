@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   home.packages = with pkgs; [
     xdg-utils
   ];
@@ -34,5 +33,4 @@
       };
     };
   };
-
 }

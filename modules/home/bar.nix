@@ -4,11 +4,10 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   inherit (nixosConfig.theme) colors font opacity;
 
-  formatter = pkgs.formats.toml { };
+  formatter = pkgs.formats.toml {};
 
   i3bar-river-config = with colors; {
     height = font.size * 2;
@@ -41,19 +40,16 @@ let
     theme.theme = formatter.generate "i3status-theme.toml" {
       idle_bg = surface.hex;
       idle_fg = on_surface.hex;
-      alternating_tint_bg =
-        let
-          toInt =
-            {
-              r,
-              g,
-              b,
-            }:
-            r * 65536 + g * 256 + b;
-        in
-        "#${
-          lib.fixedWidthString 6 "0" (lib.toHexString ((toInt surface_bright.rgb) - (toInt surface.rgb)))
-        }00";
+      alternating_tint_bg = let
+        toInt = {
+          r,
+          g,
+          b,
+        }:
+          r * 65536 + g * 256 + b;
+      in "#${
+        lib.fixedWidthString 6 "0" (lib.toHexString ((toInt surface_bright.rgb) - (toInt surface.rgb)))
+      }00";
       info_bg = surface.hex;
       info_fg = blue.hex;
       good_bg = surface.hex;
@@ -145,25 +141,24 @@ let
       {
         block = "privacy";
         driver = [
-          { name = "v4l"; }
-          { name = "pipewire"; }
+          {name = "v4l";}
+          {name = "pipewire";}
         ];
       }
     ];
   };
-in
-{
+in {
   options.services.bar = {
     enable = lib.mkEnableOption "bar";
   };
 
   config = lib.mkIf config.services.bar.enable {
     systemd.user.services.bar = {
-      Install.WantedBy = [ config.wayland.systemd.target ];
+      Install.WantedBy = [config.wayland.systemd.target];
 
       Unit = {
-        After = [ config.wayland.systemd.target ];
-        PartOf = [ config.wayland.systemd.target ];
+        After = [config.wayland.systemd.target];
+        PartOf = [config.wayland.systemd.target];
         ConditionEnvironment = "WAYLAND_DISPLAY";
       };
 
