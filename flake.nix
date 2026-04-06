@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+
     systems.url = "github:nix-systems/default";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -46,29 +48,53 @@
   outputs = inputs: let
     inherit (inputs.nixpkgs) lib;
     eachSystem = lib.genAttrs (import inputs.systems);
+
+    treefmtEval = eachSystem (system: inputs.treefmt-nix.lib.evalModule inputs.nixpkgs.legacyPackages.${system} ./treefmt.nix);
+
     readModules = path: lib.map (name: path + "/${name}") (lib.attrNames (lib.readDir path));
+
     callFunctionWith = autoArgs: fn:
       if lib.isFunction fn
       then (fn (lib.intersectAttrs (lib.functionArgs fn) autoArgs))
       else fn;
+
+    packages = lib.mapAttrs' (file: _: {
+      name = lib.removeSuffix ".nix" file;
+      value = ./packages/${file};
+    }) (lib.readDir ./packages);
+
     me = callFunctionWith inputs (import ./me.nix);
+
+    nixpkgsConfig = {
+      allowUnfree = true;
+      permittedInsecurePackages = [
+        "python3.12-ecdsa-0.19.1"
+      ];
+    };
   in {
     overlays.default = final: prev: let
       callPackage = final.newScope {inherit prev inputs;};
     in
-      lib.mapAttrs' (file: _: {
-        name = lib.removeSuffix ".nix" file;
-        value = callPackage ./packages/${file} {};
-      }) (lib.readDir ./packages);
+      lib.mapAttrs (_: file: callPackage file {}) packages;
 
     packages = eachSystem (
       system:
-        lib.filterAttrs (_: pkgs: pkgs.stdenv.hostPlatform.system == system) (
-          lib.mapAttrs (_hostName: os: os.pkgs) inputs.self.nixosConfigurations
+        lib.intersectAttrs packages (
+          import inputs.nixpkgs {
+            inherit system;
+            overlays = [
+              inputs.self.overlays.default
+            ];
+            config = nixpkgsConfig;
+          }
         )
     );
 
-    formatter = eachSystem (system: inputs.nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = eachSystem (system: treefmtEval.${system}.config.build.wrapper);
+
+    checks = eachSystem (system: {
+      formatting = treefmtEval.${system}.config.build.check inputs.self;
+    });
 
     nixosConfigurations =
       lib.mapAttrs
@@ -89,12 +115,7 @@
                     overlays = [
                       inputs.self.overlays.default
                     ];
-                    config = {
-                      allowUnfree = true;
-                      permittedInsecurePackages = [
-                        "python3.12-ecdsa-0.19.1"
-                      ];
-                    };
+                    config = nixpkgsConfig;
                   };
 
                   nix.registry.self.flake = inputs.self;

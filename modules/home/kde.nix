@@ -1,7 +1,4 @@
-{
-  nixosConfig,
-  ...
-}: let
+{nixosConfig, ...}: let
   inherit (nixosConfig.theme) colors font cursor;
 in {
   xdg.configFile."kdeglobals".text = ''

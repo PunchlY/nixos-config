@@ -3,6 +3,7 @@
   mpv,
   fetchFromGitHub,
   rustPlatform,
+  lib,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "mpv-bilibili-sponsorblock";

@@ -70,6 +70,7 @@
   jovian.steam = {
     enable = true;
     autoStart = true;
+    desktopSession = "gamescope-wayland";
   };
 
   age.identityPaths = [

@@ -140,16 +140,17 @@
     '';
   };
 
-  theme.wallpaper = pkgs.wallpapers.pixiv_68936009;
+  theme.wallpaper = pkgs.fetchurl {
+    url = "https://i.pixiv.re/img-original/img/2018/05/26/23/51/57/68936009_p0.jpg";
+    sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
+  };
 
   hm.programs.uwsm.desktopEnv.niri = {
     QT_SCALE_FACTOR = "1.5";
   };
-  programs.niri = {
-    enable = true;
-    settings = {
-      outputs."eDP-1".scale = 1.5;
-    };
+  programs.niri.enable = true;
+  hm.programs.niri.settings = {
+    outputs."eDP-1".scale = 1.5;
   };
 
   services.swaylock.enable = true;
