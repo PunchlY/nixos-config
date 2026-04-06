@@ -2,9 +2,8 @@
   stdenv,
   fetchFromGitHub,
   python3,
-  lib,
 }:
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation (_finalAttrs: {
   pname = "color256";
   version = "git";
 

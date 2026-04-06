@@ -2,7 +2,6 @@
   nixosConfig,
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (nixosConfig.theme) font colors opacity;

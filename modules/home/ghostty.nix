@@ -1,7 +1,6 @@
 {
   nixosConfig,
   config,
-  pkgs,
   lib,
   ...
 }: let

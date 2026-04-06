@@ -6,7 +6,6 @@
   moreutils,
   wl-clipboard-rs,
   runCommand,
-  lib,
 }: let
   emoji = runCommand "emoji" {
     nativeBuildInputs = [bun];

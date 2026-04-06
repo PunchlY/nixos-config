@@ -64,7 +64,7 @@
     packages = eachSystem (
       system:
         lib.filterAttrs (_: pkgs: pkgs.stdenv.hostPlatform.system == system) (
-          lib.mapAttrs (hostName: os: os.pkgs) inputs.self.nixosConfigurations
+          lib.mapAttrs (_hostName: os: os.pkgs) inputs.self.nixosConfigurations
         )
     );
 

@@ -62,7 +62,7 @@ in {
     theme.colors =
       builtins.mapAttrs
       (
-        name: value:
+        _name: value:
           value
           // {
             hex_stripped = builtins.substring 1 6 value.hex;
@@ -107,7 +107,7 @@ in {
           "serif"
           "sansSerif"
         ]
-        (family: [
+        (_family: [
           cfg.font.name
           cfg.emoji.name
           "Noto Sans Mono"

@@ -1,8 +1,5 @@
 {
   nixosConfig,
-  config,
-  pkgs,
-  lib,
   ...
 }: let
   inherit (nixosConfig.theme) colors font cursor;

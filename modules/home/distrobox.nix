@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: {
   programs.distrobox = lib.mkIf config.programs.distrobox.enable {

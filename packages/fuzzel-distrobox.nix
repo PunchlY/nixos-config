@@ -5,7 +5,6 @@
   coreutils,
   findutils,
   xdg-terminal-exec,
-  lib,
 }:
 writeShellApplication {
   name = "fuzzel-distrobox";

@@ -26,11 +26,11 @@
       else toString v;
   in
     attrs:
-      lib.mapAttrs (n: v:
+      lib.mapAttrs (_n: v:
         if lib.isList v
         then lib.concatMapStringsSep ":" toStr v
         else toStr v) (
-        lib.filterAttrs (n: v: v != null) attrs
+        lib.filterAttrs (_n: v: v != null) attrs
       );
 
   generator = attrs:
@@ -54,7 +54,7 @@ in {
     };
     desktopEnv = lib.mkOption {
       type = lib.types.attrsOf variablesType;
-      apply = lib.mapAttrs (desktop: variablesApply);
+      apply = lib.mapAttrs (_desktop: variablesApply);
       default = {};
     };
   };

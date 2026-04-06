@@ -5,7 +5,7 @@
   lib,
   ...
 }: let
-  inherit (nixosConfig.theme) colors font opacity;
+  inherit (nixosConfig.theme) colors font;
 
   formatter = pkgs.formats.toml {};
 

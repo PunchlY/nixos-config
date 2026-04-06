@@ -2,7 +2,6 @@
   imagemagick,
   runCommand,
   fetchurl,
-  stdenv,
   lib,
 }: let
   magick = args: input: let
