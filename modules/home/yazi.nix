@@ -17,6 +17,8 @@
       };
       extraPackages = with pkgs; [
         hexyl
+        app2unit
+        xdg-user-dirs
       ];
       enableBashIntegration = true;
       shellWrapperName = "y";
@@ -34,6 +36,46 @@
           ".minecraft" = "󰍳";
         };
       };
+      settings.opener = {
+        edit = [
+          {
+            run = "$EDITOR %s";
+            desc = "$EDITOR";
+            block = true;
+          }
+        ];
+        play = [
+          {
+            run = "app2unit-open-service -- %s1";
+            desc = "Play";
+            orphan = true;
+          }
+          {
+            run = "mediainfo %s1; echo 'Press enter to exit'; read _";
+            desc = "Show media info";
+            block = true;
+          }
+        ];
+        open = [
+          {
+            run = "app2unit-open-service -- %s1";
+            desc = "Open";
+            orphan = true;
+          }
+        ];
+        reveal = [
+          {
+            run = "app2unit-open-service -- %d1";
+            desc = "Reveal";
+            orphan = true;
+          }
+          {
+            run = "clear; exiftool %s1; echo 'Press enter to exit'; read _";
+            desc = "Show EXIF";
+            block = true;
+          }
+        ];
+      };
       keymap.input.prepend_keymap = [
         {
           on = "<Esc>";
@@ -48,7 +90,7 @@
             "g"
             "d"
           ];
-          run = "cd $XDG_DOWNLOAD_DIR";
+          run = ''cd "$(xdg-user-dir DOWNLOAD)"'';
         }
         {
           desc = "Chmod on selected files";

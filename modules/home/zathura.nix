@@ -8,7 +8,7 @@
   inherit (nixosConfig.theme) font colors;
 
   plugins = with pkgs.zathuraPkgs; [
-    zathura_pdf_mupdf
+    zathura_pdf_poppler
   ];
 in {
   config = lib.mkIf config.programs.zathura.enable {

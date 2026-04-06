@@ -10,4 +10,6 @@
     enable = true;
     priority = 2;
   };
+
+  programs.just.enable = true;
 }
