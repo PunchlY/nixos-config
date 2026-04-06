@@ -10,6 +10,9 @@
     just
     nix-output-monitor
     nh
+    nurl
+    # nixfmt
+    alejandra
     moreutils
     wget
     q
@@ -19,7 +22,6 @@
     unzip
     tlrc
     nodejs
-    nixfmt
     fx
 
     (writeShellScriptBin "ips" ''
