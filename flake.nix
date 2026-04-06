@@ -68,6 +68,8 @@
         )
     );
 
+    formatter = eachSystem (system: inputs.nixpkgs.legacyPackages.${system}.alejandra);
+
     nixosConfigurations =
       lib.mapAttrs
       (

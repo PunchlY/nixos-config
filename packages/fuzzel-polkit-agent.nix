@@ -1,7 +1,6 @@
 {
   writeTextFile,
   runtimeShell,
-  fetchFromGitHub,
   jq,
   fuzzel,
   cmd-polkit,

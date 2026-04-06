@@ -1,15 +1,12 @@
 {
   writeShellApplication,
   fuzzel,
-  systemd,
-  steamos-manager,
   lib,
 }:
 writeShellApplication {
   name = "fuzzel-cmd-menu";
   runtimeInputs = [
-    systemd
-    steamos-manager
+    fuzzel
   ];
   text = let
     menu = [
