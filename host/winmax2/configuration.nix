@@ -140,10 +140,13 @@
     '';
   };
 
-  theme.wallpaper = pkgs.fetchurl {
-    url = "https://i.pixiv.re/img-original/img/2018/05/26/23/51/57/68936009_p0.jpg";
-    sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
-  };
+  theme.wallpaper = pkgs.runCommand "wallpaper.png" {
+    src = pkgs.fetchurl {
+      url = "https://i.pixiv.re/img-original/img/2018/05/26/23/51/57/68936009_p0.jpg";
+      sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
+    };
+    nativeBuildInputs = [pkgs.imagemagick];
+  } "magick $src -fuzz 10% -trim +repage $out";
 
   hm.programs.uwsm.desktopEnv.niri = {
     QT_SCALE_FACTOR = "1.5";
