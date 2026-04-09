@@ -20,13 +20,15 @@ in {
     services.systemd-lock-handler.enable = true;
 
     systemd.user.services.swaylock = {
+      requisite = ["graphical-session.target"];
+      after = ["graphical-session.target"];
       onSuccess = ["unlock.target"];
       partOf = ["lock.target"];
       before = ["lock.target"];
       wantedBy = ["lock.target"];
       serviceConfig = {
-        Type = "forking";
-        ExecStart = "${lib.getExe cfg.package} -f";
+        Type = "simple";
+        ExecStart = lib.getExe cfg.package;
         Restart = "on-failure";
         RestartSec = 0;
       };
@@ -36,6 +38,7 @@ in {
       programs.swaylock = {
         enable = true;
         package = lib.mkDefault null;
+        settings.daemonize = false;
       };
     };
   };
