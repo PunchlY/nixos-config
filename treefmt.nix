@@ -1,5 +1,6 @@
 {
   projectRootFile = "flake.nix";
+  enableDefaultExcludes = true;
 
   programs.deadnix = {
     enable = true;

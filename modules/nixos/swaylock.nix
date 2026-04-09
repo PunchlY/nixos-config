@@ -27,8 +27,8 @@ in {
       before = ["lock.target"];
       wantedBy = ["lock.target"];
       serviceConfig = {
-        Type = "simple";
-        ExecStart = lib.getExe cfg.package;
+        Type = "forking";
+        ExecStart = "${lib.getExe cfg.package} -f";
         Restart = "on-failure";
         RestartSec = 0;
       };
@@ -38,7 +38,6 @@ in {
       programs.swaylock = {
         enable = true;
         package = lib.mkDefault null;
-        settings.daemonize = false;
       };
     };
   };

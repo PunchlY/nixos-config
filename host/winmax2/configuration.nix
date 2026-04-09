@@ -183,7 +183,7 @@
 
   hm.programs.zathura.enable = true;
 
-  hm.programs.imv.enable = true;
+  hm.programs.swayimg.enable = true;
 
   hm.programs.yazi.enable = true;
 
