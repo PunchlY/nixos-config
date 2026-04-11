@@ -4,16 +4,17 @@
   pkgs,
   ...
 }: let
-  cfg = config.programs.minecraft;
+  cfg = config.programs.prismlauncher;
 in {
-  options.programs.minecraft = {
-    enable = lib.mkEnableOption "minecraft";
-
-    package = lib.mkPackageOption pkgs "prismlauncher" {};
-  };
-
   config = lib.mkIf cfg.enable {
-    home.packages = [cfg.package];
+    programs.prismlauncher.package = pkgs.prismlauncher.override {
+      jdks = with pkgs; [
+        zulu25
+        zulu21
+        zulu17
+        zulu8
+      ];
+    };
 
     services.steam = lib.mkIf config.services.steam.enable {
       shortcuts.minecraft = {

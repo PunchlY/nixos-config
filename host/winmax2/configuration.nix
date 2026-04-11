@@ -189,7 +189,7 @@
 
   hm.programs.foot.enable = true;
 
-  xdg.terminal-exec = {
+  hm.xdg.terminal-exec = {
     enable = true;
     settings.niri = ["foot.desktop"];
   };
@@ -220,8 +220,6 @@
 
   hm.services.bar.enable = true;
 
-  hm.programs.retroarch.enable = true;
-
   hm.xdg.desktopEntries.bluetui = {
     name = "Bluetui";
     genericName = "Bluetooth Manager";
@@ -239,13 +237,6 @@
   hm.xdg.desktopEntries.webcam = {
     name = "webcam";
     exec = "mpv av://v4l2:/dev/video0 --profile=low-latency --untimed";
-  };
-
-  hm.xdg.desktopEntries.gtrash = {
-    name = "grash";
-    genericName = "Trash Manager";
-    exec = "gtrash restore";
-    terminal = true;
   };
 
   hm.home.packages = with pkgs; [
@@ -276,32 +267,22 @@
     (gtk-nocsd.wrapper gnome-mines)
   ];
 
-  hm.services.steam.shortcuts."BD2" = {
-    appname = "Brown Dust 2";
-    exe = "${pkgs.requireFile {
-      name = "BD2StarterSetup_gpg_240430.exe";
-      url = "https://www.browndust2.com/";
-      hash = "sha256-+6UqG1E6MiutypOgZmTjpjofqr5Vfablb6bI6fOhQKw=";
-    }}";
-  };
+  hm.games = {
+    ksre.enable = true;
+    minecraft.enable = true;
+    retroarch.enable = true;
 
-  hm.programs.minecraft = {
-    enable = true;
-    package = with pkgs;
-      prismlauncher.override {
-        jdks = [
-          zulu25
-          zulu21
-          zulu17
-          zulu8
-        ];
-      };
+    steam.shortcuts."BD2" = {
+      appname = "Brown Dust 2";
+      exe = "${pkgs.requireFile {
+        name = "BD2StarterSetup_gpg_240430.exe";
+        url = "https://www.browndust2.com/";
+        hash = "sha256-+6UqG1E6MiutypOgZmTjpjofqr5Vfablb6bI6fOhQKw=";
+      }}";
+    };
+    steam.shortcuts."PVZRH" = {
+      appname = "Plants vs. Zombies: RH";
+      exe = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
+    };
   };
-
-  hm.services.steam.shortcuts."PVZRH" = {
-    appname = "Plants vs. Zombies: RH";
-    exe = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
-  };
-
-  hm.programs.katawa-shoujo-re-engineered.enable = true;
 }
