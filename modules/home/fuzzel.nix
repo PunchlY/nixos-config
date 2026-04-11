@@ -19,8 +19,8 @@ in {
         };
         border = {
           width = 2;
-          radius = 8;
-          selection-radius = 8;
+          radius = 0;
+          selection-radius = 0;
         };
         colors = with colors; {
           background = "${surface.hex_stripped}${

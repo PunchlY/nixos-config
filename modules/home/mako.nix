@@ -13,7 +13,7 @@ in {
         outer-margin = 0;
         margin = 8;
         padding = "8,16";
-        border-radius = 8;
+        # border-radius = 8;
         border-size = 2;
         default-timeout = 5000;
         font = "${font.name} ${toString font.size}";

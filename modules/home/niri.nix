@@ -95,12 +95,12 @@ in {
       window-rules = [
         {
           draw-border-with-background = false;
-          geometry-corner-radius = {
-            bottom-left = 8.0;
-            bottom-right = 8.0;
-            top-left = 8.0;
-            top-right = 8.0;
-          };
+          # geometry-corner-radius = {
+          #   bottom-left = 8.0;
+          #   bottom-right = 8.0;
+          #   top-left = 8.0;
+          #   top-right = 8.0;
+          # };
           clip-to-geometry = true;
           # open-maximized-to-edges = false;
         }
