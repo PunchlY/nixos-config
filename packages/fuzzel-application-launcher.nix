@@ -20,9 +20,9 @@ writeShellApplication {
         else
           set -- "$DESKTOP_ENTRY_ID"
         fi
-        set -- app2unit -t service -- "$@"
+        set -- app2unit -t scope -- "$@"
       else
-        set -- app2unit-term-service -- "$@"
+        set -- app2unit-term-scope -- "$@"
       fi
       exec "$@"
     '';

@@ -8,8 +8,6 @@
     nix-output-monitor
     nh
     nurl
-    # nixfmt
-    alejandra
     moreutils
     wget
     q
@@ -42,8 +40,15 @@
 
   programs.bottom.enable = true;
 
-  programs.mcfly.enable = true;
+  # programs.mcfly.enable = true;
+  programs.atuin = {
+    enable = true;
+    daemon.enable = true;
+    flags = ["--disable-up-arrow"];
+  };
+
   programs.fd.enable = true;
+
   programs.grep.enable = true;
 
   programs.bun = {
