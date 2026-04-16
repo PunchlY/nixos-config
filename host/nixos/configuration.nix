@@ -39,25 +39,9 @@
 
   services.udisks2.enable = true;
 
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
+  services.pipewire.enable = true;
 
   services.swapspace.enable = true;
-
-  services.logind.settings.Login = {
-    powerKey = "suspend";
-    powerKeyLongPress = "poweroff";
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";
-    lidSwitchExternalPower = "suspend";
-  };
 
   services.dbus.enable = true;
 

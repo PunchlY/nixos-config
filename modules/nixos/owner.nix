@@ -27,8 +27,6 @@ in {
       ];
     };
 
-    nix.settings.trusted-users = [name];
-
     hm.programs.git = lib.mkIf config.hm.programs.git.enable {
       settings.user = {
         name = me.userName;
