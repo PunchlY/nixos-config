@@ -13,27 +13,12 @@ in {
       default = pkgs.nixos-artwork.wallpapers.nineish-catppuccin-mocha.src;
     };
 
-    colors = lib.mkOption {
-      internal = true;
-    };
+    colors = lib.mkOption {internal = true;};
 
-    font = rec {
-      package = lib.mkPackageOption pkgs.maple-mono "Normal-NF-CN-unhinted" {};
-      name = lib.mkOption {
-        type = lib.types.str;
-        default = "Maple Mono Normal NF CN";
-      };
+    font = {
       size = lib.mkOption {
         default = 14;
         type = with lib.types; either ints.unsigned float;
-      };
-    };
-
-    emoji = {
-      package = lib.mkPackageOption pkgs "noto-fonts-color-emoji" {};
-      name = lib.mkOption {
-        type = lib.types.str;
-        default = "Noto Color Emoji";
       };
     };
 
@@ -86,20 +71,17 @@ in {
 
     fonts = {
       enableDefaultPackages = false;
-      packages =
-        [
-          cfg.font.package
-          cfg.emoji.package
-        ]
-        ++ (with pkgs; [
-          noto-fonts
-          noto-fonts-cjk-sans
-          noto-fonts-color-emoji
-          noto-fonts-monochrome-emoji
+      packages = with pkgs; [
+        maple-mono.Normal-NF-CN
+        nur.repos.shadowrz.resource-han-rounded
+        noto-fonts
+        noto-fonts-cjk-sans
+        noto-fonts-color-emoji
+        noto-fonts-monochrome-emoji
 
-          material-icons
-          lmmath
-        ]);
+        material-icons
+        lmmath
+      ];
       fontconfig.defaultFonts =
         lib.genAttrs
         [
@@ -107,17 +89,17 @@ in {
           "serif"
           "sansSerif"
         ]
-        (_family: [
-          cfg.font.name
-          cfg.emoji.name
-          "Noto Sans Mono"
-          "Noto Sans Mono CJK SC"
-          "Noto Color Emoji"
-          "Noto Emoji"
-        ])
+        (_family:
+          lib.mkOrder 0 [
+            "Maple Mono Normal NF CN"
+            "Resource Han Rounded K"
+            "Noto Sans Mono"
+            "Noto Sans Mono CJK SC"
+            "Noto Color Emoji"
+            "Noto Emoji"
+          ])
         // {
-          emoji = [
-            cfg.emoji.name
+          emoji = lib.mkOrder 0 [
             "Noto Color Emoji"
             "Noto Emoji"
           ];

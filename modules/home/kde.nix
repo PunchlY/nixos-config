@@ -138,7 +138,7 @@ in {
     ColorScheme=md3
     Name=md3
     shadeSortColumn=true
-    font=${font.name},${toString font.size},-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+    font=monospace,${toString font.size},-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
     [Appearance]
     color_scheme=md3

@@ -16,7 +16,7 @@ in {
         # border-radius = 8;
         border-size = 2;
         default-timeout = 5000;
-        font = "${font.name} ${toString font.size}";
+        font = "monospace ${toString font.size}";
         background-color = "${primary_container.hex}${alpha}";
         text-color = on_primary_container.hex;
         border-color = primary.hex;

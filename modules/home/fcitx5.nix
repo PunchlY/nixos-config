@@ -68,9 +68,9 @@ in {
         UseDarkTheme = false;
         UseAccentColor = false;
 
-        Font = "${font.name} ${toString font.size}";
-        MenuFont = "${font.name} ${toString font.size}";
-        TrayFont = "${font.name} ${toString font.size}";
+        Font = "monospace ${toString font.size}";
+        MenuFont = "monospace ${toString font.size}";
+        TrayFont = "monospace ${toString font.size}";
       };
 
       themes.matugen = with colors; {

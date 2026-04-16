@@ -40,7 +40,8 @@ in {
       colorScheme = "dark";
 
       font = {
-        inherit (font) package name size;
+        name = "monospace";
+        size = font.size;
       };
       theme = {
         package = pkgs.adw-gtk3;

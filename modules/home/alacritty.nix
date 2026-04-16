@@ -10,7 +10,7 @@ in {
     settings = {
       font = {
         normal = {
-          family = font.name;
+          family = "monospace";
           style = "Regular";
         };
         size = font.size;

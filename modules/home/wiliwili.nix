@@ -25,13 +25,12 @@ in {
         pkgs.runCommand "wiliwili-font"
         {
           nativeBuildInputs = [pkgs.fontconfig];
-          fontName = nixosConfig.theme.font.name;
           FONTCONFIG_FILE = pkgs.makeFontsConf {
-            fontDirectories = [nixosConfig.theme.font.package];
+            fontDirectories = nixosConfig.fonts.packages;
           };
         }
         ''
-          ln -s "$(fc-match "$fontName" --format %{file})" "$out"
+          ln -s "$(fc-match "monospace" --format %{file})" "$out"
         '';
     };
 
@@ -40,13 +39,12 @@ in {
         pkgs.runCommand "wiliwili-emoji"
         {
           nativeBuildInputs = [pkgs.fontconfig];
-          fontName = nixosConfig.theme.emoji.name;
           FONTCONFIG_FILE = pkgs.makeFontsConf {
-            fontDirectories = [nixosConfig.theme.emoji.package];
+            fontDirectories = nixosConfig.fonts.packages;
           };
         }
         ''
-          ln -s "$(fc-match "$fontName" --format %{file})" "$out"
+          ln -s "$(fc-match emoji --format %{file})" "$out"
         '';
     };
 

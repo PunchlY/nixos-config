@@ -10,7 +10,7 @@ in {
     programs.ghostty = {
       systemd.enable = true;
       settings = {
-        font-family = font.name;
+        font-family = "monospace";
         font-size = font.size;
         theme = "md3";
       };

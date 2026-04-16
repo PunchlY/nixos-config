@@ -38,6 +38,11 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: let
@@ -59,13 +64,6 @@
     }) (lib.readDir ./packages);
 
     me = callFunctionWith inputs (import ./me.nix);
-
-    nixpkgsConfig = {
-      allowUnfree = true;
-      permittedInsecurePackages = [
-        "python3.12-ecdsa-0.19.1"
-      ];
-    };
   in {
     overlays.default = final: prev: let
       callPackage = final.newScope {inherit prev inputs;};
@@ -80,7 +78,6 @@
             overlays = [
               inputs.self.overlays.default
             ];
-            config = nixpkgsConfig;
           }
         )
     );
@@ -97,9 +94,7 @@
         hostName: {system}:
           lib.nixosSystem {
             inherit system;
-            specialArgs = {
-              inherit inputs me;
-            };
+            specialArgs = {inherit inputs me;};
             modules =
               [
                 inputs.home-manager.nixosModules.default
@@ -109,17 +104,21 @@
                   nixpkgs = {
                     overlays = [
                       inputs.self.overlays.default
+                      inputs.nur.overlays.default
                     ];
-                    config = nixpkgsConfig;
+                    config = {
+                      allowUnfree = true;
+                      permittedInsecurePackages = [
+                        "python3.12-ecdsa-0.19.1"
+                      ];
+                    };
                   };
 
                   nix.registry.self.flake = inputs.self;
 
                   home-manager = {
                     sharedModules = readModules ./modules/home;
-                    extraSpecialArgs = {
-                      inherit inputs me;
-                    };
+                    extraSpecialArgs = {inherit inputs me;};
                     useGlobalPkgs = true;
                     useUserPackages = true;
                     backupFileExtension = "backup";

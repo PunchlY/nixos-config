@@ -42,7 +42,7 @@ in {
         notification-warning-bg = orange.hex;
         notification-warning-fg = on_orange.hex;
 
-        font = "${font.name} ${toString font.size}";
+        font = "monospace ${toString font.size}";
       };
     };
   };

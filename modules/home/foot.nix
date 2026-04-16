@@ -33,7 +33,7 @@ in {
     programs.foot.settings = {
       main = {
         term = "foot-direct";
-        font = "${font.name}:size=${toString font.size}";
+        font = "monospace:size=${toString font.size}";
         dpi-aware = "no";
       };
       colors-dark =

@@ -15,7 +15,7 @@ in {
     programs.swayimg = {
       settings = with colors; {
         font = {
-          name = font.name;
+          name = "monospace";
           size = font.size;
           color = "${on_surface.hex}ff";
           shadow = "#00000000";

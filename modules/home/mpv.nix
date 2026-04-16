@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (nixosConfig.theme) font colors;
+  inherit (nixosConfig.theme) colors;
 in {
   config = lib.mkIf config.programs.mpv.enable {
     programs.yt-dlp = {
@@ -47,8 +47,8 @@ in {
         osd-color = on_surface.hex;
         osd-shadow-color = shadow.hex;
 
-        osd-font = font.name;
-        sub-font = font.name;
+        osd-font = "monospace";
+        sub-font = "monospace";
 
         force-seekable = true;
         cache = true;

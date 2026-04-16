@@ -11,7 +11,7 @@
 
   i3bar-river-config = with colors; {
     height = font.size * 2;
-    font = "${font.name} ${toString font.size}";
+    font = "monospace ${toString font.size}";
 
     tags_padding = font.size;
     tags_margin = 0;
