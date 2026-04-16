@@ -30,6 +30,7 @@
         SCREENSHOTS = "${config.xdg.userDirs.pictures}/screenshots";
         PROJECTS = "${config.home.homeDirectory}/src";
         GAME = "${config.home.homeDirectory}/med/games";
+        MEDIA = "${config.home.homeDirectory}/med";
       };
     };
   };
