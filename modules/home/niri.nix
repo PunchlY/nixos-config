@@ -155,11 +155,11 @@ in {
       binds = {
         "Mod+E" = {
           hotkey-overlay.title = "Open File Manager";
-          action.spawn-sh = "app2unit-open-service ~";
+          action.spawn-sh = "app2unit-open-scope ~";
         };
         "Mod+T" = {
           hotkey-overlay.title = "Open Terminal";
-          action.spawn = "app2unit-term-service";
+          action.spawn = "app2unit-term-scope";
         };
 
         "Mod+D" = {

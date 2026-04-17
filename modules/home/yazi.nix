@@ -49,7 +49,7 @@
         ];
         play = [
           {
-            run = "app2unit-open-service -- %s1";
+            run = "app2unit-open-scope -- %s1";
             desc = "Play";
             orphan = true;
           }
@@ -61,14 +61,14 @@
         ];
         open = [
           {
-            run = "app2unit-open-service -- %s1";
+            run = "app2unit-open-scope -- %s1";
             desc = "Open";
             orphan = true;
           }
         ];
         reveal = [
           {
-            run = "app2unit-open-service -- %d1";
+            run = "app2unit-open-scope -- %d1";
             desc = "Reveal";
             orphan = true;
           }
