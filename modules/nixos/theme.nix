@@ -73,9 +73,8 @@ in {
       enableDefaultPackages = false;
       packages = with pkgs; [
         maple-mono.Normal-NF-CN
-        nur.repos.shadowrz.resource-han-rounded
-        noto-fonts
         noto-fonts-cjk-sans
+        noto-fonts
         noto-fonts-color-emoji
         noto-fonts-monochrome-emoji
 
@@ -92,9 +91,8 @@ in {
         (_family:
           lib.mkOrder 0 [
             "Maple Mono Normal NF CN"
-            "Resource Han Rounded K"
-            "Noto Sans Mono"
             "Noto Sans Mono CJK SC"
+            "Noto Sans Mono"
             "Noto Color Emoji"
             "Noto Emoji"
           ])
@@ -105,5 +103,9 @@ in {
           ];
         };
     };
+  };
+
+  config.home-manager.sharedModules = lib.singleton {
+    home.packages = config.fonts.packages;
   };
 }
