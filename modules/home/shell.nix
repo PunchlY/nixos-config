@@ -23,10 +23,10 @@
       ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'
     '')
     (writeShellScriptBin "pkgs" ''
-      printenv PATH | tr ':' '\n' | grep '^/nix/store' | sort -u | xargs -d "\n" -r nix derivation show | jq -r .[].name
+      printenv PATH | tr ':' '\n' | grep '^/nix/store' | sort -u | xargs -d "\n" -r nix derivation show | jq -r .derivations.[].name
     '')
     (writeShellScriptBin "pkg" ''
-      which "$1" | xargs -r realpath | xargs -r nix derivation show | jq -r .[].name
+      which "$1" | xargs -r realpath | xargs -r nix derivation show | jq -r .derivations.[].name
     '')
   ];
 
