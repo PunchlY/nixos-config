@@ -17,7 +17,6 @@
       };
       extraPackages = with pkgs; [
         hexyl
-        app2unit
         xdg-user-dirs
       ];
       enableBashIntegration = true;
@@ -38,46 +37,6 @@
           ".minecraft" = "󰍳";
           "minecraft" = "󰍳";
         };
-      };
-      settings.opener = {
-        edit = [
-          {
-            run = "$EDITOR %s";
-            desc = "$EDITOR";
-            block = true;
-          }
-        ];
-        play = [
-          {
-            run = "app2unit-open-scope -- %s1";
-            desc = "Play";
-            orphan = true;
-          }
-          {
-            run = "mediainfo %s1; echo 'Press enter to exit'; read _";
-            desc = "Show media info";
-            block = true;
-          }
-        ];
-        open = [
-          {
-            run = "app2unit-open-scope -- %s1";
-            desc = "Open";
-            orphan = true;
-          }
-        ];
-        reveal = [
-          {
-            run = "app2unit-open-scope -- %d1";
-            desc = "Reveal";
-            orphan = true;
-          }
-          {
-            run = "clear; exiftool %s1; echo 'Press enter to exit'; read _";
-            desc = "Show EXIF";
-            block = true;
-          }
-        ];
       };
       keymap.input.prepend_keymap = [
         {

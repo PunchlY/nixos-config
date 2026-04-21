@@ -155,24 +155,58 @@ in {
       binds = {
         "Mod+E" = {
           hotkey-overlay.title = "Open File Manager";
-          action.spawn-sh = "app2unit-open-scope ~";
+          action.spawn-sh = "xdg-open ~";
         };
         "Mod+T" = {
           hotkey-overlay.title = "Open Terminal";
-          action.spawn = "app2unit-term-scope";
+          action.spawn = "xdg-terminal-exec";
         };
 
         "Mod+D" = {
           hotkey-overlay.title = "Open Application Launcher";
-          action.spawn = lib.getExe pkgs.fuzzel-application-launcher;
+          action.spawn-sh = "fuzzel ${lib.cli.toCommandLineShellGNU {} {
+            show-actions = true;
+            terminal = "xdg-terminal-exec -- {cmd}";
+            launch-prefix = "sh -c ${lib.escapeShellArg ''
+              if [ -z "$DESKTOP_ENTRY_ID" ]; then
+                set -- xdg-terminal-exec -- "$@"
+              fi
+              exec niri msg action spawn -- "$@"
+            ''} _";
+          }}";
         };
         "Mod+V" = {
           hotkey-overlay.title = "Open Clipboard";
-          action.spawn = lib.getExe pkgs.fuzzel-clipboard;
+          action.spawn = "cliphist-fuzzel-img";
         };
         "Mod+Escape" = {
           hotkey-overlay.title = "Open Command Menu";
-          action.spawn = lib.getExe pkgs.fuzzel-cmd-menu;
+          action.spawn-sh = let
+            menu = [
+              {
+                key = "Game Mode";
+                cmd = "steamosctl switch-to-game-mode";
+              }
+              {
+                key = "Suspend";
+                cmd = "systemctl suspend";
+              }
+              {
+                key = "Reboot";
+                cmd = "systemctl reboot";
+              }
+              {
+                key = "Shutdown";
+                cmd = "systemctl poweroff";
+              }
+            ];
+          in ''
+            cmds=( ${lib.escapeShellArgs (lib.catAttrs "cmd" menu)} )
+            index=$(fuzzel --dmenu --index --only-match --minimal-lines <<< ${lib.escapeShellArg (lib.concatStringsSep "\n" (lib.catAttrs "key" menu))})
+            [ -z "$index" ] && exit 0
+            [ "$index" -lt 0 ] && exit 0
+            eval "''${cmds[$index]}"
+          '';
         };
         "Mod+Alt+L" = {
           hotkey-overlay.title = "Lock the Screen";
