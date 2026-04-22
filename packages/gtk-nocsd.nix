@@ -14,8 +14,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromCodeberg {
     owner = "MorsMortium";
     repo = "GTK-NoCSD";
-    rev = "cd02481fc0";
-    hash = "sha256-dJ2pLttriA47msgGSGEk952frkB2iq5vPF04JB6OiNg=";
+    rev = "47aff2ba9f68e4f9ff6209aef88b5abff8b18c79";
+    hash = "sha256-krxVVfFrzQ5u29Ywas7BAbNGs1GgWPhqi0DiSRUBH8Q=";
   };
 
   nativeBuildInputs = [
