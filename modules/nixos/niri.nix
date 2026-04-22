@@ -7,24 +7,54 @@
   inherit (config.theme) wallpaper;
   cfg = config.programs.niri;
 in {
+  disabledModules = ["programs/wayland/niri.nix"];
+
+  options.programs.niri = {
+    enable = lib.mkEnableOption "Niri, a scrollable-tiling Wayland compositor";
+
+    package = lib.mkPackageOption pkgs "niri" {};
+  };
+
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [cfg.package];
+
     programs.uwsm = {
       enable = true;
-      waylandCompositors = {
-        niri = {
-          prettyName = "Niri";
-          comment = "Niri compositor managed by UWSM";
-          binPath = "/run/current-system/sw/bin/niri --session";
-        };
+      waylandCompositors.niri = {
+        prettyName = "Niri";
+        comment = "Niri compositor managed by UWSM";
+        binPath = "/run/current-system/sw/bin/niri";
+        extraArgs = ["--session"];
       };
     };
 
     xdg.portal = {
       enable = true;
       xdgOpenUsePortal = true;
+
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-gnome
+      ];
+
+      config.niri = {
+        default = ["gnome" "gtk"];
+        "org.freedesktop.impl.portal.Access" = "gtk";
+        "org.freedesktop.impl.portal.FileChooser" = "gtk";
+        "org.freedesktop.impl.portal.Notification" = "gtk";
+        "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+      };
     };
 
-    programs.niri.useNautilus = lib.mkDefault false;
+    services.gnome.gnome-keyring.enable = true;
+
+    services.graphical-desktop.enable = true;
+
+    security.polkit.enable = true;
+
+    security.pam.services.swaylock = {};
+
+    programs.dconf.enable = true;
 
     systemd.user.services.niri-flake-polkit = {
       after = ["wayland-wm@niri.service"];
