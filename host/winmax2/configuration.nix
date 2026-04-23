@@ -114,15 +114,6 @@
     desktopSession = "niri-uwsm";
   };
 
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    extraConfig = ''
-      no-mouse
-      font-dpi=144
-    '';
-  };
-
   theme.wallpaper = pkgs.runCommand "wallpaper.png" {
     src = pkgs.fetchurl {
       url = "https://i.pixiv.re/img-original/img/2018/05/26/23/51/57/68936009_p0.jpg";

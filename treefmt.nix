@@ -13,4 +13,6 @@
   };
 
   programs.just.enable = true;
+
+  programs.shfmt.enable = true;
 }
