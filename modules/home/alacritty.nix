@@ -77,8 +77,12 @@ in {
             command = "xdg-open";
             post_processing = true;
             persist = false;
+            binding = {
+              key = "O";
+              mods = "Control|Shift";
+            };
             mouse = {
-              mods = "Control";
+              mods = "Alt";
               enabled = true;
             };
           }

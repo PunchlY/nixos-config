@@ -125,6 +125,7 @@ in {
             {app-id = "^footclient$";}
             {app-id = "^foot$";}
             {app-id = "^Alacritty$";}
+            {app-id = "^rio$";}
           ];
           default-column-width.proportion = 1. / 3;
         }
