@@ -161,11 +161,11 @@
 
   hm.programs.yazi.enable = true;
 
-  hm.programs.foot.enable = true;
+  hm.programs.alacritty.enable = true;
 
   hm.xdg.terminal-exec = {
     enable = true;
-    settings.niri = ["foot.desktop"];
+    settings.niri = ["Alacritty.desktop"];
   };
 
   hm.programs.obs-studio = {

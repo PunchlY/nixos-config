@@ -13,11 +13,8 @@
     q
     yq-go
     tree
-    zip
-    unzip
     tlrc
-    nodejs
-    fx
+    gomi
 
     (writeShellScriptBin "ips" ''
       ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'
@@ -40,7 +37,6 @@
 
   programs.bottom.enable = true;
 
-  # programs.mcfly.enable = true;
   programs.atuin = {
     enable = true;
     daemon.enable = true;
@@ -51,16 +47,7 @@
 
   programs.grep.enable = true;
 
-  programs.bun = {
-    enable = true;
-    settings = {
-      install.linker = "isolated";
-    };
-  };
-
   programs.bat.enable = true;
-
-  programs.ripgrep.enable = true;
 
   programs.eza = {
     enable = true;
@@ -83,6 +70,8 @@
     mx = "chmod a+x";
 
     cls = "clear";
+
+    rm = "gomi";
   };
 
   programs.bash = {
