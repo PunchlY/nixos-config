@@ -170,13 +170,20 @@ in {
             terminal = "xdg-terminal-exec -- {cmd}";
             launch-prefix = "sh -c ${lib.escapeShellArg ''
               if [ -z "$DESKTOP_ENTRY_ID" ]; then
-                set -- xdg-terminal-exec -- "$@"
+                mapfile -t cmd < <(xdg-terminal-exec --print-cmd -- "$0" "$@")
+                set -- "''${cmd[@]}"
+              elif [ "$0" = "xdg-terminal-exec" ] && [ "$1" = "--" ]; then
+                shift
+                mapfile -t cmd < <(xdg-terminal-exec --print-cmd -- "$@")
+                set -- "''${cmd[@]}"
+              else
+                set -- "$0" "$@"
               fi
               exec niri msg action spawn -- "$@"
-            ''} _";
+            ''}";
           }}";
         };
-        "Mod+V" = {
+        "Mod+V" = lib.mkIf config.services.cliphist.enable {
           hotkey-overlay.title = "Open Clipboard";
           action.spawn = "cliphist-fuzzel-img";
         };
@@ -184,10 +191,10 @@ in {
           hotkey-overlay.title = "Open Command Menu";
           action.spawn-sh = let
             menu = [
-              {
+              (lib.mkIf nixosConfig.programs.steam.enable {
                 key = "Game Mode";
                 cmd = "steamosctl switch-to-game-mode";
-              }
+              })
               {
                 key = "Suspend";
                 cmd = "systemctl suspend";
