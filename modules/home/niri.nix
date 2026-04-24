@@ -32,6 +32,8 @@ in {
       inputs.niri.lib.internal.validated-config-for pkgs cfg.package
       cfg.finalConfig;
 
+    xdg.terminal-exec.enable = true;
+
     programs.uwsm.desktopEnv.niri = lib.mkIf config.programs.uwsm.enable {
       MOZ_ENABLE_WAYLAND = "1";
       GTK_USE_PORTAL = "1";

@@ -111,7 +111,6 @@
   jovian.steam = {
     enable = true;
     autoStart = true;
-    desktopSession = "niri-uwsm";
   };
 
   theme.wallpaper = pkgs.runCommand "wallpaper.png" {
@@ -122,13 +121,17 @@
     nativeBuildInputs = [pkgs.imagemagick];
   } "magick $src -fuzz 10% -trim +repage $out";
 
-  hm.programs.uwsm.desktopEnv.niri = {
-    QT_SCALE_FACTOR = "1.5";
-  };
   programs.niri.enable = true;
+  jovian.steam.desktopSession = "niri-uwsm";
   hm.programs.niri.settings = {
     outputs."eDP-1".scale = 1.5;
   };
+  hm.programs.uwsm.desktopEnv.niri = {
+    QT_SCALE_FACTOR = "1.5";
+  };
+
+  hm.programs.alacritty.enable = true;
+  hm.xdg.terminal-exec.settings.niri = ["Alacritty.desktop"];
 
   services.swaylock.enable = true;
 
@@ -160,13 +163,6 @@
   hm.programs.swayimg.enable = true;
 
   hm.programs.yazi.enable = true;
-
-  hm.programs.alacritty.enable = true;
-
-  hm.xdg.terminal-exec = {
-    enable = true;
-    settings.niri = ["Alacritty.desktop"];
-  };
 
   hm.programs.obs-studio = {
     enable = true;
@@ -224,7 +220,6 @@
     appimage-run
     xdg-user-dirs
 
-    gtrash
     impala
     bluetui
 
@@ -237,7 +232,6 @@
     telegram-desktop
     (gtk-nocsd.wrapper netease-cloud-music-gtk)
 
-    mcaselector
     (gtk-nocsd.wrapper gnome-mines)
   ];
 
