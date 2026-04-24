@@ -130,9 +130,6 @@
     QT_SCALE_FACTOR = "1.5";
   };
 
-  hm.programs.alacritty.enable = true;
-  hm.xdg.terminal-exec.settings.niri = ["Alacritty.desktop"];
-
   services.swaylock.enable = true;
 
   programs.localsend = {

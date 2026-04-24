@@ -32,7 +32,11 @@ in {
       inputs.niri.lib.internal.validated-config-for pkgs cfg.package
       cfg.finalConfig;
 
-    xdg.terminal-exec.enable = true;
+    xdg.terminal-exec = {
+      enable = true;
+      settings.niri = ["Alacritty.desktop"];
+    };
+    programs.alacritty.enable = true;
 
     programs.uwsm.desktopEnv.niri = lib.mkIf config.programs.uwsm.enable {
       MOZ_ENABLE_WAYLAND = "1";
@@ -192,24 +196,31 @@ in {
         "Mod+Escape" = {
           hotkey-overlay.title = "Open Command Menu";
           action.spawn-sh = let
-            menu = [
-              (lib.mkIf nixosConfig.programs.steam.enable {
-                key = "Game Mode";
-                cmd = "steamosctl switch-to-game-mode";
-              })
-              {
-                key = "Suspend";
-                cmd = "systemctl suspend";
-              }
-              {
-                key = "Reboot";
-                cmd = "systemctl reboot";
-              }
-              {
-                key = "Shutdown";
-                cmd = "systemctl poweroff";
-              }
-            ];
+            menu =
+              (
+                if nixosConfig.programs.steam.enable
+                then [
+                  {
+                    key = "Game Mode";
+                    cmd = "steamosctl switch-to-game-mode";
+                  }
+                ]
+                else []
+              )
+              ++ [
+                {
+                  key = "Suspend";
+                  cmd = "systemctl suspend";
+                }
+                {
+                  key = "Reboot";
+                  cmd = "systemctl reboot";
+                }
+                {
+                  key = "Shutdown";
+                  cmd = "systemctl poweroff";
+                }
+              ];
           in ''
             cmds=( ${lib.escapeShellArgs (lib.catAttrs "cmd" menu)} )
             index=$(fuzzel --dmenu --index --only-match --minimal-lines <<< ${lib.escapeShellArg (lib.concatStringsSep "\n" (lib.catAttrs "key" menu))})
