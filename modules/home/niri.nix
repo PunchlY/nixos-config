@@ -153,10 +153,10 @@ in {
         }
       ];
 
-      spawn-at-startup = [
-        (lib.mkIf config.programs.uwsm.enable {
+      spawn-at-startup = lib.mkIf config.programs.uwsm.enable [
+        {
           sh = ''[ "$(systemctl --user show wayland-wm@niri.service -p MainPID --value)" -eq "$(${lib.getExe pkgs.lsof} -t "$NIRI_SOCKET" 2>&1)" ] && uwsm finalize'';
-        })
+        }
       ];
 
       binds = {
