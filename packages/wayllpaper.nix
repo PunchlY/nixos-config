@@ -12,7 +12,7 @@
 }:
 stdenv.mkDerivation (_finalAttrs: {
   pname = "wayllpaper";
-  version = "0.1.0";
+  version = "0.1.0-0.3";
 
   src = fetchgit {
     url = "https://git.sr.ht/~kennylevinsen/wayllpaper";

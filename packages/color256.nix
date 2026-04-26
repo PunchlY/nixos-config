@@ -5,13 +5,13 @@
 }:
 stdenv.mkDerivation (_finalAttrs: {
   pname = "color256";
-  version = "git";
+  version = "1.0.0-0.44";
 
   src = fetchFromGitHub {
     owner = "jake-stewart";
     repo = "color256";
-    rev = "49ffa647eb71d4510a8c2876c74cd5ae48566c9b";
-    sha256 = "sha256-2EIG/jzW35ArjlN8ThQO5pVlp3IcnAPQayA3NwwMwZs=";
+    rev = "155d840e5d64f6d3d1361e8aa92ae9e2389e1e12";
+    hash = "sha256-QSx53IWyyypUuBarmPgFZw5PADdWk7oqK1cGOur2m5Y=";
   };
 
   buildInputs = [

@@ -13,7 +13,7 @@
 }:
 stdenv.mkDerivation (_finalAttrs: {
   pname = "wleird";
-  version = "git";
+  version = "1.0.0-0.46";
 
   src = fetchgit {
     url = "https://gitlab.freedesktop.org/emersion/wleird.git";

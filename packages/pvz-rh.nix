@@ -5,7 +5,7 @@
 }:
 stdenv.mkDerivation {
   name = "PlantsVsZombiesRH";
-  version = "v3.5.0";
+  version = "3.5.0";
   src = requireFile {
     name = "PlantsVsZombiesRH.zip";
     url = "https://wiki.biligame.com/pvzrh";
