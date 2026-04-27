@@ -3,9 +3,10 @@
   lib,
   ...
 }: {
-  flake.modules.nixos.base = {
+  flake.nixosModules.base = {
     config,
     pkgs,
+    utils,
     ...
   }: let
     cfg = config.services.mihomo;
@@ -29,12 +30,11 @@
 
       systemd.services.mihomo = {
         serviceConfig = {
-          ExecStart = lib.mkForce (lib.concatStringsSep " " [
+          ExecStart = lib.mkForce (utils.escapeSystemdExecArgs [
             (lib.getExe cfg.package)
-            "-d /var/lib/private/mihomo"
-            "-f /var/lib/private/mihomo/config.yaml"
+            "-d=/var/lib/private/mihomo"
+            "-f=/var/lib/private/mihomo/config.yaml"
             (lib.optionalString (cfg.webui != null) "-ext-ui ${cfg.webui}")
-            (lib.optionalString (cfg.extraOpts != null) cfg.extraOpts)
           ]);
           ExecStartPre = pkgs.writeShellScript "config-merge" ''
             ${pkgs.yq-go}/bin/yq eval-all \
@@ -47,6 +47,7 @@
       };
 
       services.mihomo = {
+        extraOpts = null;
         webui = pkgs.metacubexd;
         tunMode = true;
         processesInfo = true;

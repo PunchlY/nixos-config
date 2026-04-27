@@ -1,12 +1,9 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
-    nixosConfig,
+  flake.homeModules.base = {
     config,
     pkgs,
     ...
   }: let
-    inherit (nixosConfig.theme) font colors;
-
     plugins = with pkgs.zathuraPkgs; [
       zathura_pdf_poppler
     ];
@@ -15,7 +12,17 @@
       home.packages = plugins;
 
       xdg.mimeApps.defaultApplicationPackages = plugins;
+    };
+  };
 
+  flake.homeModules.theme = {
+    nixosConfig,
+    config,
+    ...
+  }: let
+    inherit (nixosConfig.theme) font colors;
+  in {
+    config = lib.mkIf config.programs.zathura.enable {
       programs.zathura = {
         options = with colors; {
           default-bg = surface.hex;

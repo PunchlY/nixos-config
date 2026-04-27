@@ -7,7 +7,7 @@
     md3.url = "github:PunchlY/md3";
   };
 
-  flake.modules.nixos.base = {
+  flake.nixosModules.theme = {
     config,
     pkgs,
     ...

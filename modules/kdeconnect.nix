@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {nixosConfig, ...}: {
+  flake.homeModules.nixos = {nixosConfig, ...}: {
     services.kdeconnect = lib.mkIf nixosConfig.programs.kdeconnect.enable {
       package = nixosConfig.programs.kdeconnect.package;
       enable = lib.mkDefault true;

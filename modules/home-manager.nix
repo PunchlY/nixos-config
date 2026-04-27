@@ -10,18 +10,20 @@
     };
   };
 
-  flake.modules.nixos.base = {
+  imports = [inputs.home-manager.flakeModules.default];
+
+  flake.nixosModules.base = {
     imports = [inputs.home-manager.nixosModules.default];
     home-manager = {
-      sharedModules = [config.flake.modules.homeManager.nixos];
+      sharedModules = [config.flake.homeModules.nixos];
       useGlobalPkgs = true;
       # useUserPackages = true;
       backupFileExtension = "backup";
     };
   };
 
-  flake.modules.homeManager.nixos = {nixosConfig, ...}: {
-    imports = [config.flake.modules.homeManager.base];
+  flake.homeModules.nixos = {nixosConfig, ...}: {
+    imports = [config.flake.homeModules.base];
 
     home.stateVersion = nixosConfig.system.stateVersion;
   };

@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: let
+  flake.homeModules.base = {config, ...}: let
     cfg = config.programs.swayimg;
   in {
     config = lib.mkIf cfg.enable {
@@ -9,7 +9,7 @@
     };
   };
 
-  flake.modules.homeManager.nixos = {
+  flake.homeModules.theme = {
     nixosConfig,
     config,
     ...

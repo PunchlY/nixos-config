@@ -1,8 +1,7 @@
 # https://github.com/kira-bruneau/nixos-config/blob/d2561703b25cfd72c1e650a1dfc4d07ec26e230b/home/hosts/peridot.nix
 # https://github.com/ChrisOboe/json2steamshortcut/blob/7d43d5b6e198542649c712573b91f27247068aed/flake.nix
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
-    nixosConfig,
+  flake.homeModules.base = {
     config,
     pkgs,
     ...
@@ -77,11 +76,7 @@
       cfg.grids;
   in {
     options.services.steam = {
-      enable =
-        lib.mkEnableOption "steam"
-        // {
-          default = nixosConfig.programs.steam.enable;
-        };
+      enable = lib.mkEnableOption "steam";
 
       steamUserId = lib.mkOption {
         type = lib.types.int;
@@ -170,12 +165,7 @@
             ''
             + lib.concatStrings (
               lib.mapAttrsToList (name: file: ''
-                ln -s ${
-                  lib.escapeShellArgs [
-                    file
-                    name
-                  ]
-                }
+                ln -s ${lib.escapeShellArgs [file name]}
               '')
               grids
             )
@@ -183,6 +173,12 @@
           force = true;
         };
       };
+    };
+  };
+
+  flake.homeModules.nixos = {nixosConfig, ...}: {
+    config = lib.mkIf nixosConfig.programs.steam.enable {
+      services.steam.enable = true;
     };
   };
 }

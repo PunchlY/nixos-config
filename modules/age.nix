@@ -6,7 +6,7 @@
     };
   };
 
-  flake.modules.nixos.base = {pkgs, ...}: {
+  flake.nixosModules.base = {pkgs, ...}: {
     imports = [
       inputs.agenix.nixosModules.default
     ];

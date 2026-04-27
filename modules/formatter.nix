@@ -9,6 +9,8 @@
   perSystem = {
     treefmt = {
       projectRootFile = "flake.nix";
+      settings.excludes = ["flake.nix"];
+
       programs.deadnix = {
         enable = true;
         priority = 1;

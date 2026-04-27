@@ -1,5 +1,13 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
+  flake.homeModules.base = {config, ...}: {
+    config = lib.mkIf config.programs.ghostty.enable {
+      programs.ghostty = {
+        systemd.enable = true;
+      };
+    };
+  };
+
+  flake.homeModules.theme = {
     nixosConfig,
     config,
     ...
@@ -8,7 +16,6 @@
   in {
     config = lib.mkIf config.programs.ghostty.enable {
       programs.ghostty = {
-        systemd.enable = true;
         settings = {
           font-family = "monospace";
           font-size = font.size;

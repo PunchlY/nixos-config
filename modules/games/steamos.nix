@@ -10,7 +10,7 @@
     };
   };
 
-  flake.modules.nixos.base = {config, ...}: {
+  flake.nixosModules.base = {config, ...}: {
     imports = [inputs.jovian.nixosModules.default];
 
     jovian.steam = lib.mkIf config.jovian.steam.enable {

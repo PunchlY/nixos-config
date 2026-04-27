@@ -1,12 +1,9 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
-    nixosConfig,
+  flake.homeModules.base = {
     config,
     pkgs,
     ...
-  }: let
-    inherit (nixosConfig.theme) colors;
-  in {
+  }: {
     config = lib.mkIf config.programs.mpv.enable {
       programs.yt-dlp = {
         enable = true;
@@ -16,7 +13,7 @@
       };
 
       programs.mpv = {
-        config = with colors; {
+        config = {
           gpu-context = "auto";
           hwdec = "auto-safe";
           vo = "gpu-next";
@@ -40,15 +37,6 @@
 
           osc = false;
           osd-bar = false;
-
-          background-color = surface.hex;
-          osd-back-color = surface.hex;
-          osd-border-color = surface.hex;
-          osd-color = on_surface.hex;
-          osd-shadow-color = shadow.hex;
-
-          osd-font = "monospace";
-          sub-font = "monospace";
 
           force-seekable = true;
           cache = true;
@@ -124,16 +112,6 @@
             "fullscreen"
           ];
           languages = "slang,en";
-
-          color = with colors;
-            lib.concatMapAttrsStringSep "," (name: value: "${name}=${value}") {
-              foreground = on_surface.hex_stripped;
-              foreground_text = surface.hex_stripped;
-              background = surface.hex_stripped;
-              background_text = on_surface.hex_stripped;
-              success = green.hex_stripped;
-              error = error.hex_stripped;
-            };
         };
 
         scriptOpts.uosc_danmaku = {
@@ -149,6 +127,42 @@
         scriptOpts.thumbfast = {
           network = true;
           hwdec = true;
+        };
+      };
+    };
+  };
+
+  flake.homeModules.theme = {
+    nixosConfig,
+    config,
+    ...
+  }: let
+    inherit (nixosConfig.theme) colors;
+  in {
+    config = lib.mkIf config.programs.mpv.enable {
+      programs.mpv = {
+        config = with colors; {
+          background-color = surface.hex;
+          osd-back-color = surface.hex;
+          osd-border-color = surface.hex;
+          osd-color = on_surface.hex;
+          osd-shadow-color = shadow.hex;
+
+          osd-font = "monospace";
+          sub-font = "monospace";
+        };
+        scriptOpts.ytdl_hook.ytdl_path = lib.getExe config.programs.yt-dlp.package;
+
+        scriptOpts.uosc = {
+          color = with colors;
+            lib.concatMapAttrsStringSep "," (name: value: "${name}=${value}") {
+              foreground = on_surface.hex_stripped;
+              foreground_text = surface.hex_stripped;
+              background = surface.hex_stripped;
+              background_text = on_surface.hex_stripped;
+              success = green.hex_stripped;
+              error = error.hex_stripped;
+            };
         };
       };
     };

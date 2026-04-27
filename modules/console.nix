@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.nixos.base = {config, ...}: let
+  flake.nixosModules.theme = {config, ...}: let
     inherit (config.theme) colors;
   in {
     config = lib.mkIf config.console.enable {

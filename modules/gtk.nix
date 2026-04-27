@@ -1,9 +1,9 @@
 {lib, ...}: {
-  flake.modules.nixos.base = {
+  flake.nixosModules.theme = {
     programs.dconf.enable = true;
   };
 
-  flake.modules.homeManager.nixos = {
+  flake.homeModules.theme = {
     nixosConfig,
     pkgs,
     ...

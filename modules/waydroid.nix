@@ -10,7 +10,7 @@
     };
   };
 
-  flake.modules.nixos.base = {
+  flake.nixosModules.base = {
     config,
     pkgs,
     ...

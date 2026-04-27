@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.homeManager.nixos = {nixosConfig, ...}: let
+  flake.homeModules.theme = {nixosConfig, ...}: let
     inherit (nixosConfig.theme) colors font cursor;
   in {
     xdg.configFile."kdeglobals".text = ''

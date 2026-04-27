@@ -6,7 +6,7 @@
     };
   };
 
-  flake.modules.nixos.base = {
+  flake.nixosModules.base = {
     imports = [inputs.nix-index-database.nixosModules.default];
 
     programs.nix-index.enable = false;

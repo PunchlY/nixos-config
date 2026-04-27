@@ -1,6 +1,5 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
-    nixosConfig,
+  flake.homeModules.base = {
     config,
     pkgs,
     ...
@@ -18,34 +17,6 @@
 
       xdg.configFile."wiliwili/gamecontrollerdb.txt" = {
         source = "${pkgs.sdl_gamecontrollerdb}/share/gamecontrollerdb.txt";
-      };
-
-      xdg.configFile."wiliwili/font.ttf" = {
-        source =
-          pkgs.runCommand "wiliwili-font"
-          {
-            nativeBuildInputs = [pkgs.fontconfig];
-            FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = nixosConfig.fonts.packages;
-            };
-          }
-          ''
-            ln -s "$(fc-match "monospace" --format %{file})" "$out"
-          '';
-      };
-
-      xdg.configFile."wiliwili/emoji.ttf" = {
-        source =
-          pkgs.runCommand "wiliwili-emoji"
-          {
-            nativeBuildInputs = [pkgs.fontconfig];
-            FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = nixosConfig.fonts.packages;
-            };
-          }
-          ''
-            ln -s "$(fc-match emoji --format %{file})" "$out"
-          '';
       };
 
       services.steam = lib.mkIf config.services.steam.enable {
@@ -75,6 +46,45 @@
             hash = "sha256-xTtfRKZnK3xmKkxls3KEUdTW2oLpYeseDiy0Qu00e8o=";
           };
         };
+      };
+    };
+  };
+
+  flake.homeModules.theme = {
+    nixosConfig,
+    config,
+    pkgs,
+    ...
+  }: let
+    cfg = config.programs.wiliwili;
+  in {
+    config = lib.mkIf cfg.enable {
+      xdg.configFile."wiliwili/font.ttf" = {
+        source =
+          pkgs.runCommand "wiliwili-font"
+          {
+            nativeBuildInputs = [pkgs.fontconfig];
+            FONTCONFIG_FILE = pkgs.makeFontsConf {
+              fontDirectories = nixosConfig.fonts.packages;
+            };
+          }
+          ''
+            ln -s "$(fc-match "monospace" --format %{file})" "$out"
+          '';
+      };
+
+      xdg.configFile."wiliwili/emoji.ttf" = {
+        source =
+          pkgs.runCommand "wiliwili-emoji"
+          {
+            nativeBuildInputs = [pkgs.fontconfig];
+            FONTCONFIG_FILE = pkgs.makeFontsConf {
+              fontDirectories = nixosConfig.fonts.packages;
+            };
+          }
+          ''
+            ln -s "$(fc-match emoji --format %{file})" "$out"
+          '';
       };
     };
   };

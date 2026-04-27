@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.nixos.base = {
+  flake.nixosModules.base = {
     config,
     pkgs,
     ...
@@ -12,7 +12,7 @@
     };
   };
 
-  flake.modules.homeManager.nixos = {
+  flake.homeModules.nixos = {
     nixosConfig,
     config,
     ...

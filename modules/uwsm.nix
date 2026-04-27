@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: let
+  flake.homeModules.base = {config, ...}: let
     cfg = config.programs.uwsm;
 
     variablesType = with lib.types;
@@ -61,7 +61,7 @@
     };
   };
 
-  flake.modules.homeManager.nixos = {nixosConfig, ...}: {
+  flake.homeModules.nixos = {nixosConfig, ...}: {
     programs.uwsm.enable = nixosConfig.programs.uwsm.enable;
   };
 }

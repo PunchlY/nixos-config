@@ -1,8 +1,8 @@
 {lib, ...}: {
-  flake.modules.nixos.base = {
+  flake.nixosModules.base = {
   };
 
-  flake.modules.homeManager.base = {
+  flake.homeModules.base = {
     config,
     pkgs,
     ...

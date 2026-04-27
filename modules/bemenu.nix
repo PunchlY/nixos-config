@@ -10,14 +10,11 @@
     };
   };
 
-  flake.modules.homeManager.nixos = {
-    nixosConfig,
+  flake.homeModules.base = {
     config,
     pkgs,
     ...
-  }: let
-    inherit (nixosConfig.theme) font colors;
-  in {
+  }: {
     config = lib.mkIf config.programs.bemenu.enable {
       programs.bemenu.package = pkgs.writeShellApplication {
         name = "bemenu";
@@ -36,7 +33,17 @@
           exec bemenu "''${args[@]}" "$@"
         '';
       };
+    };
+  };
 
+  flake.homeModules.theme = {
+    nixosConfig,
+    config,
+    ...
+  }: let
+    inherit (nixosConfig.theme) font colors;
+  in {
+    config = lib.mkIf config.programs.bemenu.enable {
       xdg.configFile.bemenu.text = with colors; ''
         ignorecase
         single-instance

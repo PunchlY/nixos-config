@@ -1,4 +1,6 @@
-{inputs, ...}: {
+{
+  configurations.nixos.winmax2.enableTheme = true;
+
   configurations.nixos.winmax2.module = {
     config,
     pkgs,
@@ -132,16 +134,9 @@
       QT_SCALE_FACTOR = "1.5";
     };
 
-    services.swaylock.enable = true;
-
     programs.localsend = {
       enable = true;
       package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
-    };
-
-    hm.i18n.inputMethod = {
-      enable = true;
-      type = "fcitx5";
     };
 
     hm.programs.git.enable = true;
@@ -150,8 +145,6 @@
       enable = true;
       mutableExtensionsDir = true;
     };
-
-    hm.services.cliphist.enable = true;
 
     hm.programs.aria2.enable = true;
 
@@ -176,19 +169,9 @@
 
     hm.programs.mpv.enable = true;
 
-    hm.programs.bemenu.enable = true;
-    hm.programs.fuzzel.enable = true;
-
     hm.programs.kew.enable = true;
 
-    hm.services.mako = {
-      enable = true;
-      settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
-    };
-
     hm.programs.opencode.enable = true;
-
-    hm.services.bar.enable = true;
 
     hm.xdg.desktopEntries.bluetui = {
       name = "Bluetui";
@@ -210,11 +193,7 @@
     };
 
     hm.home.packages = with pkgs; [
-      libnotify
-      brightnessctl
-      wl-clipboard-rs
       wireplumber
-      playerctl
       exiftool
       android-tools
       appimage-run

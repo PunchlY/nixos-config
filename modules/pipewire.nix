@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.nixos.base = {config, ...}: {
+  flake.nixosModules.base = {config, ...}: {
     config = lib.mkIf config.services.pipewire.enable {
       services.pulseaudio.enable = false;
       security.rtkit.enable = true;

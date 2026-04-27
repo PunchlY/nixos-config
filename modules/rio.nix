@@ -1,23 +1,12 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
-    nixosConfig,
-    config,
-    ...
-  }: let
-    inherit (nixosConfig.theme) colors font opacity;
-  in {
+  flake.homeModules.base = {config, ...}: {
     config = lib.mkIf config.programs.rio.enable {
       programs.rio = {
         settings = {
-          force-theme = "dark";
           fonts = {
-            size = font.size;
-            family = lib.head nixosConfig.fonts.fontconfig.defaultFonts.monospace;
-            extras = lib.map (family: {inherit family;}) (lib.tail nixosConfig.fonts.fontconfig.defaultFonts.monospace);
             use-drawable-chars = true;
           };
           window = {
-            opacity = opacity;
             decorations = "Disabled";
           };
           hints = {
@@ -38,6 +27,34 @@
                 };
               }
             ];
+          };
+          renderer = {
+            disable-unfocused-render = true;
+            target-fps = lib.mkDefault 60;
+          };
+        };
+      };
+    };
+  };
+
+  flake.homeModules.theme = {
+    nixosConfig,
+    config,
+    ...
+  }: let
+    inherit (nixosConfig.theme) colors font opacity;
+  in {
+    config = lib.mkIf config.programs.rio.enable {
+      programs.rio = {
+        settings = {
+          force-theme = "dark";
+          fonts = {
+            size = font.size;
+            family = lib.head nixosConfig.fonts.fontconfig.defaultFonts.monospace;
+            extras = lib.map (family: {inherit family;}) (lib.tail nixosConfig.fonts.fontconfig.defaultFonts.monospace);
+          };
+          window = {
+            opacity = opacity;
           };
           colors = with colors; {
             foreground = on_surface.hex;
@@ -63,10 +80,6 @@
             light-magenta = color13.hex;
             light-cyan = color14.hex;
             light-white = color15.hex;
-          };
-          renderer = {
-            disable-unfocused-render = true;
-            target-fps = lib.mkDefault 60;
           };
         };
       };

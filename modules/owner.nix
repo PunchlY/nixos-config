@@ -9,7 +9,7 @@
     email = "punchly9lin@gmail.com";
   };
 
-  flake.modules.nixos.base = {
+  flake.nixosModules.base = {
     imports = [
       (lib.mkAliasOptionModule ["user"] ["users" "users" config.flake.meta.owner.username])
       (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" config.flake.meta.owner.username])

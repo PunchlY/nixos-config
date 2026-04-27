@@ -1,5 +1,17 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
+  flake.homeModules.base = {config, ...}: {
+    config = lib.mkIf config.programs.fuzzel.enable {
+      programs.fuzzel = {
+        settings = {
+          main = {
+            keyboard-focus = "on-demand";
+          };
+        };
+      };
+    };
+  };
+
+  flake.homeModules.theme = {
     nixosConfig,
     config,
     ...
@@ -11,7 +23,6 @@
         settings = {
           main = {
             font = "monospace:size=${toString font.size}";
-            keyboard-focus = "on-demand";
             horizontal-pad = 16;
             vertical-pad = 8;
             inner-pad = 2;

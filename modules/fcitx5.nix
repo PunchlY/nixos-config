@@ -1,12 +1,9 @@
 {lib, ...}: {
-  flake.modules.homeManager.nixos = {
-    nixosConfig,
+  flake.homeModules.base = {
     config,
     pkgs,
     ...
-  }: let
-    inherit (nixosConfig.theme) font colors;
-  in {
+  }: {
     config = lib.mkIf (config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5") {
       i18n.inputMethod.fcitx5 = {
         waylandFrontend = true;
@@ -61,6 +58,19 @@
           HalfWidthPuncAfterLetterOrNumber = "True";
           "Hotkey/0" = "Control+period";
         };
+      };
+    };
+  };
+
+  flake.homeModules.theme = {
+    nixosConfig,
+    config,
+    ...
+  }: let
+    inherit (nixosConfig.theme) font colors;
+  in {
+    config = lib.mkIf (config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5") {
+      i18n.inputMethod.fcitx5 = {
         settings.addons.classicui.globalSection = {
           EnableFractionalScale = "True";
 

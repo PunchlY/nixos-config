@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.modules.homeManager.base = {pkgs, ...}: {
+  flake.homeModules.base = {pkgs, ...}: {
     home.packages = with pkgs; [
       just
       nix-output-monitor

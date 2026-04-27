@@ -10,12 +10,11 @@
     };
   };
 
-  flake.modules.nixos.base = {
+  flake.nixosModules.base = {
     config,
     pkgs,
     ...
   }: let
-    inherit (config.theme) wallpaper;
     cfg = config.programs.niri;
   in {
     disabledModules = ["programs/wayland/niri.nix"];
@@ -29,6 +28,26 @@
     config = lib.mkIf cfg.enable {
       environment.systemPackages = [cfg.package];
 
+      xdg.portal = {
+        enable = true;
+        xdgOpenUsePortal = true;
+
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gtk
+          xdg-desktop-portal-gnome
+          # xdg-desktop-portal-niri
+        ];
+
+        config.niri = {
+          default = ["gnome" "gtk"];
+          "org.freedesktop.impl.portal.Access" = "gtk";
+          "org.freedesktop.impl.portal.FileChooser" = "gtk";
+          "org.freedesktop.impl.portal.Notification" = "gtk";
+          "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+          # "org.freedesktop.impl.portal.AppChooser" = "niri";
+        };
+      };
+
       programs.uwsm = {
         enable = true;
         waylandCompositors.niri = {
@@ -39,31 +58,11 @@
         };
       };
 
-      xdg.portal = {
-        enable = true;
-        xdgOpenUsePortal = true;
-
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-gnome
-        ];
-
-        config.niri = {
-          default = ["gnome" "gtk"];
-          "org.freedesktop.impl.portal.Access" = "gtk";
-          "org.freedesktop.impl.portal.FileChooser" = "gtk";
-          "org.freedesktop.impl.portal.Notification" = "gtk";
-          "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
-        };
-      };
-
       services.gnome.gnome-keyring.enable = true;
 
       services.graphical-desktop.enable = true;
 
       security.polkit.enable = true;
-
-      security.pam.services.swaylock = {};
 
       programs.dconf.enable = true;
 
@@ -79,23 +78,10 @@
           TimeoutStopSec = 10;
         };
       };
-
-      systemd.user.services.niri-wallpaper = {
-        after = ["wayland-wm@niri.service"];
-        wantedBy = ["graphical-session.target"];
-        partOf = ["graphical-session.target"];
-        serviceConfig = {
-          ExecStart = "${lib.getExe pkgs.wbg} --stretch ${wallpaper}";
-          Restart = "on-failure";
-        };
-        unitConfig = {
-          ConditionEnvironment = "WAYLAND_DISPLAY";
-        };
-      };
     };
   };
 
-  flake.modules.homeManager.base = {
+  flake.homeModules.base = {
     config,
     pkgs,
     ...
@@ -110,18 +96,43 @@
       package = lib.mkPackageOption pkgs "niri" {};
     };
 
-    config = cfg.enable {
-      home.packages = [cfg.package];
+    config = lib.mkIf cfg.enable {
+      home.packages =
+        [cfg.package]
+        ++ (with pkgs; [
+          libnotify
+          brightnessctl
+          wl-clipboard-rs
+          playerctl
+        ]);
 
       xdg.configFile."niri/config.kdl".source =
         inputs.niri.lib.internal.validated-config-for pkgs cfg.package
         cfg.finalConfig;
+
+      i18n.inputMethod = {
+        enable = true;
+        type = "fcitx5";
+      };
 
       xdg.terminal-exec = {
         enable = true;
         settings.niri = ["Alacritty.desktop"];
       };
       programs.alacritty.enable = true;
+
+      programs.fuzzel.enable = true;
+
+      services.mako = {
+        enable = true;
+        settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
+      };
+
+      services.cliphist.enable = true;
+      programs.niri.settings.binds."Mod+V" = {
+        hotkey-overlay.title = "Open Clipboard";
+        action.spawn = "cliphist-fuzzel-img";
+      };
 
       programs.niri.settings = {
         cursor = {
@@ -206,12 +217,6 @@
         layer-rules = [
           {
             matches = [
-              {namespace = "^wallpaper$";}
-            ];
-            place-within-backdrop = true;
-          }
-          {
-            matches = [
               {namespace = "^notifications$";}
               {namespace = "^fuzzel-polkit-agent$";}
             ];
@@ -251,10 +256,6 @@
                 exec niri msg action spawn -- "$@"
               ''}";
             }}";
-          };
-          "Mod+V" = lib.mkIf config.services.cliphist.enable {
-            hotkey-overlay.title = "Open Clipboard";
-            action.spawn = "cliphist-fuzzel-img";
           };
 
           "Mod+O".action.toggle-overview = {};
@@ -375,14 +376,17 @@
     };
   };
 
-  flake.modules.homeManager.nixos = {
+  flake.homeModules.nixos = {
     nixosConfig,
     pkgs,
     ...
-  }: let
-    inherit (nixosConfig.theme) cursor colors;
-  in {
+  }: {
     config = lib.mkIf nixosConfig.programs.niri.enable {
+      programs.niri = {
+        enable = true;
+        package = nixosConfig.programs.niri.package;
+      };
+
       programs.uwsm = {
         enable = true;
         desktopEnv.niri = {
@@ -399,76 +403,70 @@
           GTK_CSD = "0";
         };
       };
+      programs.niri.settings.spawn-at-startup = [
+        {
+          sh = ''[ "$(systemctl --user show wayland-wm@niri.service -p MainPID --value)" -eq "$(${lib.getExe pkgs.lsof} -t "$NIRI_SOCKET" 2>&1)" ] && uwsm finalize'';
+        }
+      ];
 
-      programs.niri = {
-        enable = true;
-        package = nixosConfig.programs.niri.package;
-        settings = {
-          cursor = {
-            size = cursor.size;
-            theme = cursor.name;
+      programs.niri.settings.binds."Mod+Escape" = {
+        hotkey-overlay.title = "Open Command Menu";
+        action.spawn-sh = let
+          menu =
+            (
+              if nixosConfig.programs.steam.enable
+              then [
+                {
+                  key = "Game Mode";
+                  cmd = "steamosctl switch-to-game-mode";
+                }
+              ]
+              else []
+            )
+            ++ [
+              {
+                key = "Suspend";
+                cmd = "systemctl suspend";
+              }
+              {
+                key = "Reboot";
+                cmd = "systemctl reboot";
+              }
+              {
+                key = "Shutdown";
+                cmd = "systemctl poweroff";
+              }
+            ];
+        in ''
+          cmds=( ${lib.escapeShellArgs (lib.catAttrs "cmd" menu)} )
+          index=$(fuzzel --dmenu --index --only-match --minimal-lines <<< ${lib.escapeShellArg (lib.concatStringsSep "\n" (lib.catAttrs "key" menu))})
+          [ -z "$index" ] && exit 0
+          [ "$index" -lt 0 ] && exit 0
+          eval "''${cmds[$index]}"
+        '';
+      };
+    };
+  };
+
+  flake.homeModules.theme = {nixosConfig, ...}: let
+    inherit (nixosConfig.theme) cursor colors;
+  in {
+    config = lib.mkIf nixosConfig.programs.niri.enable {
+      programs.niri.settings = {
+        cursor = {
+          size = cursor.size;
+          theme = cursor.name;
+        };
+
+        layout = {
+          border = {
+            active.color = colors.primary.hex;
+            inactive.color = colors.surface_variant.hex;
           };
+        };
 
-          layout = {
-            border = {
-              active.color = colors.primary.hex;
-              inactive.color = colors.surface_variant.hex;
-            };
-          };
-
-          overview = {
-            backdrop-color = colors.background.hex;
-          };
-
-          spawn-at-startup = [
-            {
-              sh = ''[ "$(systemctl --user show wayland-wm@niri.service -p MainPID --value)" -eq "$(${lib.getExe pkgs.lsof} -t "$NIRI_SOCKET" 2>&1)" ] && uwsm finalize'';
-            }
-          ];
-
-          binds = {
-            "Mod+Escape" = {
-              hotkey-overlay.title = "Open Command Menu";
-              action.spawn-sh = let
-                menu =
-                  (
-                    if nixosConfig.programs.steam.enable
-                    then [
-                      {
-                        key = "Game Mode";
-                        cmd = "steamosctl switch-to-game-mode";
-                      }
-                    ]
-                    else []
-                  )
-                  ++ [
-                    {
-                      key = "Suspend";
-                      cmd = "systemctl suspend";
-                    }
-                    {
-                      key = "Reboot";
-                      cmd = "systemctl reboot";
-                    }
-                    {
-                      key = "Shutdown";
-                      cmd = "systemctl poweroff";
-                    }
-                  ];
-              in ''
-                cmds=( ${lib.escapeShellArgs (lib.catAttrs "cmd" menu)} )
-                index=$(fuzzel --dmenu --index --only-match --minimal-lines <<< ${lib.escapeShellArg (lib.concatStringsSep "\n" (lib.catAttrs "key" menu))})
-                [ -z "$index" ] && exit 0
-                [ "$index" -lt 0 ] && exit 0
-                eval "''${cmds[$index]}"
-              '';
-            };
-            "Mod+Alt+L" = {
-              hotkey-overlay.title = "Lock the Screen";
-              allow-inhibiting = false;
-              action.spawn-sh = "loginctl lock-session";
-            };
-          };
+        overview = {
+          backdrop-color = colors.background.hex;
         };
       };
     };
