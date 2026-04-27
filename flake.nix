@@ -1,137 +1,57 @@
+# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# Use `nix run .#write-flake` to regenerate it.
 {
-  description = "NixOS configuration";
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    treefmt-nix.url = "github:numtide/treefmt-nix";
-
-    systems.url = "github:nix-systems/default";
-
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    templates.url = "github:MordragT/nix-templates";
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    agenix = {
+      url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    agenix.url = "github:ryantm/agenix";
-
-    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
-
-    waydroid-script.url = "github:casualsnek/waydroid_script";
-
-    md3.url = "github:PunchlY/md3";
-
-    niri.url = "github:sodiboo/niri-flake";
-
+    bemenu = {
+      url = "github:Cloudef/bemenu";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     browser-previews = {
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    yazi.url = "github:sxyazi/yazi";
-
+    flake-file.url = "github:vic/flake-file";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    import-tree.url = "github:vic/import-tree";
+    jovian = {
+      url = "github:Jovian-Experiments/Jovian-NixOS";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    md3.url = "github:PunchlY/md3";
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nur = {
-      url = "github:nix-community/NUR";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
-
-  outputs = inputs: let
-    inherit (inputs.nixpkgs) lib;
-    eachSystem = lib.genAttrs (import inputs.systems);
-
-    treefmtEval = eachSystem (system: inputs.treefmt-nix.lib.evalModule inputs.nixpkgs.legacyPackages.${system} ./treefmt.nix);
-
-    readModules = path: lib.map (name: path + "/${name}") (lib.attrNames (lib.readDir path));
-
-    callFunctionWith = autoArgs: fn:
-      if lib.isFunction fn
-      then (fn (lib.intersectAttrs (lib.functionArgs fn) autoArgs))
-      else fn;
-
-    packages = lib.mapAttrs' (file: _: {
-      name = lib.removeSuffix ".nix" file;
-      value = ./packages/${file};
-    }) (lib.readDir ./packages);
-
-    me = callFunctionWith inputs (import ./me.nix);
-  in {
-    overlays.default = final: prev: let
-      callPackage = final.newScope {inherit prev inputs;};
-    in
-      lib.mapAttrs (_: file: callPackage file {}) packages;
-
-    packages = eachSystem (
-      system:
-        lib.intersectAttrs packages (
-          import inputs.nixpkgs {
-            inherit system;
-            overlays = [
-              inputs.self.overlays.default
-            ];
-          }
-        )
-    );
-
-    formatter = eachSystem (system: treefmtEval.${system}.config.build.wrapper);
-
-    checks = eachSystem (system: {
-      formatting = treefmtEval.${system}.config.build.check inputs.self;
-    });
-
-    nixosConfigurations =
-      lib.mapAttrs
-      (
-        hostName: {system}:
-          lib.nixosSystem {
-            inherit system;
-            specialArgs = {inherit inputs me;};
-            modules =
-              [
-                inputs.home-manager.nixosModules.default
-                {
-                  networking.hostName = hostName;
-
-                  nixpkgs = {
-                    overlays = [
-                      inputs.self.overlays.default
-                      inputs.nur.overlays.default
-                    ];
-                    config = {
-                      allowUnfree = true;
-                      permittedInsecurePackages = [
-                        "python3.12-ecdsa-0.19.1"
-                      ];
-                    };
-                  };
-
-                  nix.registry.self.flake = inputs.self;
-
-                  home-manager = {
-                    sharedModules = readModules ./modules/home;
-                    extraSpecialArgs = {inherit inputs me;};
-                    useGlobalPkgs = true;
-                    useUserPackages = true;
-                    backupFileExtension = "backup";
-                  };
-                }
-              ]
-              ++ (readModules ./modules/nixos)
-              ++ (readModules ./host/${hostName});
-          }
-      )
-      {
-        winmax2.system = "x86_64-linux";
-        nixos.system = "x86_64-linux";
-      };
+    waydroid-script = {
+      url = "github:casualsnek/waydroid_script";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    yazi = {
+      url = "github:sxyazi/yazi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

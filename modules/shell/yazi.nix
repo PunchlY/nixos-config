@@ -1,0 +1,140 @@
+{
+  inputs,
+  lib,
+  ...
+}: {
+  flake-file.inputs = {
+    yazi = {
+      url = "github:sxyazi/yazi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  flake.modules.homeManager.base = {
+    config,
+    pkgs,
+    ...
+  }: {
+    config = lib.mkIf config.programs.yazi.enable {
+      xdg.mimeApps.defaultApplicationPackages = [
+        config.programs.yazi.package
+      ];
+
+      programs.yazi = {
+        package = pkgs.yazi.override {
+          _7zz = pkgs._7zz-rar;
+          yazi-unwrapped = inputs.yazi.packages.${pkgs.stdenv.hostPlatform.system}.yazi-unwrapped;
+        };
+        extraPackages = with pkgs; [
+          hexyl
+          xdg-user-dirs
+        ];
+        enableBashIntegration = true;
+        shellWrapperName = "y";
+        theme = {
+          icon.prepend_globs = lib.mapAttrsToList (url: text: {inherit url text;}) {
+            "${config.xdg.userDirs.documents}/" = "";
+            "${config.xdg.userDirs.download}/" = "";
+            "${config.xdg.userDirs.extraConfig.MEDIA}/" = "";
+            "${config.xdg.userDirs.music}/" = "";
+            "${config.xdg.userDirs.pictures}/" = "";
+            "${config.xdg.userDirs.videos}/" = "";
+            "${config.xdg.userDirs.extraConfig.GAME}/" = "";
+            "${config.xdg.userDirs.extraConfig.PROJECTS}/" = "";
+          };
+          icon.prepend_dirs = lib.mapAttrsToList (name: text: {inherit name text;}) {
+            nixos-config = "";
+            ".minecraft" = "󰍳";
+            "minecraft" = "󰍳";
+          };
+        };
+        keymap.input.prepend_keymap = [
+          {
+            on = "<Esc>";
+            run = "close";
+            desc = "Cancel input";
+          }
+        ];
+        keymap.mgr.prepend_keymap = [
+          {
+            desc = "Go to download dir";
+            on = [
+              "g"
+              "d"
+            ];
+            run = ''cd "$(xdg-user-dir DOWNLOAD)"'';
+          }
+          {
+            desc = "Chmod on selected files";
+            on = [
+              "c"
+              "m"
+            ];
+            run = "plugin chmod";
+          }
+          {
+            desc = "Mount devices";
+            on = "M";
+            run = "plugin mount";
+          }
+          {
+            desc = "Hidden or showed the parent pane";
+            on = [
+              "T"
+              "a"
+            ];
+            run = "plugin toggle-pane min-parent";
+          }
+          {
+            desc = "Hidden or showed the preview pane";
+            on = [
+              "T"
+              "c"
+            ];
+            run = "plugin toggle-pane min-preview";
+          }
+        ];
+        initLua = ''
+          Header:children_add(function()
+            if ya.target_family() ~= "unix" then
+              return ""
+            end
+            return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("blue")
+          end, 500, Header.LEFT)
+
+          require("git"):setup()
+
+          require("toggle-pane"):entry("min-parent")
+        '';
+        plugins = {
+          inherit (pkgs.yaziPlugins) chmod;
+          inherit (pkgs.yaziPlugins) git;
+          inherit (pkgs.yaziPlugins) mount;
+          inherit (pkgs.yaziPlugins) piper;
+          inherit (pkgs.yaziPlugins) sudo;
+          inherit (pkgs.yaziPlugins) toggle-pane;
+        };
+        settings.plugin.prepend_fetchers = [
+          {
+            id = "git";
+            url = "*";
+            run = "git";
+            group = "git";
+          }
+          {
+            id = "git";
+            url = "*/";
+            run = "git";
+            group = "git";
+          }
+        ];
+        settings.plugin.append_previewers = [
+          {
+            url = "*";
+            run = ''piper -- hexyl --border=none --terminal-width=$w "$1"'';
+          }
+        ];
+      };
+    };
+  };
+}
