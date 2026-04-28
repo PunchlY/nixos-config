@@ -29,7 +29,7 @@
       services.steam = lib.mkIf config.services.steam.enable {
         shortcuts.retroarch = {
           appname = "RetroArch";
-          exe = lib.getExe cfg.package;
+          exe = [(lib.getExe cfg.package)];
           icon = pkgs.fetchurl {
             url = "https://cdn2.steamgriddb.com/icon/ea1818cbe59c23b20f1a10a8aa083a82/32/256x256.png";
             hash = "sha256-g+6x96hJIPKYfAUfZLUEwlxPse3cImpIcbft3qDZHwQ=";

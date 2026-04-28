@@ -53,27 +53,20 @@
 
     shortcuts = lib.mapAttrsToList (_: lib.filterAttrs (_: value: value != null)) cfg.shortcuts;
 
-    grids =
-      lib.concatMapAttrs (
-        name: {
-          grid,
-          horizontal,
-          hero,
-          logo,
-        }:
-          lib.optionalAttrs (builtins.hasAttr name cfg.shortcuts) (
-            let
-              id = toString (cfg.shortcuts.${name}.appid + 4294967296);
-            in
-              lib.filterAttrs (_: value: value != null) {
-                "${id}p.png" = grid;
-                "${id}.png" = horizontal;
-                "${id}_hero.png" = hero;
-                "${id}_logo.png" = logo;
-              }
-          )
-      )
-      cfg.grids;
+    grids = lib.concatMapAttrs (_: {
+      id,
+      grid,
+      horizontal,
+      hero,
+      logo,
+    }:
+      lib.filterAttrs (_: value: value != null) {
+        "${toString id}p.png" = grid;
+        "${toString id}.png" = horizontal;
+        "${toString id}_hero.png" = hero;
+        "${toString id}_logo.png" = logo;
+      })
+    cfg.grids;
   in {
     options.services.steam = {
       enable = lib.mkEnableOption "steam";
@@ -91,43 +84,41 @@
 
       shortcuts = lib.mkOption {
         type = lib.types.attrsOf (
-          lib.types.submodule (
-            {name, ...}: {
-              freeformType = lib.types.attrsOf lib.types.anything;
-              options = {
-                appname = lib.mkOption {
-                  type = lib.types.str;
-                  default = name;
-                };
-                appid = lib.mkOption {
-                  type = lib.types.int;
-                  default =
-                    -1
-                    - (builtins.bitAnd 2147483647 (
-                      lib.trivial.fromHexString (builtins.substring 0 8 (builtins.hashString "sha256" name))
-                    ));
-                };
-                exe = lib.mkOption {
-                  type = lib.types.either lib.types.str (lib.types.listOf lib.types.str);
-                  apply = v:
-                    lib.escapeShellArgs (
-                      if lib.isList v
-                      then v
-                      else [v]
-                    );
-                };
+          lib.types.submodule ({name, ...}: {
+            freeformType = lib.types.attrsOf lib.types.anything;
+            options = {
+              appname = lib.mkOption {
+                type = lib.types.str;
+                default = name;
               };
-            }
-          )
+              appid = lib.mkOption {
+                type = lib.types.int;
+                default =
+                  -1
+                  - (builtins.bitAnd 2147483647 (
+                    lib.trivial.fromHexString (builtins.substring 0 8 (builtins.hashString "sha256" name))
+                  ));
+              };
+              exe = lib.mkOption {
+                type = lib.types.either lib.types.str (lib.types.listOf lib.types.str);
+                apply = v:
+                  if lib.isList v
+                  then lib.escapeShellArgs v
+                  else v;
+              };
+            };
+          })
         );
         default = {};
       };
 
       grids = lib.mkOption {
         type = lib.types.attrsOf (
-          lib.types.submodule {
-            freeformType = lib.types.attrsOf lib.types.anything;
+          lib.types.submodule ({name, ...}: {
             options = {
+              id = lib.mkOption {
+                type = lib.types.int;
+              };
               grid = lib.mkOption {
                 type = lib.types.nullOr lib.types.path;
                 default = null;
@@ -145,7 +136,10 @@
                 default = null;
               };
             };
-          }
+            config = lib.mkIf (cfg.shortcuts ? ${name}) {
+              id = lib.mkForce (cfg.shortcuts.${name}.appid + 4294967296);
+            };
+          })
         );
         default = {};
       };
@@ -158,18 +152,7 @@
           force = true;
         };
         "${cfg.userConfigDir}/grid" = {
-          source = pkgs.runCommand "grid" {} (
-            ''
-              mkdir $out
-              cd $out
-            ''
-            + lib.concatStrings (
-              lib.mapAttrsToList (name: file: ''
-                ln -s ${lib.escapeShellArgs [file name]}
-              '')
-              grids
-            )
-          );
+          source = pkgs.linkFarm "grid" (lib.mapAttrsToList (name: path: {inherit name path;}) grids);
           force = true;
         };
       };

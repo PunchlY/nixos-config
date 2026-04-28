@@ -19,7 +19,7 @@
       services.steam = lib.mkIf config.services.steam.enable {
         shortcuts.minecraft = {
           appname = "Minecraft: Java Edition";
-          exe = lib.getExe cfg.package;
+          exe = [(lib.getExe cfg.package)];
           icon = pkgs.fetchurl {
             url = "https://cdn2.steamgriddb.com/icon/34306fb932bcbe823afb4a0c675e3ece.png";
             hash = "sha256-RNU/rF9pnhQ+9tN8DgfF/5MStkgwgZ5V09RnRSa7VX0=";

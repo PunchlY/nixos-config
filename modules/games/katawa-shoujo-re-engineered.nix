@@ -29,7 +29,7 @@
       services.steam = lib.mkIf config.services.steam.enable {
         shortcuts.katawa-shoujo-re-engineered = {
           appname = "Katawa Shoujo: Re-Engineered";
-          exe = lib.getExe cfg.package;
+          exe = [(lib.getExe cfg.package)];
           icon = "${cfg.package}/share/icons/hicolor/512x512/apps/katawa-shoujo-re-engineered.png";
         };
         grids.katawa-shoujo-re-engineered = {
