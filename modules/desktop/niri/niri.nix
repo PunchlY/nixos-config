@@ -35,7 +35,7 @@
         extraPortals = with pkgs; [
           xdg-desktop-portal-gtk
           xdg-desktop-portal-gnome
-          # xdg-desktop-portal-niri
+          xdg-desktop-portal-niri
         ];
 
         config.niri = {
@@ -44,7 +44,6 @@
           "org.freedesktop.impl.portal.FileChooser" = "gtk";
           "org.freedesktop.impl.portal.Notification" = "gtk";
           "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
-          # "org.freedesktop.impl.portal.AppChooser" = "niri";
         };
       };
 
