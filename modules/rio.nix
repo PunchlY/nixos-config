@@ -38,11 +38,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) colors font opacity;
+    inherit (osConfig.theme) colors font opacity;
   in {
     config = lib.mkIf config.programs.rio.enable {
       programs.rio = {
@@ -50,8 +50,8 @@
           force-theme = "dark";
           fonts = {
             size = font.size;
-            family = lib.head nixosConfig.fonts.fontconfig.defaultFonts.monospace;
-            extras = lib.map (family: {inherit family;}) (lib.tail nixosConfig.fonts.fontconfig.defaultFonts.monospace);
+            family = lib.head osConfig.fonts.fontconfig.defaultFonts.monospace;
+            extras = lib.map (family: {inherit family;}) (lib.tail osConfig.fonts.fontconfig.defaultFonts.monospace);
           };
           window = {
             opacity = opacity;

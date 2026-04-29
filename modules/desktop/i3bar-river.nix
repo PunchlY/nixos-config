@@ -10,11 +10,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) colors font;
+    inherit (osConfig.theme) colors font;
   in {
     config = lib.mkIf config.programs.i3bar-river.enable {
       programs.i3bar-river.settings = with colors; {

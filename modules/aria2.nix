@@ -13,7 +13,7 @@
   };
 
   flake.homeModules.nixos = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
@@ -25,8 +25,8 @@
       "\\"
     ];
   in {
-    systemd.user.tmpfiles.rules = lib.mkIf nixosConfig.services.aria2.enable [
-      "L ${escapeTmpfiles "${config.xdg.userDirs.download}/aria2"} - - - - ${escapeTmpfiles nixosConfig.services.aria2.settings.dir}"
+    systemd.user.tmpfiles.rules = lib.mkIf osConfig.services.aria2.enable [
+      "L ${escapeTmpfiles "${config.xdg.userDirs.download}/aria2"} - - - - ${escapeTmpfiles osConfig.services.aria2.settings.dir}"
     ];
   };
 }

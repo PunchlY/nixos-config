@@ -1,6 +1,6 @@
 {...}: {
-  flake.homeModules.theme = {nixosConfig, ...}: let
-    inherit (nixosConfig.theme) colors font cursor;
+  flake.homeModules.theme = {osConfig, ...}: let
+    inherit (osConfig.theme) colors font cursor;
   in {
     xdg.configFile."kdeglobals".text = ''
       [ColorEffects:Disabled]

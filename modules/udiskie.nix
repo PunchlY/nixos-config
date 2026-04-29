@@ -1,6 +1,6 @@
 {lib, ...}: {
-  flake.homeModules.nixos = {nixosConfig, ...}: {
-    services.kdeconnect = lib.mkIf nixosConfig.services.udisks2.enable {
+  flake.homeModules.nixos = {osConfig, ...}: {
+    services.kdeconnect = lib.mkIf osConfig.services.udisks2.enable {
       enable = lib.mkDefault true;
     };
   };

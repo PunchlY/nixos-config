@@ -1,11 +1,11 @@
 {lib, ...}: {
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     pkgs,
     ...
   }: let
-    inherit (nixosConfig.theme) wallpaper;
+    inherit (osConfig.theme) wallpaper;
   in {
     config = lib.mkIf config.programs.niri.enable {
       programs.niri.settings.spawn-at-startup = [

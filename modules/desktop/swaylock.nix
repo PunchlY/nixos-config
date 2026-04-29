@@ -1,10 +1,10 @@
 {lib, ...}: {
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) colors wallpaper;
+    inherit (osConfig.theme) colors wallpaper;
   in {
     config = lib.mkIf config.programs.swaylock.enable {
       programs.swaylock.settings = with colors; {

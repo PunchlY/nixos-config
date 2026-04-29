@@ -15,11 +15,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) font colors opacity;
+    inherit (osConfig.theme) font colors opacity;
   in {
     config = lib.mkIf config.programs.imv.enable {
       programs.imv = {

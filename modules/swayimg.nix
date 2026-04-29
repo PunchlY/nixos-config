@@ -10,11 +10,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) font colors opacity;
+    inherit (osConfig.theme) font colors opacity;
     cfg = config.programs.swayimg;
     opacity_hex = lib.fixedWidthString 2 "0" (lib.toHexString (builtins.ceil (opacity * 255)));
   in {

@@ -11,11 +11,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) colors font opacity;
+    inherit (osConfig.theme) colors font opacity;
     alpha = lib.toHexString (builtins.ceil (opacity * 255));
   in {
     config = lib.mkIf config.services.mako.enable {

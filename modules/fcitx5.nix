@@ -63,11 +63,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) font colors;
+    inherit (osConfig.theme) font colors;
   in {
     config = lib.mkIf (config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5") {
       i18n.inputMethod.fcitx5 = {

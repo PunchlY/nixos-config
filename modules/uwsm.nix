@@ -61,7 +61,7 @@
     };
   };
 
-  flake.homeModules.nixos = {nixosConfig, ...}: {
-    programs.uwsm.enable = nixosConfig.programs.uwsm.enable;
+  flake.homeModules.nixos = {osConfig, ...}: {
+    programs.uwsm.enable = osConfig.programs.uwsm.enable;
   };
 }

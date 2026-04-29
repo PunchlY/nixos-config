@@ -1,7 +1,7 @@
 {lib, ...}: {
-  flake.homeModules.nixos = {nixosConfig, ...}: {
-    services.kdeconnect = lib.mkIf nixosConfig.programs.kdeconnect.enable {
-      package = nixosConfig.programs.kdeconnect.package;
+  flake.homeModules.nixos = {osConfig, ...}: {
+    services.kdeconnect = lib.mkIf osConfig.programs.kdeconnect.enable {
+      package = osConfig.programs.kdeconnect.package;
       enable = lib.mkDefault true;
       indicator = lib.mkDefault true;
     };

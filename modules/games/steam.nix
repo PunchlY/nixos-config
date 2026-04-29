@@ -1,6 +1,21 @@
-# https://github.com/kira-bruneau/nixos-config/blob/d2561703b25cfd72c1e650a1dfc4d07ec26e230b/home/hosts/peridot.nix
-# https://github.com/ChrisOboe/json2steamshortcut/blob/7d43d5b6e198542649c712573b91f27247068aed/flake.nix
 {lib, ...}: {
+  flake.nixosModules.base = {
+    config,
+    pkgs,
+    ...
+  }: {
+    config = lib.mkIf config.programs.steam.enable {
+      programs.steam = {
+        extraCompatPackages = with pkgs; [
+          proton-ge-bin
+          steam-play-none
+        ];
+      };
+    };
+  };
+
+  # https://github.com/kira-bruneau/nixos-config/blob/d2561703b25cfd72c1e650a1dfc4d07ec26e230b/home/hosts/peridot.nix
+  # https://github.com/ChrisOboe/json2steamshortcut/blob/7d43d5b6e198542649c712573b91f27247068aed/flake.nix
   flake.homeModules.base = {
     config,
     pkgs,
@@ -159,8 +174,8 @@
     };
   };
 
-  flake.homeModules.nixos = {nixosConfig, ...}: {
-    config = lib.mkIf nixosConfig.programs.steam.enable {
+  flake.homeModules.nixos = {osConfig, ...}: {
+    config = lib.mkIf osConfig.programs.steam.enable {
       services.steam.enable = true;
     };
   };

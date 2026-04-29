@@ -17,14 +17,14 @@
     home-manager = {
       sharedModules = [config.flake.homeModules.nixos];
       useGlobalPkgs = true;
-      # useUserPackages = true;
+      useUserPackages = true;
       backupFileExtension = "backup";
     };
   };
 
-  flake.homeModules.nixos = {nixosConfig, ...}: {
+  flake.homeModules.nixos = {osConfig, ...}: {
     imports = [config.flake.homeModules.base];
 
-    home.stateVersion = nixosConfig.system.stateVersion;
+    home.stateVersion = osConfig.system.stateVersion;
   };
 }

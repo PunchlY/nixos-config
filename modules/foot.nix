@@ -82,11 +82,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) colors font opacity;
+    inherit (osConfig.theme) colors font opacity;
   in {
     config = lib.mkIf config.programs.foot.enable {
       programs.foot.settings = {

@@ -51,7 +51,7 @@
     };
   };
 
-  flake.homeModules.theme = {nixosConfig, ...}: {
-    home.packages = nixosConfig.fonts.packages;
+  flake.homeModules.theme = {osConfig, ...}: {
+    home.packages = osConfig.fonts.packages;
   };
 }

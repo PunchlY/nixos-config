@@ -375,14 +375,14 @@
   };
 
   flake.homeModules.nixos = {
-    nixosConfig,
+    osConfig,
     pkgs,
     ...
   }: {
-    config = lib.mkIf nixosConfig.programs.niri.enable {
+    config = lib.mkIf osConfig.programs.niri.enable {
       programs.niri = {
         enable = true;
-        package = nixosConfig.programs.niri.package;
+        package = osConfig.programs.niri.package;
       };
 
       programs.uwsm = {
@@ -412,7 +412,7 @@
         action.spawn-sh = let
           menu =
             (
-              if nixosConfig.programs.steam.enable
+              if osConfig.programs.steam.enable
               then [
                 {
                   key = "Game Mode";
@@ -446,10 +446,10 @@
     };
   };
 
-  flake.homeModules.theme = {nixosConfig, ...}: let
-    inherit (nixosConfig.theme) cursor colors;
+  flake.homeModules.theme = {osConfig, ...}: let
+    inherit (osConfig.theme) cursor colors;
   in {
-    config = lib.mkIf nixosConfig.programs.niri.enable {
+    config = lib.mkIf osConfig.programs.niri.enable {
       programs.niri.settings = {
         cursor = {
           size = cursor.size;

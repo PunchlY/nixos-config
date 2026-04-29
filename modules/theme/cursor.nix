@@ -33,9 +33,9 @@
     };
   };
 
-  flake.homeModules.theme = {nixosConfig, ...}: {
+  flake.homeModules.theme = {osConfig, ...}: {
     home.pointerCursor = {
-      inherit (nixosConfig.theme.cursor) name package size;
+      inherit (osConfig.theme.cursor) name package size;
       x11.enable = true;
       gtk.enable = true;
     };

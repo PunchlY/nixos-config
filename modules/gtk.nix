@@ -4,11 +4,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     pkgs,
     ...
   }: let
-    inherit (nixosConfig.theme) colors font cursor;
+    inherit (osConfig.theme) colors font cursor;
 
     gtkCss = with colors; ''
       ${lib.concatStringsSep "\n" (

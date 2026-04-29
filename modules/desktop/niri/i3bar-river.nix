@@ -101,12 +101,12 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     pkgs,
     ...
   }: let
-    inherit (nixosConfig.theme) colors;
+    inherit (osConfig.theme) colors;
   in {
     config = lib.mkIf config.programs.niri.enable {
       programs.i3status-rust.bars.niri = {

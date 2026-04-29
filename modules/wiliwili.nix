@@ -51,7 +51,7 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     pkgs,
     ...
@@ -65,7 +65,7 @@
           {
             nativeBuildInputs = [pkgs.fontconfig];
             FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = nixosConfig.fonts.packages;
+              fontDirectories = osConfig.fonts.packages;
             };
           }
           ''
@@ -79,7 +79,7 @@
           {
             nativeBuildInputs = [pkgs.fontconfig];
             FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = nixosConfig.fonts.packages;
+              fontDirectories = osConfig.fonts.packages;
             };
           }
           ''

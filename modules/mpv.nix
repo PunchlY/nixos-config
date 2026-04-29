@@ -133,11 +133,11 @@
   };
 
   flake.homeModules.theme = {
-    nixosConfig,
+    osConfig,
     config,
     ...
   }: let
-    inherit (nixosConfig.theme) colors;
+    inherit (osConfig.theme) colors;
   in {
     config = lib.mkIf config.programs.mpv.enable {
       programs.mpv = {

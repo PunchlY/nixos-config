@@ -37,8 +37,8 @@
     };
   };
 
-  flake.homeModules.nixos = {nixosConfig, ...}: {
-    config = lib.mkIf nixosConfig.programs.niri.enable {
+  flake.homeModules.nixos = {osConfig, ...}: {
+    config = lib.mkIf osConfig.programs.niri.enable {
       programs.swaylock = {
         enable = true;
         package = null;
