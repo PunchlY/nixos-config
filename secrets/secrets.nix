@@ -7,4 +7,5 @@ let
   ];
 in {
   "mihomo.age".publicKeys = users ++ systems;
+  "proton.me.age".publicKeys = users;
 }
