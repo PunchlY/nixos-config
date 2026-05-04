@@ -532,6 +532,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
+        "tldr-pages": "tldr-pages",
         "treefmt-nix": "treefmt-nix_2",
         "waydroid-script": "waydroid-script",
         "yazi": "yazi"
@@ -645,6 +646,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tldr-pages": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777873406,
+        "narHash": "sha256-TlZAWAcZjxuQSE1EJTEPMsUY8To5SGD8GJPy+QWpj18=",
+        "owner": "tldr-pages",
+        "repo": "tldr",
+        "rev": "dce4ee81fcfa9effa54b47e38ffed2f8d2298df7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tldr-pages",
+        "repo": "tldr",
         "type": "github"
       }
     },

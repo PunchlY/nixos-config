@@ -1,4 +1,5 @@
 rebuild:
+    nix run .#write-flake
     nh os switch .
 
 update:

@@ -10,25 +10,30 @@
       q
       yq-go
       tree
-      tlrc
       gomi
 
       (writeShellScriptBin "ips" ''
-        ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'
+        ip addr show "$@" | awk '/inet / {print $2}'
       '')
       (writeShellScriptBin "pkgs" ''
-        printenv PATH | tr ':' '\n' | grep '^/nix/store' | sort -u | xargs -d "\n" -r nix derivation show | jq -r .derivations.[].name
-      '')
-      (writeShellScriptBin "pkg" ''
-        which "$1" | xargs -r realpath | xargs -r nix derivation show | jq -r .derivations.[].name
+        if [ $# -gt 0 ]; then
+          which -- "$@"
+        else
+          printenv PATH | tr ':' '\n'
+        fi \
+        | xargs -r realpath -qe \
+        | awk '!seen[$0]++' \
+        | grep '^/nix/store/' \
+        | xargs -r nix derivation show \
+        | if [ -t 1 ]; then
+          jq -r '.derivations.[] | "\u001b]8;;file://" + .env.out + "\u0007" + .name + "\u001b]8;;\u0007"'
+        else
+          jq -r .derivations.[].name
+        fi
       '')
     ];
 
-    xdg.configFile."tlrc/config.toml" = {
-      source = (pkgs.formats.toml {}).generate "config.toml" {
-        cache.languages = ["zh"];
-      };
-    };
+    programs.tlrc.enable = true;
 
     programs.jq.enable = true;
 
