@@ -1,6 +1,7 @@
 {
   python3Packages,
   fetchFromGitHub,
+  lib,
 }:
 python3Packages.buildPythonApplication rec {
   pname = "pywincontrols";
@@ -23,5 +24,11 @@ python3Packages.buildPythonApplication rec {
     hid
   ];
 
-  meta.mainProgram = "gpdconfig";
+  meta = {
+    description = "Python version of GPD's WinControls for the GPD Win Mini and Win 4";
+    homepage = "https://github.com/pelrun/pywincontrols";
+    license = lib.licenses.gpl3Only;
+    platforms = lib.platforms.linux;
+    mainProgram = "gpdconfig";
+  };
 }

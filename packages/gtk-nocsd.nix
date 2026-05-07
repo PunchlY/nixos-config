@@ -5,6 +5,7 @@
   libadwaita,
   symlinkJoin,
   makeWrapper,
+  execline,
   lib,
 }:
 stdenv.mkDerivation (finalAttrs: {
@@ -21,12 +22,18 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     pkg-config
     libadwaita
+    makeWrapper
   ];
 
   makeFlags = [
     "DESTDIR=$(out)"
     "PREFIX="
   ];
+
+  postInstall = ''
+    makeWrapper ${lib.getExe' execline "exec"} "$out/bin/gtk-nocsd" \
+      --prefix LD_PRELOAD : "$out/lib/libgtk-nocsd.so"
+  '';
 
   passthru.wrapper = package:
     symlinkJoin {
@@ -38,4 +45,11 @@ stdenv.mkDerivation (finalAttrs: {
           --prefix LD_PRELOAD : "${finalAttrs.finalPackage}/lib/libgtk-nocsd.so"
       '';
     };
+
+  meta = {
+    description = "An LD_PRELOAD library to disable CSD in GTK3/4, LibHandy, and LibAdwaita apps.";
+    homepage = "https://codeberg.org/MorsMortium/GTK-NoCSD";
+    license = lib.licenses.gpl3Plus;
+    platforms = lib.platforms.linux;
+  };
 })
