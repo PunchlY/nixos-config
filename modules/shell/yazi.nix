@@ -5,9 +5,13 @@
 }: {
   flake-file.inputs = {
     yazi = {
-      url = "github:sxyazi/yazi";
+      url = "github:sxyazi/yazi/v26.5.6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+  };
+  flake-file.nixConfig = {
+    extra-substituters = ["https://yazi.cachix.org"];
+    extra-trusted-public-keys = ["yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="];
   };
 
   flake.homeModules.base = {

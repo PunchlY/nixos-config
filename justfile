@@ -1,5 +1,5 @@
 rebuild:
-    nix run .#write-flake
+    nix run .#write-flake --option substitute false
     nh os switch .
 
 update:
