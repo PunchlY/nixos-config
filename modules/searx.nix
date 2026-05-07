@@ -76,13 +76,13 @@
       networking.hosts."127.0.0.1" = [config.services.searx.domain];
 
       programs.chromium = lib.mkIf config.programs.chromium.enable {
+        defaultSearchProviderEnabled = true;
+        defaultSearchProviderSearchURL = "${base_url}/search?q={searchTerms}";
+        defaultSearchProviderSuggestURL = "${base_url}/autocompleter?q={searchTerms}";
         extraOpts = {
-          DefaultSearchProviderEnabled = true;
           DefaultSearchProviderImageURL = "${base_url}/static/themes/simple/img/favicon.svg";
           DefaultSearchProviderKeyword = cfg.domain;
           DefaultSearchProviderName = "Searx";
-          DefaultSearchProviderSearchURL = "${base_url}/search?q={searchTerms}";
-          DefaultSearchProviderSuggestURL = "${base_url}/autocompleter?q={searchTerms}";
         };
       };
     };

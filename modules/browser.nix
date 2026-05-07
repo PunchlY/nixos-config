@@ -21,7 +21,27 @@
       ];
 
       programs.chromium = {
+        extensions = [
+          "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin Lite
+          "ecanpcehffngcegjmadlcijfolapggal" # IPvFoo
+          "fjkmabmdepjfammlpliljpnbhleegehm" # WebRTC Control
+          "dhdgffkkebhmkfjojejmpbldmpobfkfo" # Tampermonkey
+          "hnenidncmoeebipinjdfniagjnfjbapi" # Aria2 Integration
+        ];
+        extraOpts.ExtensionSettings = {
+          ${
+            lib.concatStringsSep "," [
+              "ddkjiahejlhfcafbddmgiahcphecmpfh"
+              "ecanpcehffngcegjmadlcijfolapggal"
+              "fjkmabmdepjfammlpliljpnbhleegehm"
+              "hnenidncmoeebipinjdfniagjnfjbapi"
+            ]
+          } = {
+            toolbar_pin = "force_pinned";
+          };
+        };
         extraOpts = {
+          RestoreOnStartup = 1;
           DefaultBrowserSettingEnabled = false;
         };
       };

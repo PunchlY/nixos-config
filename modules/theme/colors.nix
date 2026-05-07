@@ -30,12 +30,7 @@
 
     config = {
       theme.colors =
-        builtins.mapAttrs (_name: value:
-          value
-          // {
-            hex_stripped = builtins.substring 1 6 value.hex;
-          })
-        (lib.importJSON (pkgs.runCommand "generated-theme" {
+        pkgs.runCommand "generated-theme" {
           src = pkgs.runCommand "wallpaper-resize.png" {
             src = cfg.wallpaper;
             nativeBuildInputs = [pkgs.imagemagick];
@@ -43,7 +38,16 @@
           nativeBuildInputs = [
             inputs.md3.packages.${pkgs.stdenv.hostPlatform.system}.default
           ];
-        } "md3 --dark <$src >$out"));
+          preferLocalBuild = true;
+        } "md3 --dark <$src >$out"
+        |> lib.importJSON
+        |> builtins.mapAttrs (
+          _name: value:
+            value
+            // {
+              hex_stripped = builtins.substring 1 6 value.hex;
+            }
+        );
     };
   };
 }

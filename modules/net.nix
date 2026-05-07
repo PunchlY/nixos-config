@@ -46,7 +46,7 @@
       virtualHosts.localhost = {
         default = true;
         rejectSSL = true;
-        extraConfig = "return 444;";
+        locations."/".return = 444;
       };
     };
   };

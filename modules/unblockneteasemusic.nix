@@ -72,19 +72,18 @@
 
       security.pki.certificateFiles = ["${pkgs.unblockneteasemusic}/server.crt"];
 
-      networking.hosts = lib.mkIf config.services.nginx.enable {
-        "127.0.0.1" = [
-          "music.163.com"
-          "interface.music.163.com"
-          "interface3.music.163.com"
-          "apm.music.163.com"
-          "apm3.music.163.com"
-          "interface.music.163.com.163jiasu.com"
-          "interface3.music.163.com.163jiasu.com"
-        ];
-      };
+      networking.hosts."127.0.0.1" = [
+        "music.163.com"
+        "interface.music.163.com"
+        "interface3.music.163.com"
+        "apm.music.163.com"
+        "apm3.music.163.com"
+        "interface.music.163.com.163jiasu.com"
+        "interface3.music.163.com.163jiasu.com"
+      ];
 
-      services.nginx = lib.mkIf config.services.nginx.enable {
+      services.nginx = {
+        enable = true;
         virtualHosts."music.163.com" = {
           serverAliases = [
             "interface.music.163.com"

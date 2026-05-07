@@ -61,6 +61,8 @@
             with open(sys.argv[2], "wb") as fp:
               vdf.binary_dump(data, fp)
           '';
+
+        preferLocalBuild = true;
       }
       ''
         "$buildCommandPython" "$valuePath" "$out"

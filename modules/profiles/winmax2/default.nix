@@ -68,20 +68,13 @@
 
     services.aria2.enable = true;
 
-    services.nginx.enable = true;
-
     security.polkit.enable = true;
 
     services.searx.enable = true;
 
     services.mihomo.enable = true;
 
-    programs.chromium = {
-      enable = true;
-      extraOpts = {
-        RestoreOnStartup = 1;
-      };
-    };
+    programs.chromium.enable = true;
 
     services.keyd = {
       enable = true;
@@ -123,6 +116,7 @@
         sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
       };
       nativeBuildInputs = [pkgs.imagemagick];
+      preferLocalBuild = true;
     } "magick $src -fuzz 10% -trim +repage $out";
 
     programs.niri.enable = true;
