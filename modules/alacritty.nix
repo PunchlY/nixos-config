@@ -51,7 +51,7 @@
             {
               inherit regex;
               hyperlinks = true;
-              action = "Select";
+              action = "Copy";
               post_processing = true;
               persist = false;
               mouse = {
