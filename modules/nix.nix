@@ -3,15 +3,22 @@
   inputs,
   ...
 }: {
+  flake-file.nixConfig = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    extra-experimental-features = [
+      "pipe-operators"
+    ];
+  };
+
   flake.nixosModules.base = {
     nix.settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+      experimental-features = config.flake-file.nixConfig.experimental-features or [];
       accept-flake-config = true;
-      substituters = config.flake-file.nixConfig.substituters;
-      trusted-public-keys = config.flake-file.nixConfig.trusted-public-keys;
+      substituters = config.flake-file.nixConfig.substituters or [];
+      trusted-public-keys = config.flake-file.nixConfig.trusted-public-keys or [];
       trusted-users = ["root" "@wheel"];
     };
 

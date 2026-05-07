@@ -177,6 +177,7 @@
   flake.homeModules.nixos = {osConfig, ...}: {
     config = lib.mkIf osConfig.programs.steam.enable {
       services.steam.enable = true;
+      xdg.dataFile."Steam/.cef-enable-remote-debugging".text = "";
     };
   };
 }

@@ -9,9 +9,5 @@
         minecraft = "prismlauncher";
         retroarch = "retroarch";
       };
-
-    config = {
-      xdg.dataFile."Steam/.cef-enable-remote-debugging".text = "";
-    };
   };
 }

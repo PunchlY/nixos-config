@@ -4,6 +4,11 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   nixConfig = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    extra-experimental-features = [ "pipe-operators" ];
     extra-substituters = [ "https://yazi.cachix.org" ];
     extra-trusted-public-keys = [ "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=" ];
     substituters = [
