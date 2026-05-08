@@ -57,27 +57,14 @@
           ytdl-format = "best";
         };
 
-        scripts = with pkgs; [
-          mpvScripts.mpris
-          mpvScripts.uosc
-          mpvScripts.reload
-          mpvScripts.sponsorblock
-          mpvScripts.quality-menu
-          mpvScripts.thumbfast
-
-          (mpvScripts.buildLua rec {
-            pname = "uosc-danmaku";
-            version = "v2.0.0";
-            src = fetchFromGitHub {
-              owner = "Tony15246";
-              repo = "uosc_danmaku";
-              rev = version;
-              sha256 = "sha256-r4HcrDh4iW8ErfClfX1gkEWp7lVKbLE88fpj3tjYBAI=";
-            };
-            scriptPath = ".";
-            scriptName = "uosc_danmaku";
-            passthru.scriptName = scriptName;
-          })
+        scripts = with pkgs.mpvScripts; [
+          mpris
+          uosc
+          reload
+          sponsorblock
+          quality-menu
+          thumbfast
+          uosc-danmaku
         ];
 
         scriptOpts.ytdl_hook.ytdl_path = lib.getExe config.programs.yt-dlp.package;

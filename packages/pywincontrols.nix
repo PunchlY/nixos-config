@@ -3,7 +3,7 @@
   fetchFromGitHub,
   lib,
 }:
-python3Packages.buildPythonApplication rec {
+python3Packages.buildPythonApplication (finalAttrs: {
   pname = "pywincontrols";
   version = "1.0.4";
   format = "pyproject";
@@ -11,7 +11,7 @@ python3Packages.buildPythonApplication rec {
   src = fetchFromGitHub {
     owner = "pelrun";
     repo = "pyWinControls";
-    rev = "v${version}";
+    tag = "v${finalAttrs.version}";
     hash = "sha256-ySqogpUKVNjACCT+P6mrXxTD+4mBXACDb+48tdfls8U=";
   };
 
@@ -31,4 +31,4 @@ python3Packages.buildPythonApplication rec {
     platforms = lib.platforms.linux;
     mainProgram = "gpdconfig";
   };
-}
+})

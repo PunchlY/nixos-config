@@ -5,7 +5,7 @@
 }: {
   flake-file.inputs = {
     yazi = {
-      url = "github:sxyazi/yazi/v26.5.6";
+      url = "github:sxyazi/yazi/shipped";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

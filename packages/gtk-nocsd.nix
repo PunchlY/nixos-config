@@ -10,13 +10,13 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "gtk-nocsd";
-  version = "1.0.0-0.210";
+  version = "4.0";
 
   src = fetchFromCodeberg {
     owner = "MorsMortium";
     repo = "GTK-NoCSD";
-    rev = "daf0652e6b4c4f0b10ca3e371ad8e0fc47c8b0fd";
-    hash = "sha256-cy6Ilq8uhG98NQqXmyRPc72HIwYyhxXMcGGY6X1OUAg=";
+    tag = finalAttrs.version;
+    hash = "sha256-PHP5KSld1FrQCHj3Xdt+juBqGU3au7LWh976B1YtFPY=";
   };
 
   nativeBuildInputs = [

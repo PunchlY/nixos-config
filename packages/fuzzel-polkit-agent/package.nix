@@ -5,7 +5,6 @@
   fuzzel,
   cmd-polkit,
   libnotify,
-  lib,
 }:
 replaceVarsWith {
   name = "fuzzel-polkit-agent";
