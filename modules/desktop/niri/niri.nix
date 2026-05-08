@@ -70,7 +70,7 @@
         partOf = ["graphical-session.target"];
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${pkgs.fuzzel-polkit-agent}/libexec/fuzzel-polkit-agent";
+          ExecStart = "${pkgs.fuzzel-polkit-agent}/libexec/fuzzel-polkit-agent --daemon";
           Restart = "on-failure";
           RestartSec = 1;
           TimeoutStopSec = 10;

@@ -176,10 +176,14 @@
     };
   };
 
-  flake.homeModules.nixos = {osConfig, ...}: {
+  flake.homeModules.nixos = {
+    osConfig,
+    pkgs,
+    ...
+  }: {
     config = lib.mkIf osConfig.programs.steam.enable {
       services.steam.enable = true;
-      xdg.dataFile."Steam/.cef-enable-remote-debugging".text = "";
+      xdg.dataFile."Steam/.cef-enable-remote-debugging".source = pkgs.emptyFile;
     };
   };
 }

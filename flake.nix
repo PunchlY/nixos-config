@@ -7,8 +7,9 @@
     experimental-features = [
       "nix-command"
       "flakes"
+      "pipe-operators"
     ];
-    extra-experimental-features = [ "pipe-operators" ];
+    extra-experimental-features = [ ];
     extra-substituters = [ "https://yazi.cachix.org" ];
     extra-trusted-public-keys = [ "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=" ];
     substituters = [
