@@ -10,7 +10,6 @@
       q
       yq-go
       tree
-      gomi
 
       (writeShellScriptBin "ips" ''
         ip addr show "$@" | awk '/inet / {print $2}'
@@ -72,8 +71,6 @@
       mx = "chmod a+x";
 
       cls = "clear";
-
-      rm = "gomi";
     };
 
     programs.bash = {
