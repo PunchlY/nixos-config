@@ -7,8 +7,7 @@
     config = lib.mkIf config.programs.steam.enable {
       programs.steam = {
         extraCompatPackages = with pkgs; [
-          proton-ge-bin
-          steam-play-none
+          dwproton-bin
         ];
       };
     };
