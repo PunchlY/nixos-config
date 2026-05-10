@@ -2,51 +2,40 @@
   inputs,
   lib,
   ...
-}: let
-  packages =
-    lib.readDir ../packages
-    |> lib.mapAttrs' (
-      fileName: type:
-        if type == "directory"
-        then {
-          name = fileName;
-          value = ../packages/${fileName}/package.nix;
-        }
-        else if type == "regular" && lib.hasSuffix ".nix" fileName
-        then {
-          name = lib.removeSuffix ".nix" fileName;
-          value = ../packages/${fileName};
-        }
-        else null
-    );
-  devShells =
-    lib.readDir ../packages
-    |> lib.filterAttrs (file: type: type == "directory" && builtins.pathExists ../packages/${file}/develop.nix)
-    |> lib.mapAttrs (fileName: _: ../packages/${fileName}/develop.nix);
-
-  mkOverlays = packages: final: prev: let
-    callPackage = final.newScope {inherit prev inputs;};
+}: {
+  flake.overlays.default = final: prev: let
+    newScope = extra: lib.callPackageWith (final // extra // {inherit prev inputs;});
   in
-    lib.mapAttrs (_: file: callPackage file {}) packages;
-in {
-  flake.overlays.default = mkOverlays packages;
+    lib.filesystem.packagesFromDirectoryRecursive {
+      inherit newScope;
+      callPackage = newScope {};
+      directory = ../packages;
+    };
 
   flake.nixosModules.base = {
     nixpkgs.overlays = [inputs.self.overlays.default];
   };
 
-  perSystem = {system, ...}: {
-    packages = lib.intersectAttrs packages (
-      import inputs.nixpkgs {
-        inherit system;
-        overlays = [inputs.self.overlays.default];
-      }
-    );
-    devShells = lib.intersectAttrs devShells (
-      import inputs.nixpkgs {
-        inherit system;
-        overlays = [(mkOverlays devShells)];
-      }
-    );
+  perSystem = {
+    self',
+    pkgs,
+    ...
+  }: {
+    packages = inputs.self.overlays.default pkgs pkgs;
+    devShells =
+      lib.mapAttrsRecursiveCond
+      (as: !lib.isDerivation as)
+      (
+        _path: package:
+          (
+            if package.stdenv.hasCC
+            then pkgs.mkShell
+            else pkgs.mkShellNoCC
+          ) {
+            packages = with pkgs; [bashInteractive];
+            inputsFrom = [package];
+          }
+      )
+      self'.packages;
   };
 }
