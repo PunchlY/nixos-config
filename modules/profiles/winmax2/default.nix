@@ -135,10 +135,7 @@
 
     hm.programs.git.enable = true;
 
-    hm.programs.vscode = {
-      enable = true;
-      mutableExtensionsDir = true;
-    };
+    hm.programs.vscode.enable = true;
 
     hm.programs.aria2.enable = true;
 
