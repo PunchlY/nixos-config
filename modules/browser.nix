@@ -20,26 +20,31 @@
         inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome
       ];
 
-      programs.chromium = {
-        extensions = [
-          "ddkjiahejlhfcafbddmgiahcphecmpfh" # uBlock Origin Lite
-          "ecanpcehffngcegjmadlcijfolapggal" # IPvFoo
-          "fjkmabmdepjfammlpliljpnbhleegehm" # WebRTC Control
-          "dhdgffkkebhmkfjojejmpbldmpobfkfo" # Tampermonkey
-          "hnenidncmoeebipinjdfniagjnfjbapi" # Aria2 Integration
-        ];
-        extraOpts.ExtensionSettings = {
-          ${
-            lib.concatStringsSep "," [
-              "ddkjiahejlhfcafbddmgiahcphecmpfh"
-              "ecanpcehffngcegjmadlcijfolapggal"
-              "fjkmabmdepjfammlpliljpnbhleegehm"
-              "hnenidncmoeebipinjdfniagjnfjbapi"
-            ]
-          } = {
+      programs.chromium = let
+        extensions = {
+          "ddkjiahejlhfcafbddmgiahcphecmpfh" = {
+            # uBlock Origin Lite
+            toolbar_pin = "force_pinned";
+          };
+          "ecanpcehffngcegjmadlcijfolapggal" = {
+            # IPvFoo
+            toolbar_pin = "force_pinned";
+          };
+          "fjkmabmdepjfammlpliljpnbhleegehm" = {
+            # WebRTC Control
+            toolbar_pin = "force_pinned";
+          };
+          "dhdgffkkebhmkfjojejmpbldmpobfkfo" = {
+            # Tampermonkey
+          };
+          "hnenidncmoeebipinjdfniagjnfjbapi" = {
+            # Aria2 Integration
             toolbar_pin = "force_pinned";
           };
         };
+      in {
+        extensions = lib.attrNames extensions;
+        extraOpts.ExtensionSettings = extensions;
         extraOpts = {
           RestoreOnStartup = 1;
           DefaultBrowserSettingEnabled = false;
