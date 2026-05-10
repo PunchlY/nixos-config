@@ -22,20 +22,5 @@
     ...
   }: {
     packages = inputs.self.overlays.default pkgs pkgs;
-    devShells =
-      lib.mapAttrsRecursiveCond
-      (as: !lib.isDerivation as)
-      (
-        _path: package:
-          (
-            if package.stdenv.hasCC
-            then pkgs.mkShell
-            else pkgs.mkShellNoCC
-          ) {
-            packages = with pkgs; [bashInteractive];
-            inputsFrom = [package];
-          }
-      )
-      self'.packages;
   };
 }
