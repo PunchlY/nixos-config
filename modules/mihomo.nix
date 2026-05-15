@@ -30,12 +30,18 @@
 
       systemd.services.mihomo = {
         serviceConfig = {
-          ExecStart = lib.mkForce (utils.escapeSystemdExecArgs [
-            (lib.getExe cfg.package)
-            "-d=/var/lib/private/mihomo"
-            "-f=/var/lib/private/mihomo/config.yaml"
-            (lib.optionalString (cfg.webui != null) "-ext-ui ${cfg.webui}")
-          ]);
+          ExecStart = lib.mkForce (utils.escapeSystemdExecArgs ([
+              (lib.getExe cfg.package)
+              "-d"
+              "/var/lib/private/mihomo"
+              "-f"
+              "/var/lib/private/mihomo/config.yaml"
+            ]
+            ++ (
+              if (cfg.webui != null)
+              then ["-ext-ui" cfg.webui]
+              else []
+            )));
           ExecStartPre = pkgs.writeShellScript "config-merge" ''
             ${pkgs.yq-go}/bin/yq eval-all \
               'select(fileIndex==0) * select(fileIndex==1)' \
