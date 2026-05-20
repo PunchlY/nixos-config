@@ -38,7 +38,7 @@
               lib.fixedWidthString 2 "0" (lib.toHexString (builtins.ceil (opacity * 255)))
             }";
             text = "${on_surface.hex_stripped}ff";
-            message = "${orange.hex_stripped}ff";
+            message = "${yellow.hex_stripped}ff";
             prompt = "${secondary.hex_stripped}ff";
             placeholder = "${tertiary.hex_stripped}ff";
             input = "${primary.hex_stripped}ff";

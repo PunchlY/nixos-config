@@ -114,6 +114,12 @@
             cyan = color14.hex;
             white = color15.hex;
           };
+          indexed_colors =
+            builtins.genList (i: {
+              index = i + 16;
+              color = colors."color${toString (i + 16)}".hex;
+            })
+            240;
         };
       };
     };

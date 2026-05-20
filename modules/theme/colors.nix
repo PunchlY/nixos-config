@@ -31,10 +31,7 @@
     config = {
       theme.colors =
         pkgs.runCommand "generated-theme" {
-          src = pkgs.runCommand "wallpaper-resize.png" {
-            src = cfg.wallpaper;
-            nativeBuildInputs = [pkgs.imagemagick];
-          } "magick $src -resize 128x128 $out";
+          src = cfg.wallpaper;
           nativeBuildInputs = [
             inputs.md3.packages.${pkgs.stdenv.hostPlatform.system}.default
           ];

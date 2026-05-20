@@ -46,8 +46,8 @@
           notification-error-bg = error.hex;
           notification-error-fg = on_error.hex;
 
-          notification-warning-bg = orange.hex;
-          notification-warning-fg = on_orange.hex;
+          notification-warning-bg = yellow.hex;
+          notification-warning-fg = on_yellow.hex;
 
           font = "monospace ${toString font.size}";
         };
