@@ -233,6 +233,8 @@
             "GEOIP,netflix,PROXY"
             "GEOIP,facebook,PROXY"
 
+            "DST-PORT,80/443/2053/2083/2087/2096/8443,PROXY"
+
             "MATCH,DIRECT"
           ];
         };

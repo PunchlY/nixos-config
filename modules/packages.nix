@@ -16,11 +16,7 @@
     nixpkgs.overlays = [inputs.self.overlays.default];
   };
 
-  perSystem = {
-    self',
-    pkgs,
-    ...
-  }: {
+  perSystem = {pkgs, ...}: {
     packages = inputs.self.overlays.default pkgs pkgs;
   };
 }
