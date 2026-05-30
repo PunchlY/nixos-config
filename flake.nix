@@ -10,8 +10,6 @@
       "pipe-operators"
     ];
     extra-experimental-features = [ ];
-    extra-substituters = [ "https://yazi.cachix.org" ];
-    extra-trusted-public-keys = [ "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=" ];
     substituters = [
       "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://nix-community.cachix.org"
@@ -71,10 +69,6 @@
     };
     waydroid-script = {
       url = "github:casualsnek/waydroid_script";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    yazi = {
-      url = "github:sxyazi/yazi/shipped";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

@@ -10,7 +10,7 @@
 
     programs.fastfetch = {
       enable = lib.mkDefault true;
-      package = pkgs.fastfetchMinimal;
+      package = pkgs.fastfetch.minimal;
 
       settings = {
         logo = {

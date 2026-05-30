@@ -1,19 +1,4 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
-  flake-file.inputs = {
-    yazi = {
-      url = "github:sxyazi/yazi/shipped";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-  flake-file.nixConfig = {
-    extra-substituters = ["https://yazi.cachix.org"];
-    extra-trusted-public-keys = ["yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="];
-  };
-
+{lib, ...}: {
   flake.homeModules.base = {
     config,
     pkgs,
@@ -25,10 +10,6 @@
       ];
 
       programs.yazi = {
-        package = pkgs.yazi.override {
-          _7zz = pkgs._7zz-rar;
-          yazi-unwrapped = inputs.yazi.packages.${pkgs.stdenv.hostPlatform.system}.yazi-unwrapped;
-        };
         extraPackages = with pkgs; [
           hexyl
           xdg-user-dirs
