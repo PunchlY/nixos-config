@@ -411,17 +411,7 @@
         hotkey-overlay.title = "Open Command Menu";
         action.spawn-sh = let
           menu =
-            (
-              if osConfig.programs.steam.enable
-              then [
-                {
-                  key = "Game Mode";
-                  cmd = "steamosctl switch-to-game-mode";
-                }
-              ]
-              else []
-            )
-            ++ [
+            [
               {
                 key = "Suspend";
                 cmd = "systemctl suspend";
@@ -434,7 +424,12 @@
                 key = "Shutdown";
                 cmd = "systemctl poweroff";
               }
-            ];
+            ]
+            ++ lib.optional osConfig.programs.steam.enable
+            {
+              key = "Game Mode";
+              cmd = "steamosctl switch-to-game-mode";
+            };
         in ''
           cmds=( ${lib.escapeShellArgs (lib.catAttrs "cmd" menu)} )
           index=$(fuzzel --dmenu --index --only-match --minimal-lines <<< ${lib.escapeShellArg (lib.concatStringsSep "\n" (lib.catAttrs "key" menu))})
