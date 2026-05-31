@@ -4,13 +4,24 @@
   ...
 }: {
   flake.overlays.default = final: prev: let
-    newScope = extra: lib.callPackageWith (final // extra // {inherit prev inputs;});
+    directory = ../packages;
+    callPackage = final.newScope (self // {inherit prev inputs;});
+    self = lib.concatMapAttrs (
+      name: type: let
+        path = "${directory}/${name}";
+      in
+        if type == "directory"
+        then {
+          "${name}" = callPackage "${path}/package.nix" {};
+        }
+        else if type == "regular" && lib.hasSuffix ".nix" name
+        then {
+          "${lib.removeSuffix ".nix" name}" = callPackage path {};
+        }
+        else {}
+    ) (builtins.readDir directory);
   in
-    lib.filesystem.packagesFromDirectoryRecursive {
-      inherit newScope;
-      callPackage = newScope {};
-      directory = ../packages;
-    };
+    self;
 
   flake.nixosModules.base = {
     nixpkgs.overlays = [inputs.self.overlays.default];
