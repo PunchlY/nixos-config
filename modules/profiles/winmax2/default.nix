@@ -91,6 +91,11 @@
 
     programs.chromium.enable = true;
 
+    services.kmscon = {
+      enable = true;
+      config.font-size = 28;
+    };
+
     services.keyd = {
       enable = true;
       keyboards = {
