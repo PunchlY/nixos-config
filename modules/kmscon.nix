@@ -5,6 +5,7 @@
   in {
     config = lib.mkIf config.services.kmscon.enable {
       services.kmscon.config = {
+        libseat = false;
         term = "xterm-256color";
 
         font-name = "monospace";
