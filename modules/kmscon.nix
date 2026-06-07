@@ -28,7 +28,7 @@
         palette-light-blue = rgbToKmscon "color12";
         palette-light-magenta = rgbToKmscon "color13";
         palette-light-cyan = rgbToKmscon "color14";
-        palette-light-white = rgbToKmscon "color15";
+        palette-white = rgbToKmscon "color15";
 
         palette-foreground = rgbToKmscon "on_surface";
         palette-background = rgbToKmscon "surface";
