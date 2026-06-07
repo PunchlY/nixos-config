@@ -4,31 +4,44 @@
   ...
 }: {
   options.configurations.nixos = lib.mkOption {
-    type = lib.types.lazyAttrsOf (lib.types.submodule {
+    type = lib.types.lazyAttrsOf (lib.types.submodule ({name, ...}: {
       options = {
+        hostName = lib.mkOption {
+          type = lib.types.str;
+          default = name;
+        };
         module = lib.mkOption {type = lib.types.deferredModule;};
-        enableTheme = lib.mkEnableOption "theme";
+        theme = {
+          enable = lib.mkEnableOption "theme";
+          wallpaper = lib.mkOption {
+            type = lib.types.unspecified;
+          };
+        };
       };
-    });
+    }));
   };
 
   config.flake.nixosConfigurations =
     lib.flip lib.mapAttrs config.configurations.nixos
-    (hostName: {
-      module,
-      enableTheme,
-      ...
-    }:
+    (_: cfg:
       lib.nixosSystem {
         modules =
           [
-            module
+            cfg.module
             config.flake.nixosModules.base
             {
-              networking.hostName = hostName;
+              networking.hostName = cfg.hostName;
               system.stateVersion = "26.05";
             }
           ]
-          ++ lib.optional enableTheme config.flake.nixosModules.theme;
+          ++ lib.optionals cfg.theme.enable [
+            config.flake.nixosModules.theme
+            ({pkgs, ...}: {
+              theme.wallpaper =
+                if builtins.isFunction cfg.theme.wallpaper
+                then pkgs.callPackage cfg.theme.wallpaper {}
+                else cfg.theme.wallpaper;
+            })
+          ];
       });
 }

@@ -1,5 +1,20 @@
 {
-  configurations.nixos.winmax2.enableTheme = true;
+  configurations.nixos.winmax2.theme = {
+    enable = true;
+    wallpaper = {
+      runCommand,
+      fetchurl,
+      imagemagick,
+    }:
+      runCommand "wallpaper.png" {
+        src = fetchurl {
+          url = "https://pixiv.cat/68936009.jpg";
+          sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
+        };
+        nativeBuildInputs = [imagemagick];
+        preferLocalBuild = true;
+      } "magick $src -fuzz 10% -trim +repage $out";
+  };
 
   configurations.nixos.winmax2.module = {
     config,
@@ -109,15 +124,6 @@
       enable = true;
       autoStart = true;
     };
-
-    theme.wallpaper = pkgs.runCommand "wallpaper.png" {
-      src = pkgs.fetchurl {
-        url = "https://pixiv.cat/68936009.jpg";
-        sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
-      };
-      nativeBuildInputs = [pkgs.imagemagick];
-      preferLocalBuild = true;
-    } "magick $src -fuzz 10% -trim +repage $out";
 
     programs.niri.enable = true;
     jovian.steam.desktopSession = "niri-uwsm";
