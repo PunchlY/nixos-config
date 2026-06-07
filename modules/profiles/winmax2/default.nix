@@ -218,7 +218,7 @@
     hm.games = {
       ksre.enable = true;
       minecraft.enable = true;
-      retroarch.enable = true;
+      # retroarch.enable = true;
 
       steam.shortcuts."BD2" = {
         appname = "Brown Dust 2";
