@@ -72,20 +72,6 @@
             ln -s "$(fc-match "monospace" --format %{file})" "$out"
           '';
       };
-
-      xdg.configFile."wiliwili/emoji.ttf" = {
-        source =
-          pkgs.runCommand "wiliwili-emoji"
-          {
-            nativeBuildInputs = [pkgs.fontconfig];
-            FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = osConfig.fonts.packages;
-            };
-          }
-          ''
-            ln -s "$(fc-match emoji --format %{file})" "$out"
-          '';
-      };
     };
   };
 }
