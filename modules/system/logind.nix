@@ -2,11 +2,11 @@
   flake.nixosModules.base = {config, ...}: {
     config = lib.mkIf config.services.logind.enable {
       services.logind.settings.Login = {
-        powerKey = "suspend";
-        powerKeyLongPress = "poweroff";
-        lidSwitch = "suspend";
-        lidSwitchDocked = "ignore";
-        lidSwitchExternalPower = "suspend";
+        HandlePowerKey = lib.mkDefault "suspend";
+        HandlePowerKeyLongPress = "poweroff";
+        HandleLidSwitch = lib.mkDefault "suspend";
+        HandleLidSwitchExternalPower = lib.mkDefault "suspend";
+        HandleLidSwitchDocked = "ignore";
       };
     };
   };
