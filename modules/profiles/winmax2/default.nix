@@ -16,11 +16,7 @@
       } "magick $src -fuzz 10% -trim +repage $out";
   };
 
-  configurations.nixos.winmax2.module = {
-    config,
-    pkgs,
-    ...
-  }: {
+  configurations.nixos.winmax2.module = {pkgs, ...}: {
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
     boot.loader.systemd-boot.enable = true;
@@ -33,31 +29,6 @@
       allowedTCPPorts = [
         3000
       ];
-    };
-
-    time.timeZone = "Asia/Shanghai";
-
-    i18n.defaultLocale = "zh_CN.UTF-8";
-    i18n.supportedLocales = [
-      "C.UTF-8/UTF-8"
-      "en_US.UTF-8/UTF-8"
-      "zh_CN.UTF-8/UTF-8"
-    ];
-    i18n.extraLocaleSettings = {
-      LC_ADDRESS = "zh_CN.UTF-8";
-      LC_IDENTIFICATION = "zh_CN.UTF-8";
-      LC_MEASUREMENT = "zh_CN.UTF-8";
-      LC_MONETARY = "zh_CN.UTF-8";
-      LC_NAME = "zh_CN.UTF-8";
-      LC_NUMERIC = "zh_CN.UTF-8";
-      LC_PAPER = "zh_CN.UTF-8";
-      LC_TELEPHONE = "zh_CN.UTF-8";
-      LC_TIME = "zh_CN.UTF-8";
-    };
-
-    services.xserver.xkb = {
-      layout = "cn";
-      variant = "";
     };
 
     services.openssh.enable = true;
