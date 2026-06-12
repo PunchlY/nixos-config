@@ -237,23 +237,25 @@
 
           "Mod+D" = {
             hotkey-overlay.title = "Open Application Launcher";
-            action.spawn-sh = "fuzzel ${lib.cli.toCommandLineShellGNU {} {
-              show-actions = true;
-              terminal = "xdg-terminal-exec -- {cmd}";
-              launch-prefix = "sh -c ${lib.escapeShellArg ''
-                if [ -z "$DESKTOP_ENTRY_ID" ]; then
-                  mapfile -t cmd < <(xdg-terminal-exec --print-cmd -- "$0" "$@")
-                  set -- "''${cmd[@]}"
-                elif [ "$0" = "xdg-terminal-exec" ] && [ "$1" = "--" ]; then
-                  shift
-                  mapfile -t cmd < <(xdg-terminal-exec --print-cmd -- "$@")
-                  set -- "''${cmd[@]}"
-                else
-                  set -- "$0" "$@"
-                fi
-                exec niri msg action spawn -- "$@"
-              ''}";
-            }}";
+            action.spawn =
+              ["fuzzel"]
+              ++ lib.cli.toCommandLineGNU {} {
+                show-actions = true;
+                terminal = "xdg-terminal-exec -- {cmd}";
+                launch-prefix = "sh -c ${lib.escapeShellArg ''
+                  if [ -z "$DESKTOP_ENTRY_ID" ]; then
+                    mapfile -t cmd < <(xdg-terminal-exec --print-cmd -- "$0" "$@")
+                    set -- "''${cmd[@]}"
+                  elif [ "$0" = "xdg-terminal-exec" ] && [ "$1" = "--" ]; then
+                    shift
+                    mapfile -t cmd < <(xdg-terminal-exec --print-cmd -- "$@")
+                    set -- "''${cmd[@]}"
+                  else
+                    set -- "$0" "$@"
+                  fi
+                  exec niri msg action spawn -- "$@"
+                ''}";
+              };
           };
 
           "Mod+O".action.toggle-overview = {};
@@ -265,8 +267,10 @@
           "Mod+Down".action.focus-window-down = {};
           "Mod+Up".action.focus-window-up = {};
           "Mod+Right".action.focus-column-right = {};
-          "Mod+Shift+WheelScrollUp".action.focus-column-left = {};
-          "Mod+Shift+WheelScrollDown".action.focus-column-right = {};
+          "Mod+WheelScrollUp".action.focus-column-left = {};
+          "Mod+Shift+WheelScrollDown".action.focus-window-down = {};
+          "Mod+Shift+WheelScrollUp".action.focus-window-up = {};
+          "Mod+WheelScrollDown".action.focus-column-right = {};
           "Mod+H".action.focus-column-left = {};
           "Mod+J".action.focus-window-down = {};
           "Mod+K".action.focus-window-up = {};
@@ -276,6 +280,10 @@
           "Mod+Ctrl+Down".action.move-window-down = {};
           "Mod+Ctrl+Up".action.move-window-up = {};
           "Mod+Ctrl+Right".action.move-column-right = {};
+          "Mod+Ctrl+WheelScrollUp".action.move-column-left = {};
+          "Mod+Ctrl+Shift+WheelScrollDown".action.move-window-down = {};
+          "Mod+Ctrl+Shift+WheelScrollUp".action.move-window-up = {};
+          "Mod+Ctrl+WheelScrollDown".action.move-column-right = {};
           "Mod+Ctrl+H".action.move-column-left = {};
           "Mod+Ctrl+J".action.move-window-down = {};
           "Mod+Ctrl+K".action.move-window-up = {};
@@ -329,45 +337,45 @@
 
           "XF86AudioRaiseVolume" = {
             allow-when-locked = true;
-            action.spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+            action.spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"];
           };
           "XF86AudioLowerVolume" = {
             allow-when-locked = true;
-            action.spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+            action.spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
           };
           "XF86AudioMute" = {
             allow-when-locked = true;
-            action.spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+            action.spawn = ["wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"];
           };
           "XF86AudioMicMute" = {
             allow-when-locked = true;
-            action.spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+            action.spawn = ["wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"];
           };
 
           "XF86AudioNext" = {
             allow-when-locked = true;
-            action.spawn-sh = "playerctl next";
+            action.spawn = ["playerctl" "next"];
           };
           "XF86AudioPlay" = {
             allow-when-locked = true;
-            action.spawn-sh = "playerctl play-pause";
+            action.spawn = ["playerctl" "play-pause"];
           };
           "XF86AudioPrev" = {
             allow-when-locked = true;
-            action.spawn-sh = "playerctl previous";
+            action.spawn = ["playerctl" "previous"];
           };
           "XF86AudioStop" = {
             allow-when-locked = true;
-            action.spawn-sh = "playerctl pause";
+            action.spawn = ["playerctl" "pause"];
           };
 
           "XF86MonBrightnessDown" = {
             allow-when-locked = true;
-            action.spawn-sh = "brightnessctl set 5%-";
+            action.spawn = ["brightnessctl" "set" "5%-"];
           };
           "XF86MonBrightnessUp" = {
             allow-when-locked = true;
-            action.spawn-sh = "brightnessctl set 5%+";
+            action.spawn = ["brightnessctl" "set" "5%+"];
           };
         };
       };
