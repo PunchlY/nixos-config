@@ -1,18 +1,19 @@
 {lib, ...}: {
   flake.homeModules.base = {config, ...}: {
-    home.shellAliases = lib.mkIf config.programs.neovim.enable {
-      n = "nvim";
-    };
+    config = lib.mkIf config.programs.neovim.enable {
+      home.shellAliases = {
+        n = "nvim";
+      };
 
-    programs.neovim = {
-      enable = lib.mkDefault true;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-    };
+      programs.neovim = {
+        viAlias = true;
+        vimAlias = true;
+        vimdiffAlias = true;
+      };
 
-    programs.bash = lib.mkIf config.programs.neovim.enable {
-      sessionVariables.EDITOR = "nvim";
+      programs.bash = {
+        sessionVariables.EDITOR = "nvim";
+      };
     };
   };
 }

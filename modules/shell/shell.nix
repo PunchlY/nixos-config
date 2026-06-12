@@ -32,6 +32,12 @@
       '')
     ];
 
+    programs.fastfetch.enable = true;
+
+    programs.neovim.enable = true;
+
+    programs.gomi.enable = true;
+
     programs.tlrc.enable = true;
 
     programs.jq.enable = true;
