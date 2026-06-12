@@ -56,22 +56,11 @@
     pkgs,
     ...
   }: let
+    inherit (osConfig.theme) font;
     cfg = config.programs.wiliwili;
   in {
     config = lib.mkIf cfg.enable {
-      xdg.configFile."wiliwili/font.ttf" = {
-        source =
-          pkgs.runCommand "wiliwili-font"
-          {
-            nativeBuildInputs = [pkgs.fontconfig];
-            FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = osConfig.fonts.packages;
-            };
-          }
-          ''
-            ln -s "$(fc-match "monospace" --format %{file})" "$out"
-          '';
-      };
+      xdg.configFile."wiliwili/font.ttf".source = font.path;
     };
   };
 }
