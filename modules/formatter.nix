@@ -33,6 +33,8 @@
         enable = true;
         priority = 2;
       };
+
+      programs.yamlfmt.enable = true;
     };
   };
 }

@@ -6,59 +6,44 @@
   flake.nixosModules.base = {
     config,
     pkgs,
-    utils,
     ...
   }: let
     cfg = config.services.mihomo;
 
     format = pkgs.formats.yaml {};
+    settings = format.generate "settings.yaml" config.services.mihomo.settings;
   in {
     options.services.mihomo = {
-      setting = lib.mkOption {
+      settings = lib.mkOption {
         type = format.type;
         default = {};
       };
     };
 
     config = lib.mkIf cfg.enable {
-      age.secrets.mihomo.file = inputs.self.outPath + "/secrets/mihomo.age";
+      sops.secrets.mihomo = {
+        format = "yaml";
+        sopsFile = "${inputs.self}/secrets/mihomo.yaml";
+        key = "";
+      };
+
+      sops.templates."mihomo.yaml".content = ''
+        ${config.sops.placeholder.mihomo}
+        ${builtins.readFile settings}
+      '';
 
       networking.firewall.trustedInterfaces = ["mihomo0"];
       networking.firewall.checkReversePath = false;
 
       systemd.services.mihomo.wantedBy = lib.mkForce [];
 
-      systemd.services.mihomo = {
-        serviceConfig = {
-          ExecStart = lib.mkForce (utils.escapeSystemdExecArgs ([
-              (lib.getExe cfg.package)
-              "-d"
-              "/var/lib/private/mihomo"
-              "-f"
-              "/var/lib/private/mihomo/config.yaml"
-            ]
-            ++ (
-              if (cfg.webui != null)
-              then ["-ext-ui" cfg.webui]
-              else []
-            )));
-          ExecStartPre = pkgs.writeShellScript "config-merge" ''
-            ${pkgs.yq-go}/bin/yq eval-all \
-              'select(fileIndex==0) * select(fileIndex==1)' \
-              - "$CREDENTIALS_DIRECTORY/config.yaml" \
-              > /var/lib/private/mihomo/config.yaml \
-              <${format.generate "setting.yaml" config.services.mihomo.setting}
-          '';
-        };
-      };
-
       services.mihomo = {
         extraOpts = null;
         webui = pkgs.metacubexd;
         tunMode = true;
         processesInfo = true;
-        configFile = config.age.secrets.mihomo.path;
-        setting = {
+        configFile = config.sops.templates."mihomo.yaml".path;
+        settings = {
           external-controller = "[::]:9090";
           ipv6 = true;
           mode = "rule";

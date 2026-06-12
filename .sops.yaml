@@ -1,0 +1,17 @@
+keys:
+  age:
+    - &punchly age1g4wr90lug3gmx5fwncmm8t0j4cw35fk8kznhcg0ddga8cp6z7vuqzjkyf9
+    - &winmax2 age1umwdghwl6v2dvrluqsydp54uk3tjlxru6m6ju50dgplg6s873frq8p0s4m
+    - &nixos age15vwrwmrmzexv7nljsarhysazmhsevtuew97tldr3q2l9r2362fns8nusf8
+creation_rules:
+  - path_regex: secrets/mihomo\.yaml$
+    age:
+      - *punchly
+      - *winmax2
+      - *nixos
+    encrypted_comment_regex: \s*(secret)(:\s*)?.*
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    age:
+      - *punchly
+      - *winmax2
+      - *nixos

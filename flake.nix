@@ -22,10 +22,6 @@
   };
 
   inputs = {
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     bemenu = {
       url = "github:Cloudef/bemenu";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -61,6 +57,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur = {
       url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tldr-pages = {

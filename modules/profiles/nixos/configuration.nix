@@ -58,10 +58,6 @@
       desktopSession = "gamescope-wayland";
     };
 
-    age.identityPaths = [
-      "${config.user.home}/.ssh/id_rsa"
-    ];
-
     hm.games = {
       minecraft.enable = true;
     };

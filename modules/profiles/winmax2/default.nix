@@ -121,10 +121,6 @@
 
     virtualisation.waydroid.enable = true;
 
-    age.identityPaths = [
-      "${config.user.home}/.ssh/id_ed25519"
-    ];
-
     jovian.steam = {
       enable = true;
       autoStart = true;
