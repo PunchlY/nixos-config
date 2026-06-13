@@ -3,19 +3,21 @@ rebuild: write-flake
 
 update:
     nix flake update
+    nix run .#write-flake
 
 write-flake:
     nix run .#write-flake --option substitute false
 
-repl:
-    nix repl ".#nixosConfigurations.$(hostname)"
+repl hostname=`hostname`:
+    nix repl .#nixosConfigurations.{{ hostname }}
 
 clean:
     sudo nix profile wipe-history --profile /nix/var/nix/profiles/system
     sudo nix-collect-garbage --delete-old
 
-fmt:
-    nix fmt --option substitute false
+fmt path=".":
+    nix fmt --option substitute false -- {{ path }}
 
-updatekeys: && fmt
+updatekeys:
     sops updatekeys secrets/*
+    @just fmt secrets
