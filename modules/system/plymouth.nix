@@ -3,36 +3,17 @@
   lib,
   ...
 }: {
-  flake-file.inputs = {
-    seamless-asahi-plymouth = {
-      url = "github:luca-schlecker/seamless-asahi-plymouth";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     config,
     pkgs,
     ...
   }: {
     config = lib.mkIf config.boot.plymouth.enable {
-      boot.plymouth = {
-        theme = "seamless-asahi";
-        themePackages = [inputs.seamless-asahi-plymouth.packages.${pkgs.stdenv.hostPlatform.system}.default];
-      };
-
       boot.kernelParams = [
         "quiet"
         "splash"
-
         "udev.log_level=3"
-        "rd.udev.log_level=3"
-
         "systemd.show_status=auto"
-        "rd.systemd.show_status=auto"
-
-        # "vt.global_cursor_default=0"
-
         "plymouth.use-simpledrm"
       ];
       boot.consoleLogLevel = 3;
