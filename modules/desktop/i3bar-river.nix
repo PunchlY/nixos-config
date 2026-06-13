@@ -1,5 +1,9 @@
-{lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: {
+{
+  flake.modules.homeManager.base = {
+    config,
+    lib,
+    ...
+  }: {
     config = lib.mkIf config.programs.i3bar-river.enable {
       programs.i3status-rust.enable = true;
 
@@ -12,6 +16,7 @@
   flake.modules.homeManager.theme = {
     osConfig,
     config,
+    lib,
     ...
   }: let
     inherit (osConfig.theme) colors font;

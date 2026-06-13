@@ -1,5 +1,9 @@
-{lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: let
+{
+  flake.modules.homeManager.base = {
+    config,
+    lib,
+    ...
+  }: let
     cfg = config.programs.swayimg;
   in {
     config = lib.mkIf cfg.enable {
@@ -12,6 +16,7 @@
   flake.modules.homeManager.theme = {
     osConfig,
     config,
+    lib,
     ...
   }: let
     inherit (osConfig.theme) font colors opacity;

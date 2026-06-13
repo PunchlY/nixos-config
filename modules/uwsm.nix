@@ -1,5 +1,9 @@
-{lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: let
+{
+  flake.modules.homeManager.base = {
+    config,
+    lib,
+    ...
+  }: let
     cfg = config.programs.uwsm;
 
     variablesType = with lib.types;

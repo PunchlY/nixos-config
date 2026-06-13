@@ -1,7 +1,8 @@
-{lib, ...}: {
+{
   flake.modules.nixos.base = {
     config,
     pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf config.programs.steam.enable {
@@ -18,6 +19,7 @@
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.services.steam;
@@ -178,6 +180,7 @@
   flake.modules.homeManager.nixos = {
     osConfig,
     pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf osConfig.programs.steam.enable {

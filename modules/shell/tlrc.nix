@@ -1,8 +1,4 @@
-{
-  lib,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs = {
     tldr-pages = {
       url = "github:tldr-pages/tldr";
@@ -13,6 +9,7 @@
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.programs.tlrc;

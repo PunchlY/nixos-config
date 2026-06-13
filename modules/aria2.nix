@@ -1,7 +1,8 @@
-{lib, ...}: {
+{
   flake.modules.nixos.base = {
     config,
     pkgs,
+    lib,
     ...
   }: {
     user.extraGroups = ["aria2"];
@@ -15,6 +16,7 @@
   flake.modules.homeManager.nixos = {
     osConfig,
     config,
+    lib,
     ...
   }: let
     escapeTmpfiles = lib.strings.escapeC [

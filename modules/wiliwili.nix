@@ -53,7 +53,6 @@
   flake.modules.homeManager.theme = {
     osConfig,
     config,
-    pkgs,
     ...
   }: let
     inherit (osConfig.theme) font;

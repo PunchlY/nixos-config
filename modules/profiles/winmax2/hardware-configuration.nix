@@ -1,6 +1,7 @@
-{lib, ...}: {
+{
   configurations.nixos.winmax2.module = {
     config,
+    lib,
     modulesPath,
     ...
   }: {

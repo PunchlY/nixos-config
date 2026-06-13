@@ -1,8 +1,4 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs = {
     niri = {
       url = "github:sodiboo/niri-flake";
@@ -13,6 +9,7 @@
   flake.modules.nixos.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.programs.niri;
@@ -82,6 +79,7 @@
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.programs.niri;
@@ -385,6 +383,7 @@
   flake.modules.homeManager.nixos = {
     osConfig,
     pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf osConfig.programs.niri.enable {
@@ -449,7 +448,11 @@
     };
   };
 
-  flake.modules.homeManager.theme = {osConfig, ...}: let
+  flake.modules.homeManager.theme = {
+    osConfig,
+    lib,
+    ...
+  }: let
     inherit (osConfig.theme) cursor colors;
   in {
     config = lib.mkIf osConfig.programs.niri.enable {

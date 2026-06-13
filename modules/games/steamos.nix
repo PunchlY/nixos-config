@@ -1,8 +1,4 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
+{inputs, ...}: {
   flake-file.inputs = {
     jovian = {
       url = "github:Jovian-Experiments/Jovian-NixOS";
@@ -10,7 +6,11 @@
     };
   };
 
-  flake.modules.nixos.base = {config, ...}: {
+  flake.modules.nixos.base = {
+    config,
+    lib,
+    ...
+  }: {
     imports = [inputs.jovian.nixosModules.default];
 
     jovian.steam = lib.mkIf config.jovian.steam.enable {

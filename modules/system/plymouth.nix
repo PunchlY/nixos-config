@@ -1,13 +1,5 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
-  flake.modules.nixos.base = {
-    config,
-    pkgs,
-    ...
-  }: {
+{lib, ...}: {
+  flake.modules.nixos.base = {config, ...}: {
     config = lib.mkIf config.boot.plymouth.enable {
       boot.kernelParams = [
         "quiet"

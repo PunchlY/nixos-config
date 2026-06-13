@@ -1,5 +1,9 @@
-{lib, ...}: {
-  flake.modules.nixos.base = {config, ...}: {
+{
+  flake.modules.nixos.base = {
+    config,
+    lib,
+    ...
+  }: {
     networking.networkmanager = lib.mkIf config.networking.networkmanager.enable {
       wifi.backend = lib.mkDefault "iwd";
       wifi.powersave = false;

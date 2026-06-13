@@ -1,6 +1,6 @@
 {
-  inputs,
   lib,
+  moduleWithSystem,
   ...
 }: {
   flake-file.inputs = {
@@ -10,7 +10,7 @@
     };
   };
 
-  flake.modules.homeManager.base = {
+  flake.modules.homeManager.base = moduleWithSystem ({inputs', ...}: {
     config,
     pkgs,
     ...
@@ -19,7 +19,7 @@
       programs.bemenu.package = pkgs.writeShellApplication {
         name = "bemenu";
         runtimeInputs = [
-          inputs.bemenu.packages.${pkgs.stdenv.hostPlatform.system}.default
+          inputs'.bemenu.packages.default
         ];
         text = ''
           config="''${BEMENU_CONFIG:-"''${XDG_CONFIG_HOME:-"$HOME/.config"}/bemenu"}"
@@ -34,7 +34,7 @@
         '';
       };
     };
-  };
+  });
 
   flake.modules.homeManager.theme = {
     osConfig,

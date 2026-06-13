@@ -1,11 +1,8 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
+{self, ...}: {
   flake.modules.nixos.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.services.mihomo;
@@ -23,7 +20,7 @@
     config = lib.mkIf cfg.enable {
       sops.secrets.mihomo = {
         format = "yaml";
-        sopsFile = "${inputs.self}/secrets/mihomo.yaml";
+        sopsFile = "${self}/secrets/mihomo.yaml";
         key = "";
       };
 

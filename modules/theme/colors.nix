@@ -1,16 +1,12 @@
-{
-  inputs,
-  lib,
-  moduleWithSystem,
-  ...
-}: {
+{moduleWithSystem, ...}: {
   flake-file.inputs = {
     md3.url = "github:PunchlY/md3";
   };
 
-  flake.modules.nixos.theme = moduleWithSystem ({inputs',...}: {
+  flake.modules.nixos.theme = moduleWithSystem ({inputs'}: {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.theme;

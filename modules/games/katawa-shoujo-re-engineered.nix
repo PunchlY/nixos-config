@@ -1,5 +1,5 @@
-{lib, ...}: {
-  flake.modules.nixos.base = {
+{
+  flake.modules.nixos.base = {lib, ...}: {
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
@@ -13,6 +13,7 @@
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.programs.katawa-shoujo-re-engineered;

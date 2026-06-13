@@ -1,11 +1,8 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
+{self, ...}: {
   flake.modules.nixos.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.services.home-assistant;
@@ -16,7 +13,7 @@
         path = "/var/lib/hass/secrets.yaml";
 
         format = "yaml";
-        sopsFile = "${inputs.self}/secrets/hass.yaml";
+        sopsFile = "${self}/secrets/hass.yaml";
         key = "";
 
         restartUnits = ["home-assistant.service"];

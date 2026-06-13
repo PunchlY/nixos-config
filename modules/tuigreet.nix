@@ -1,7 +1,8 @@
-{lib, ...}: {
+{
   flake.modules.nixos.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.programs.tuigreet;

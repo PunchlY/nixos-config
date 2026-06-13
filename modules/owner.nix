@@ -1,15 +1,11 @@
-{
-  self,
-  lib,
-  ...
-}: {
+{self, ...}: {
   flake.meta.owner = {
     name = "PunchlY";
     username = "punchly";
     email = "punchly9lin@gmail.com";
   };
 
-  flake.modules.nixos.base = {
+  flake.modules.nixos.base = {lib, ...}: {
     imports = [
       (lib.mkAliasOptionModule ["user"] ["users" "users" self.meta.owner.username])
       (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" self.meta.owner.username])

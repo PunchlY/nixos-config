@@ -1,8 +1,9 @@
-{lib, ...}: {
+{
   flake.modules.nixos.base = {
     config,
     pkgs,
     utils,
+    lib,
     ...
   }: {
     config = lib.mkIf config.programs.niri.enable {
@@ -37,7 +38,11 @@
     };
   };
 
-  flake.modules.homeManager.nixos = {osConfig, ...}: {
+  flake.modules.homeManager.nixos = {
+    osConfig,
+    lib,
+    ...
+  }: {
     config = lib.mkIf osConfig.programs.niri.enable {
       programs.swaylock = {
         enable = true;

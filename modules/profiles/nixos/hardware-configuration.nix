@@ -1,6 +1,7 @@
-{lib, ...}: {
+{
   configurations.nixos.nixos.module = {
     config,
+    lib,
     modulesPath,
     ...
   }: {

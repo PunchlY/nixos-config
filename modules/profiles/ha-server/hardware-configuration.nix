@@ -1,4 +1,4 @@
-{...}: {
+{
   configurations.nixos.ha-server.module = {
     config,
     lib,

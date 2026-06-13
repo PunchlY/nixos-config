@@ -1,10 +1,11 @@
-{lib, ...}: {
+{
   flake.modules.nixos.base = {
   };
 
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: {
     home.packages = with pkgs; [

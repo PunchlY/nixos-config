@@ -1,7 +1,8 @@
-{lib, ...}: {
+{
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.programs.gomi;

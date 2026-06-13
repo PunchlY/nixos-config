@@ -1,7 +1,8 @@
-{lib, ...}: {
+{
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf (config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5") {
@@ -65,6 +66,7 @@
   flake.modules.homeManager.theme = {
     osConfig,
     config,
+    lib,
     ...
   }: let
     inherit (osConfig.theme) font colors;

@@ -1,8 +1,9 @@
-{lib, ...}: {
+{
   flake.modules.nixos.base = {
     config,
     pkgs,
     utils,
+    lib,
     ...
   }: let
     cfg = config.services.unblockneteasemusic;

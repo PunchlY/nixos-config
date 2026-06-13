@@ -1,8 +1,4 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
+{moduleWithSystem, ...}: {
   flake-file.inputs = {
     browser-previews = {
       url = "github:nix-community/browser-previews";
@@ -10,14 +6,14 @@
     };
   };
 
-  flake.modules.nixos.base = {
+  flake.modules.nixos.base = moduleWithSystem ({inputs'}: {
     config,
-    pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf config.programs.chromium.enable {
       environment.systemPackages = [
-        inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome
+        inputs'.browser-previews.packages.google-chrome
       ];
 
       programs.chromium = let
@@ -51,9 +47,13 @@
         };
       };
     };
-  };
+  });
 
-  flake.modules.nixos.theme = {config, ...}: let
+  flake.modules.nixos.theme = {
+    config,
+    lib,
+    ...
+  }: let
     inherit (config.theme) colors;
   in {
     config = lib.mkIf config.programs.chromium.enable {

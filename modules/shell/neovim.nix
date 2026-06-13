@@ -1,5 +1,9 @@
-{lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: {
+{
+  flake.modules.homeManager.base = {
+    config,
+    lib,
+    ...
+  }: {
     config = lib.mkIf config.programs.neovim.enable {
       home.shellAliases = {
         n = "nvim";

@@ -1,4 +1,4 @@
-{...}: {
+{
   flake.modules.homeManager.theme = {osConfig, ...}: let
     inherit (osConfig.theme) colors font cursor;
   in {

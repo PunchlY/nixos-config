@@ -1,8 +1,9 @@
-{lib, ...}: {
+{
   flake.modules.homeManager.base = {
     config,
     osConfig,
     pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf config.programs.lutris.enable {

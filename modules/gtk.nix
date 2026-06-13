@@ -1,4 +1,4 @@
-{lib, ...}: {
+{
   flake.modules.nixos.theme = {
     programs.dconf.enable = true;
   };
@@ -6,6 +6,7 @@
   flake.modules.homeManager.theme = {
     osConfig,
     pkgs,
+    lib,
     ...
   }: let
     inherit (osConfig.theme) colors font cursor;

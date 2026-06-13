@@ -1,7 +1,8 @@
-{lib, ...}: {
+{
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf config.programs.fastfetch.enable {

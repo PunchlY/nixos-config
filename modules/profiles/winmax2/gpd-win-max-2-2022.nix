@@ -1,9 +1,9 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
-  configurations.nixos.winmax2.module = {pkgs, ...}: {
+{inputs, ...}: {
+  configurations.nixos.winmax2.module = {
+    pkgs,
+    lib,
+    ...
+  }: {
     imports = with inputs.nixos-hardware.nixosModules; [
       common-pc-laptop
       common-pc-ssd

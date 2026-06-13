@@ -1,5 +1,9 @@
-{lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: {
+{
+  flake.modules.homeManager.base = {
+    config,
+    lib,
+    ...
+  }: {
     config = lib.mkIf config.services.mako.enable {
       services.mako.settings = {
         default-timeout = 5000;
@@ -13,6 +17,7 @@
   flake.modules.homeManager.theme = {
     osConfig,
     config,
+    lib,
     ...
   }: let
     inherit (osConfig.theme) colors font opacity;

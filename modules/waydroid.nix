@@ -1,8 +1,4 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
+{moduleWithSystem, ...}: {
   flake-file.inputs = {
     waydroid-script = {
       url = "github:casualsnek/waydroid_script";
@@ -10,9 +6,10 @@
     };
   };
 
-  flake.modules.nixos.base = {
+  flake.modules.nixos.base = moduleWithSystem ({inputs'}: {
     config,
     pkgs,
+    lib,
     ...
   }: {
     config = lib.mkIf config.virtualisation.waydroid.enable {
@@ -48,7 +45,7 @@
           })
         ]
         ++ [
-          inputs.waydroid-script.packages.${stdenv.hostPlatform.system}.default
+          inputs'.waydroid-script.packages.default
         ];
 
       # Tell waydroid to use memfd and not ashmem
@@ -63,5 +60,5 @@
         );
       };
     };
-  };
+  });
 }

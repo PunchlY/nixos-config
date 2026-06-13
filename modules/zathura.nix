@@ -1,7 +1,8 @@
-{lib, ...}: {
+{
   flake.modules.homeManager.base = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     plugins = with pkgs.zathuraPkgs; [
@@ -18,6 +19,7 @@
   flake.modules.homeManager.theme = {
     osConfig,
     config,
+    lib,
     ...
   }: let
     inherit (osConfig.theme) font colors;

@@ -1,8 +1,9 @@
-{lib, ...}: {
+{
   flake.modules.homeManager.theme = {
     osConfig,
     config,
     pkgs,
+    lib,
     ...
   }: let
     inherit (osConfig.theme) wallpaper;

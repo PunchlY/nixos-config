@@ -1,5 +1,9 @@
-{lib, ...}: {
-  flake.modules.homeManager.base = {config, ...}: let
+{
+  flake.modules.homeManager.base = {
+    config,
+    lib,
+    ...
+  }: let
     allExeNames = [
       "git status"
       "git log"
@@ -45,17 +49,16 @@
       settings = {
         permission = {
           bash =
-            {
-              "*" = "ask";
-            }
-            // lib.foldl (
+            lib.foldl (
               acc: cmd:
                 acc
                 // {
                   ${cmd} = "allow";
                   "${cmd} *" = "allow";
                 }
-            ) {}
+            ) {
+              "*" = "ask";
+            }
             allExeNames;
           edit = "ask";
         };

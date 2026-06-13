@@ -1,5 +1,5 @@
-{lib, ...}: {
-  flake.modules.homeManager.base = {
+{
+  flake.modules.homeManager.base = {lib, ...}: {
     imports =
       [
         (lib.mkAliasOptionModule ["games" "steam"] ["services" "steam"])
