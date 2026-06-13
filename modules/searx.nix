@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.nixosModules.base = {config, ...}: let
+  flake.modules.nixos.base = {config, ...}: let
     cfg = config.services.searx;
     base_url = lib.removeSuffix "/" cfg.settings.server.base_url;
   in {

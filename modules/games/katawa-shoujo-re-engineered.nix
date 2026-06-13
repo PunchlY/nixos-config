@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
@@ -10,7 +10,7 @@
     ];
   };
 
-  flake.homeModules.base = {
+  flake.modules.homeManager.base = {
     config,
     pkgs,
     ...

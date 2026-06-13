@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake-file.inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
@@ -14,4 +14,6 @@
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
+
+  flake.nixosModules = self.modules.nixos;
 }

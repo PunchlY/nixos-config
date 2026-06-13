@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.homeModules.base = {config, ...}: let
+  flake.modules.homeManager.base = {config, ...}: let
     allExeNames = [
       "git status"
       "git log"

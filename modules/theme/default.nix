@@ -1,7 +1,7 @@
-{config, ...}: {
-  flake.nixosModules.theme = {
+{self, ...}: {
+  flake.modules.nixos.theme = {
     home-manager = {
-      sharedModules = [config.flake.homeModules.theme];
+      sharedModules = [self.modules.homeManager.theme];
     };
   };
 }

@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.homeModules.base = {
+  flake.modules.homeManager.base = {
     config,
     pkgs,
     ...
@@ -62,7 +62,7 @@
     };
   };
 
-  flake.homeModules.theme = {
+  flake.modules.homeManager.theme = {
     osConfig,
     config,
     ...

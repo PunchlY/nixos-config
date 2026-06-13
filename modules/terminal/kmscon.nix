@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.nixosModules.theme = {config, ...}: let
+  flake.modules.nixos.theme = {config, ...}: let
     inherit (config.theme) colors font;
     rgbToKmscon = name: with colors.${name}.rgb; "${toString r},${toString g},${toString b}";
   in {

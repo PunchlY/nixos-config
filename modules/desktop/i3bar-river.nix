@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.homeModules.base = {config, ...}: {
+  flake.modules.homeManager.base = {config, ...}: {
     config = lib.mkIf config.programs.i3bar-river.enable {
       programs.i3status-rust.enable = true;
 
@@ -9,7 +9,7 @@
     };
   };
 
-  flake.homeModules.theme = {
+  flake.modules.homeManager.theme = {
     osConfig,
     config,
     ...

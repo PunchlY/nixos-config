@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     config,
     pkgs,
     ...
@@ -15,7 +15,7 @@
 
   # https://github.com/kira-bruneau/nixos-config/blob/d2561703b25cfd72c1e650a1dfc4d07ec26e230b/home/hosts/peridot.nix
   # https://github.com/ChrisOboe/json2steamshortcut/blob/7d43d5b6e198542649c712573b91f27247068aed/flake.nix
-  flake.homeModules.base = {
+  flake.modules.homeManager.base = {
     config,
     pkgs,
     ...
@@ -175,7 +175,7 @@
     };
   };
 
-  flake.homeModules.nixos = {
+  flake.modules.homeManager.nixos = {
     osConfig,
     pkgs,
     ...

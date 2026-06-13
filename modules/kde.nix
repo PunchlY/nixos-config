@@ -1,5 +1,5 @@
 {...}: {
-  flake.homeModules.theme = {osConfig, ...}: let
+  flake.modules.homeManager.theme = {osConfig, ...}: let
     inherit (osConfig.theme) colors font cursor;
   in {
     xdg.configFile."kdeglobals".text = ''

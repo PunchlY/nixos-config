@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.homeModules.base = {config, ...}: {
+  flake.modules.homeManager.base = {config, ...}: {
     config = lib.mkIf config.programs.imv.enable {
       xdg.mimeApps.defaultApplicationPackages = [
         config.programs.imv.package
@@ -14,7 +14,7 @@
     };
   };
 
-  flake.homeModules.theme = {
+  flake.modules.homeManager.theme = {
     osConfig,
     config,
     ...

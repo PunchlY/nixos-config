@@ -32,7 +32,7 @@
       "packages"
     ];
 
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     nixpkgs.overlays = [inputs.self.overlays.default];
   };
 

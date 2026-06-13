@@ -1,5 +1,5 @@
 {
-  config,
+  self,
   inputs,
   ...
 }: {
@@ -12,19 +12,21 @@
 
   imports = [inputs.home-manager.flakeModules.default];
 
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     imports = [inputs.home-manager.nixosModules.default];
     home-manager = {
-      sharedModules = [config.flake.homeModules.nixos];
+      sharedModules = [self.modules.homeManager.nixos];
       useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "backup";
     };
   };
 
-  flake.homeModules.nixos = {osConfig, ...}: {
-    imports = [config.flake.homeModules.base];
+  flake.modules.homeManager.nixos = {osConfig, ...}: {
+    imports = [self.modules.homeManager.base];
 
     home.stateVersion = osConfig.system.stateVersion;
   };
+
+  flake.homeModules = self.modules.homeManager;
 }

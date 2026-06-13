@@ -3,7 +3,7 @@
     md3.url = "github:PunchlY/md3";
   };
 
-  flake.nixosModules.theme = {
+  flake.modules.nixos.theme = {
     config,
     lib,
     pkgs,
@@ -33,7 +33,7 @@
     };
   };
 
-  flake.homeModules.theme = {osConfig, ...}: {
+  flake.modules.homeManager.theme = {osConfig, ...}: {
     home.pointerCursor = {
       inherit (osConfig.theme.cursor) name package size;
       x11.enable = true;

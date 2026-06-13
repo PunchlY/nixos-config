@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.homeModules.base = {config, ...}: {
+  flake.modules.homeManager.base = {config, ...}: {
     config = lib.mkIf config.programs.foot.enable {
       xdg.desktopEntries.foot = {
         name = "Foot";
@@ -81,7 +81,7 @@
     };
   };
 
-  flake.homeModules.theme = {
+  flake.modules.homeManager.theme = {
     osConfig,
     config,
     ...

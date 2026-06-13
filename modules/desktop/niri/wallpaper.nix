@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.homeModules.theme = {
+  flake.modules.homeManager.theme = {
     osConfig,
     config,
     pkgs,

@@ -6,7 +6,7 @@
     };
   };
 
-  flake.nixosModules.base = {pkgs, ...}: {
+  flake.modules.nixos.base = {pkgs, ...}: {
     imports = [inputs.sops-nix.nixosModules.sops];
 
     environment.systemPackages = with pkgs; [

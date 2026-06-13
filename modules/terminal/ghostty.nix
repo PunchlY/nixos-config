@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.homeModules.base = {config, ...}: {
+  flake.modules.homeManager.base = {config, ...}: {
     config = lib.mkIf config.programs.ghostty.enable {
       programs.ghostty = {
         systemd.enable = true;
@@ -7,7 +7,7 @@
     };
   };
 
-  flake.homeModules.theme = {
+  flake.modules.homeManager.theme = {
     osConfig,
     config,
     ...

@@ -1,5 +1,5 @@
 {lib, ...}: {
-  flake.nixosModules.theme = {
+  flake.modules.nixos.theme = {
     config,
     pkgs,
     ...
@@ -53,7 +53,7 @@
     };
   };
 
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     config,
     pkgs,
     ...
@@ -102,7 +102,7 @@
     };
   };
 
-  flake.homeModules.nixos = {osConfig, ...}: {
+  flake.modules.homeManager.nixos = {osConfig, ...}: {
     home.packages = osConfig.fonts.packages;
   };
 }

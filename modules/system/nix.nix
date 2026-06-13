@@ -14,7 +14,7 @@
     ];
   };
 
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     nix.settings = {
       experimental-features = config.flake-file.nixConfig.experimental-features or [];
       accept-flake-config = true;

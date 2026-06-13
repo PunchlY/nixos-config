@@ -10,7 +10,7 @@
     };
   };
 
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     config,
     pkgs,
     ...
@@ -53,7 +53,7 @@
     };
   };
 
-  flake.nixosModules.theme = {config, ...}: let
+  flake.modules.nixos.theme = {config, ...}: let
     inherit (config.theme) colors;
   in {
     config = lib.mkIf config.programs.chromium.enable {

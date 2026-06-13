@@ -1,4 +1,5 @@
 {
+  self,
   lib,
   config,
   ...
@@ -10,7 +11,13 @@
           type = lib.types.str;
           default = name;
         };
-        module = lib.mkOption {type = lib.types.deferredModule;};
+        module = lib.mkOption {
+          type = lib.types.deferredModule;
+          apply = v: {
+            _class = "nixos";
+            imports = [v];
+          };
+        };
         theme = {
           enable = lib.mkEnableOption "theme";
           wallpaper = lib.mkOption {
@@ -28,14 +35,14 @@
         modules =
           [
             cfg.module
-            config.flake.nixosModules.base
+            self.modules.nixos.base
             {
               networking.hostName = cfg.hostName;
               system.stateVersion = "26.05";
             }
           ]
           ++ lib.optionals cfg.theme.enable [
-            config.flake.nixosModules.theme
+            self.modules.nixos.theme
             ({pkgs, ...}: {
               theme.wallpaper =
                 if builtins.isFunction cfg.theme.wallpaper

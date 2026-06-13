@@ -10,7 +10,7 @@
     };
   };
 
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     config,
     pkgs,
     ...
@@ -79,7 +79,7 @@
     };
   };
 
-  flake.homeModules.base = {
+  flake.modules.homeManager.base = {
     config,
     pkgs,
     ...
@@ -382,7 +382,7 @@
     };
   };
 
-  flake.homeModules.nixos = {
+  flake.modules.homeManager.nixos = {
     osConfig,
     pkgs,
     ...
@@ -449,7 +449,7 @@
     };
   };
 
-  flake.homeModules.theme = {osConfig, ...}: let
+  flake.modules.homeManager.theme = {osConfig, ...}: let
     inherit (osConfig.theme) cursor colors;
   in {
     config = lib.mkIf osConfig.programs.niri.enable {

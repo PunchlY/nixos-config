@@ -1,5 +1,5 @@
 {
-  flake.nixosModules.base = {config, ...}: {
+  flake.modules.nixos.base = {config, ...}: {
     security.sudo.execWheelOnly = true;
     security.sudo.extraConfig = ''
       Defaults lecture = never

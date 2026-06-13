@@ -1,13 +1,14 @@
 {
   inputs,
   lib,
+  moduleWithSystem,
   ...
 }: {
   flake-file.inputs = {
     md3.url = "github:PunchlY/md3";
   };
 
-  flake.nixosModules.theme = {
+  flake.modules.nixos.theme = moduleWithSystem ({inputs',...}: {
     config,
     pkgs,
     ...
@@ -33,7 +34,7 @@
         pkgs.runCommand "generated-theme" {
           src = cfg.wallpaper;
           nativeBuildInputs = [
-            inputs.md3.packages.${pkgs.stdenv.hostPlatform.system}.default
+            inputs'.md3.packages.default
           ];
           preferLocalBuild = true;
         } "md3 --dark <$src >$out"
@@ -46,5 +47,5 @@
             }
         );
     };
-  };
+  });
 }

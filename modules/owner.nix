@@ -1,5 +1,5 @@
 {
-  config,
+  self,
   lib,
   ...
 }: {
@@ -9,10 +9,10 @@
     email = "punchly9lin@gmail.com";
   };
 
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     imports = [
-      (lib.mkAliasOptionModule ["user"] ["users" "users" config.flake.meta.owner.username])
-      (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" config.flake.meta.owner.username])
+      (lib.mkAliasOptionModule ["user"] ["users" "users" self.meta.owner.username])
+      (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" self.meta.owner.username])
     ];
 
     user = {
@@ -36,8 +36,8 @@
 
     hm.programs.git = {
       settings.user = {
-        name = config.flake.meta.owner.name;
-        email = config.flake.meta.owner.email;
+        name = self.meta.owner.name;
+        email = self.meta.owner.email;
       };
     };
   };
