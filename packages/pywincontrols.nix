@@ -1,9 +1,11 @@
 {
-  python3Packages,
+  buildPythonApplication,
   fetchFromGitHub,
+  setuptools,
+  hid,
   lib,
 }:
-python3Packages.buildPythonApplication (finalAttrs: {
+buildPythonApplication (finalAttrs: {
   pname = "pywincontrols";
   version = "1.0.4";
   format = "pyproject";
@@ -19,8 +21,8 @@ python3Packages.buildPythonApplication (finalAttrs: {
     sed -i "s/'K406'/'K406','K121','K123'/" gpdconfig/wincontrols/hardware.py
   '';
 
-  nativeBuildInputs = [python3Packages.setuptools];
-  propagatedBuildInputs = with python3Packages; [
+  nativeBuildInputs = [setuptools];
+  propagatedBuildInputs = [
     hid
   ];
 

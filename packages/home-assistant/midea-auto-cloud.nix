@@ -2,7 +2,7 @@
   lib,
   buildHomeAssistantComponent,
   fetchFromGitHub,
-  home-assistant,
+  lupa,
 }:
 buildHomeAssistantComponent (finalAttrs: {
   owner = "sususweet";
@@ -17,7 +17,7 @@ buildHomeAssistantComponent (finalAttrs: {
   };
 
   dependencies = [
-    home-assistant.python3Packages.lupa
+    lupa
   ];
 
   meta = {
