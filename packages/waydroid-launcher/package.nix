@@ -13,7 +13,7 @@
 replaceVarsWith {
   name = "waydroid-launcher";
   src = ./launcher.sh;
-  
+
   dir = "bin";
   isExecutable = true;
   replacements = {

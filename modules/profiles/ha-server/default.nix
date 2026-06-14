@@ -10,7 +10,6 @@
     boot.loader.efi.canTouchEfiVariables = true;
 
     networking.networkmanager.enable = true;
-    networking.networkmanager.wifi.backend = "wpa_supplicant";
 
     services.openssh.enable = true;
 

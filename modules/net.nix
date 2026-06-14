@@ -5,7 +5,7 @@
     ...
   }: {
     networking.networkmanager = lib.mkIf config.networking.networkmanager.enable {
-      wifi.backend = lib.mkDefault "iwd";
+      wifi.backend = "iwd";
       wifi.powersave = false;
     };
 
