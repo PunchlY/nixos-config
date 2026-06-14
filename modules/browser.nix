@@ -13,7 +13,14 @@
   }: {
     config = lib.mkIf config.programs.chromium.enable {
       environment.systemPackages = [
-        inputs'.browser-previews.packages.google-chrome
+        (inputs'.browser-previews.packages.google-chrome.override {
+          commandLineArgs = [
+            "--disable-features=${lib.strings.concatMapStrings (x: x + ",") [
+              "OptimizationGuideOnDeviceModel"
+              "PromptAPIForGeminiNano"
+            ]}"
+          ];
+        })
       ];
 
       programs.chromium = let
