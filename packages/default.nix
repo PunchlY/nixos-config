@@ -21,6 +21,8 @@
 
       gtk-nocsd = final.callPackage ./gtk-nocsd.nix {};
 
+      ls-wayland = final.callPackage ./ls-wayland.nix {};
+
       haier = final.home-assistant.python3Packages.callPackage ./home-assistant/haier.nix {};
 
       midea-auto-cloud = final.home-assistant.python3Packages.callPackage ./home-assistant/midea-auto-cloud.nix {};
