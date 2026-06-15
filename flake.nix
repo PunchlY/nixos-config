@@ -22,10 +22,6 @@
   };
 
   inputs = {
-    bemenu = {
-      url = "github:Cloudef/bemenu";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     browser-previews = {
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
