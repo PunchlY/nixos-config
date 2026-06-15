@@ -37,7 +37,7 @@
             format = " $icon |";
             inactive_format = "";
             missing_format = "";
-            device = "^wlan0$";
+            device = "^wl";
             merge_with_next = true;
           }
           {
@@ -45,7 +45,7 @@
             format = " $icon |";
             inactive_format = "";
             missing_format = "";
-            device = "^eno1$";
+            device = "^en";
             merge_with_next = true;
           }
           {
