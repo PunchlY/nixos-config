@@ -97,9 +97,24 @@
               include-all = true;
             }
             {
+              name = "CHECK";
+              type = "select";
+              proxies = [
+                "DIRECT"
+                "JAPAN"
+                "HONGKONG"
+                "AMERICA"
+                "REJECT"
+              ];
+              include-all = true;
+            }
+            {
               name = "DOWNLOAD";
               type = "select";
-              proxies = ["DOWNLOAD-TEST" "PROXY"];
+              proxies = [
+                "DOWNLOAD-TEST"
+                "PROXY"
+              ];
             }
             {
               name = "DOWNLOAD-TEST";
@@ -108,6 +123,7 @@
               filter = "下载专用";
               url = "https://www.gstatic.com/generate_204";
               interval = 300;
+              hidden = true;
             }
             {
               name = "AUTO";
@@ -163,28 +179,23 @@
                 "*.cachix.org"
               ];
             };
-            proxy = {
-              behavior = "domain";
-              type = "inline";
-              payload = ["bgm.tv"];
-            };
           };
 
           dns = {
             enable = true;
+            listen = "[::]:1053";
             ipv6 = true;
             respect-rules = true;
             enhanced-mode = "redir-host";
             default-nameserver = ["223.5.5.5"];
+            proxy-server-nameserver = ["https://223.5.5.5/dns-query"];
+            direct-nameserver-follow-policy = true;
             direct-nameserver = ["https://223.5.5.5/dns-query"];
-            listen = "[::]:1053";
-            nameserver = ["https://223.5.5.5/dns-query"];
             nameserver-policy = {
-              "geosite:category-ads-all" = ["rcode://name_error"];
-              "geosite:gfw" = ["https://1.1.1.1/dns-query#disable-ipv6=true"];
-              "geosite:private,category-pt,category-public-tracker,tracker" = ["https://223.5.5.5/dns-query"];
+              "geosite:private" = "system://";
+              "geosite:category-ads-all" = "rcode://success";
             };
-            proxy-server-nameserver = ["223.5.5.5"];
+            nameserver = ["https://1.1.1.1/dns-query#disable-ipv6=true"];
           };
 
           rules = [
@@ -205,7 +216,8 @@
             "GEOSITE,cn,DIRECT"
             "RULE-SET,download_domainset,DOWNLOAD"
             "RULE-SET,download,DOWNLOAD"
-            "RULE-SET,proxy,PROXY"
+            "GEOSITE,category-speedtest,CHECK"
+            "GEOSITE,category-ip-geo-detect,CHECK"
             "GEOSITE,gfw,PROXY"
 
             "GEOIP,private,DIRECT,no-resolve"
