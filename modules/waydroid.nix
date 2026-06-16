@@ -14,7 +14,6 @@
   }: {
     config = lib.mkIf config.virtualisation.waydroid.enable {
       environment.systemPackages = with pkgs; [
-        (gtk-nocsd.wrapper waydroid-helper)
         waydroid-launcher
         inputs'.waydroid-script.packages.default
       ];
