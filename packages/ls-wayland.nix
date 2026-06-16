@@ -1,6 +1,7 @@
 {
   stdenv,
   fetchFromGitLab,
+  lib,
 }:
 stdenv.mkDerivation rec {
   pname = "ls-wayland";
