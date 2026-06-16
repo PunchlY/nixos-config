@@ -26,14 +26,13 @@
 
     config = {
       theme.font.path =
-        pkgs.runCommand "font"
+        pkgs.runCommandLocal "font"
         {
           nativeBuildInputs = [pkgs.fontconfig];
           FONTCONFIG_FILE = pkgs.makeFontsConf {
             fontDirectories = [cfg.font.package];
           };
           FAMILY_NAME = cfg.font.name;
-          preferLocalBuild = true;
         }
         ''
           ln -s "$(fc-match "$FAMILY_NAME" --format %{file})" "$out"

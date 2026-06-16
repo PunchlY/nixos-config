@@ -8,16 +8,7 @@
     nixpkgs.overlays = [inputs.self.overlays.default];
   };
 
-  perSystem = {
-    system,
-    config,
-    ...
-  }: {
+  perSystem = {config, ...}: {
     packages = config.overlayAttrs;
-
-    _module.args.pkgs = import inputs.nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
   };
 }

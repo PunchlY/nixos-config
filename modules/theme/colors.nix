@@ -27,12 +27,11 @@
 
     config = {
       theme.colors =
-        pkgs.runCommand "generated-theme" {
+        pkgs.runCommandLocal "generated-theme" {
           src = cfg.wallpaper;
           nativeBuildInputs = [
             inputs'.md3.packages.default
           ];
-          preferLocalBuild = true;
         } "md3 --dark <$src >$out"
         |> lib.importJSON
         |> builtins.mapAttrs (

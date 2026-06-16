@@ -30,44 +30,17 @@
       else config.xdg.dataHome;
 
     json2vdf = name: value:
-      pkgs.runCommand name
+      pkgs.runCommandLocal name
       {
+        nativeBuildInputs = [
+          pkgs.python3
+          pkgs.python3Packages.vdf
+        ];
+
         value = builtins.toJSON value;
         passAsFile = ["value"];
-
-        buildCommandPython =
-          pkgs.writers.writePython3 "json2vdf.py"
-          {
-            libraries = [pkgs.python3Packages.vdf];
-            doCheck = false;
-          }
-          ''
-            import json
-            import sys
-            import vdf
-
-            def json2vdf(data):
-              if isinstance(data, dict):
-                return {k: json2vdf(v) for k, v in data.items()}
-              if isinstance(data, list):
-                return {str(k): json2vdf(v) for k, v in enumerate(data)}
-              else:
-                return data
-
-            with open(sys.argv[1]) as fp:
-              data = json.load(fp)
-
-            data = json2vdf(data)
-
-            with open(sys.argv[2], "wb") as fp:
-              vdf.binary_dump(data, fp)
-          '';
-
-        preferLocalBuild = true;
       }
-      ''
-        "$buildCommandPython" "$valuePath" "$out"
-      '';
+      ''python ${./json2vdf.py} "$valuePath" "$out"'';
 
     shortcuts = lib.mapAttrsToList (_: lib.filterAttrs (_: value: value != null)) cfg.shortcuts;
 

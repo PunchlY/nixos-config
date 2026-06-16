@@ -115,7 +115,7 @@
 
     hm.programs.git.enable = true;
 
-    hm.programs.vscode.enable = true;
+    hm.programs.vscodium.enable = true;
 
     hm.programs.aria2.enable = true;
 
@@ -144,19 +144,31 @@
 
     hm.programs.opencode.enable = true;
 
-    hm.xdg.desktopEntries.bluetui = {
-      name = "Bluetui";
-      genericName = "Bluetooth Manager";
-      exec = "bluetui";
-      terminal = true;
-    };
+    hm.programs.fastfetch.enable = true;
 
-    hm.xdg.desktopEntries.impala = {
-      name = "Impala";
-      genericName = "Wifi Manager";
-      exec = "impala";
-      terminal = true;
-    };
+    hm.programs.neovim.enable = true;
+
+    hm.programs.gomi.enable = true;
+
+    hm.programs.tlrc.enable = true;
+
+    hm.programs.jq.enable = true;
+
+    hm.programs.bottom.enable = true;
+
+    hm.programs.atuin.enable = true;
+
+    hm.programs.fd.enable = true;
+
+    hm.programs.grep.enable = true;
+
+    hm.programs.bat.enable = true;
+
+    hm.programs.eza.enable = true;
+
+    hm.programs.nix-index-database.enable = true;
+
+    hm.programs.bash.enable = true;
 
     hm.xdg.desktopEntries.webcam = {
       name = "webcam";
@@ -164,14 +176,21 @@
     };
 
     hm.home.packages = with pkgs; [
+      custom-scripts
+      just
+      nix-output-monitor
+      nh
+      nurl
+      moreutils
+      wget
+      q
+      yq-go
+      tree
       wireplumber
       exiftool
       android-tools
       appimage-run
       xdg-user-dirs
-
-      impala
-      bluetui
 
       (gtk-nocsd.wrapper pwvucontrol)
       (gtk-nocsd.wrapper crosspipe)
@@ -200,6 +219,10 @@
       steam.shortcuts."PVZRH" = {
         appname = "Plants vs. Zombies: RH";
         exe = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
+      };
+
+      steam.shortcuts.Waydroid = {
+        exe = "waydroid-launcher";
       };
     };
   };

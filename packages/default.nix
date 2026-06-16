@@ -1,10 +1,30 @@
-{
+{inputs, ...}: {
+  flake-file.inputs = {
+    bun2nix = {
+      url = "github:nix-community/bun2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  flake.modules.nixos.base = {
+    nixpkgs.overlays = [inputs.bun2nix.overlays.default];
+  };
+
   perSystem = {
+    system,
     final,
     pkgs,
     ...
   }: {
+    _module.args.pkgs = import inputs.nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+      overlays = [inputs.bun2nix.overlays.default];
+    };
+
     overlayAttrs = {
+      bun-types = final.callPackage ./bun-types/package.nix {};
+
       cmd-polkit = pkgs.cmd-polkit.overrideAttrs {
         version = "0.4.0-0.270";
         src = pkgs.fetchFromGitHub {
@@ -16,6 +36,8 @@
       };
 
       color256 = final.callPackage ./color256.nix {};
+
+      custom-scripts = final.callPackage ./custom-scripts/package.nix {};
 
       fuzzel-polkit-agent = final.callPackage ./fuzzel-polkit-agent/package.nix {};
 
