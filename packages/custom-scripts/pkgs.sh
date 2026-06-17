@@ -8,7 +8,7 @@ mapfile -t paths < <(
     for arg in "$@"; do
       case "$arg" in
       /* | ./* | ../* | . | ..)
-        [[ -d $arg ]] && echo "$arg"
+        [[ -e $arg ]] && echo "$arg"
         ;;
       *)
         which -- "$arg"
@@ -38,7 +38,7 @@ export is_tty
 show() {
   nix derivation show "$1" |
     if ((is_tty)); then
-      @jq@/bin/jq -r '.derivations.[] | "\u001b]8;;file:///nix/store/" + (.outputs.bin.path // .outputs.out.path) + "\u0007" + .name + "\u001b]8;;\u0007"'
+      @jq@/bin/jq -r '.derivations.[] | "\u001b]8;;file:///nix/store/" + (.outputs.bin.path // .outputs.out.path | @uri) + "\u0007" + .name + "\u001b]8;;\u0007"'
     else
       @jq@/bin/jq -r .derivations.[].name
     fi
