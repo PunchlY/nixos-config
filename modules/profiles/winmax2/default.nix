@@ -175,6 +175,11 @@
       exec = "mpv av://v4l2:/dev/video0 --profile=low-latency --untimed";
     };
 
+    hm.xdg.desktopEntries.libinput-debug-gui = {
+      name = "libinput-debug-gui";
+      exec = "libinput debug-gui";
+    };
+
     hm.home.packages = with pkgs; [
       custom-scripts
       just
@@ -201,6 +206,8 @@
       (gtk-nocsd.wrapper netease-cloud-music-gtk)
 
       (gtk-nocsd.wrapper gnome-mines)
+
+      (libinput.override {eventGUISupport = true;})
     ];
 
     hm.games = {
