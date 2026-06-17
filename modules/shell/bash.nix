@@ -10,7 +10,7 @@
         historyControl = ["ignoredups"];
         initExtra = lib.mkOrder 0 ''
           PS0=
-          PS1='\[\e[30m\e[46m\] '$(. /etc/os-release;printf "%s" "$NAME")' \[\e[44m\] \u@\h:\w \[\e[0m\]\n\$ '
+          PS1='\[\e[?7l\e[30m\e[46m\] '$(. /etc/os-release;printf "%s" "$NAME")' \[\e[44m\] \u@\h:\w \[\e[0m\e[?7h\]\n\$ '
         '';
       };
     };
