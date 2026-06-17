@@ -32,6 +32,14 @@
           haier
         ];
 
+        customLovelaceModules =
+          (with pkgs.home-assistant-custom-lovelace-modules; [
+            mushroom
+          ])
+          ++ (with pkgs; [
+            nur.repos.mrene.timer-bar-card
+          ]);
+
         themes = with pkgs.home-assistant-themes; [
           material-you-theme
         ];
@@ -53,6 +61,7 @@
           homeassistant = {
             name = "Home";
             unit_system = "metric";
+            temperature_unit = "C";
             time_zone = config.time.timeZone;
 
             latitude = "!secret latitude";
@@ -73,6 +82,8 @@
 
         extraPackages = ps:
           with ps; [
+            isal
+            zlib-ng
             hap-python
             pyqrcode
             gtts
