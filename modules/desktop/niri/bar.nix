@@ -11,7 +11,8 @@
         bars.niri.blocks = [
           {
             block = "music";
-            format = " $icon $combo.str(max_w:32) $prev $play $next |";
+            format.full = " $icon $combo $prev $play $next |";
+            format.short = " $icon $combo.str(max_w:32) $prev $play $next |";
             format_alt = " $icon $player $volume_icon $volume |";
             seek_step_secs = 10;
             click = [
