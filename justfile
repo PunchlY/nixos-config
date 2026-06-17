@@ -1,3 +1,6 @@
+default:
+    nh os switch . -- --option substitute false
+
 rebuild: write-flake
     nh os switch .
 
