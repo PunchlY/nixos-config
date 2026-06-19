@@ -64,5 +64,9 @@
         }
       }"
     '';
+
+    systemd.tmpfiles.rules = [
+      "z /sys/devices/platform/gpd_fan/hwmon/hwmon*/pwm1_enable 0666 root root - -"
+    ];
   };
 }

@@ -98,6 +98,7 @@
       enable = true;
       autoStart = true;
     };
+    jovian.hardware.has.amd.gpu = true;
 
     programs.niri.enable = true;
     jovian.steam.desktopSession = "niri-uwsm";
