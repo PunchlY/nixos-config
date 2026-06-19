@@ -1,4 +1,4 @@
-#! @bash@/bin/bash
+#! @runtimeShell@
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -45,4 +45,4 @@ show() {
 }
 export -f show
 
-SHELL=@bash@/bin/bash @parallel@/bin/parallel --env is_tty 'show {} 2>/dev/null || true' ::: "${paths[@]}"
+SHELL=@runtimeShell@ @parallel@/bin/parallel --env is_tty 'show {} 2>/dev/null || true' ::: "${paths[@]}"

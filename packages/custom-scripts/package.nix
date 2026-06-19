@@ -1,7 +1,9 @@
 {
   symlinkJoin,
   replaceVarsWith,
-  bash,
+  runtimeShell,
+  nixfmt,
+  yq-go,
   coreutils,
   parallel,
   gawk,
@@ -21,9 +23,16 @@
       isExecutable = true;
     };
   scripts = lib.mapAttrs mkScript {
+    "2nix".replacements = {
+      inherit
+        runtimeShell
+        nixfmt
+        yq-go
+        ;
+    };
     ips.replacements = {
       inherit
-        bash
+        runtimeShell
         iproute2
         util-linux
         gawk
@@ -31,7 +40,7 @@
     };
     pkgs.replacements = {
       inherit
-        bash
+        runtimeShell
         coreutils
         parallel
         gawk
