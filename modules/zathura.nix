@@ -17,12 +17,11 @@
   };
 
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) font colors;
+    inherit (config.theme) font colors;
   in {
     config = lib.mkIf config.programs.zathura.enable {
       programs.zathura = {

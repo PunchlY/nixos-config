@@ -1,12 +1,11 @@
 {
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     pkgs,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) wallpaper;
+    inherit (config.theme) wallpaper;
   in {
     config = lib.mkIf config.programs.niri.enable {
       programs.niri.settings.spawn-at-startup = [

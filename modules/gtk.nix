@@ -4,12 +4,12 @@
   };
 
   flake.modules.homeManager.theme = {
-    osConfig,
+    config,
     pkgs,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) colors font cursor;
+    inherit (config.theme) colors font cursor;
 
     gtkCss = with colors; ''
       ${lib.concatStringsSep "\n" (

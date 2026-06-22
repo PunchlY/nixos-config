@@ -16,12 +16,11 @@
   };
 
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) font colors opacity;
+    inherit (config.theme) font colors opacity;
   in {
     config = lib.mkIf config.programs.fuzzel.enable {
       programs.fuzzel = {

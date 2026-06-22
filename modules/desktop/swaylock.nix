@@ -1,11 +1,10 @@
 {
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) colors wallpaper;
+    inherit (config.theme) colors wallpaper;
   in {
     config = lib.mkIf config.programs.swaylock.enable {
       programs.swaylock.settings = with colors; {

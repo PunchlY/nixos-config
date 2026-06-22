@@ -7,12 +7,8 @@
     };
   };
 
-  flake.modules.homeManager.theme = {
-    osConfig,
-    config,
-    ...
-  }: let
-    inherit (osConfig.theme) colors font opacity;
+  flake.modules.homeManager.theme = {config, ...}: let
+    inherit (config.theme) colors font opacity;
   in {
     config = lib.mkIf config.programs.ghostty.enable {
       programs.ghostty = {

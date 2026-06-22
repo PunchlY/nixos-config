@@ -106,13 +106,12 @@
   };
 
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     pkgs,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) colors;
+    inherit (config.theme) colors;
   in {
     config = lib.mkIf config.programs.niri.enable {
       programs.i3status-rust.bars.niri = {

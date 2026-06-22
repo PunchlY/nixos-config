@@ -1,6 +1,6 @@
 {
-  flake.modules.homeManager.theme = {osConfig, ...}: let
-    inherit (osConfig.theme) colors font cursor;
+  flake.modules.homeManager.theme = {config, ...}: let
+    inherit (config.theme) colors font cursor;
   in {
     xdg.configFile."kdeglobals".text = ''
       [ColorEffects:Disabled]

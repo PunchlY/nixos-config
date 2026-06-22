@@ -121,12 +121,11 @@
   };
 
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) colors;
+    inherit (config.theme) colors;
   in {
     config = lib.mkIf config.programs.mpv.enable {
       programs.mpv = {

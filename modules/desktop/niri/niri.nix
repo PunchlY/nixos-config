@@ -450,10 +450,11 @@
 
   flake.modules.homeManager.theme = {
     osConfig,
+    config,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) cursor colors;
+    inherit (config.theme) cursor colors;
   in {
     config = lib.mkIf osConfig.programs.niri.enable {
       programs.niri.settings = {

@@ -15,12 +15,11 @@
   };
 
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) colors font opacity;
+    inherit (config.theme) colors font opacity;
     alpha = lib.toHexString (builtins.ceil (opacity * 255));
   in {
     config = lib.mkIf config.services.mako.enable {

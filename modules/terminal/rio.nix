@@ -42,7 +42,7 @@
     config,
     ...
   }: let
-    inherit (osConfig.theme) colors font opacity;
+    inherit (config.theme) colors font opacity;
   in {
     config = lib.mkIf config.programs.rio.enable {
       programs.rio = {

@@ -14,12 +14,11 @@
   };
 
   flake.modules.homeManager.theme = {
-    osConfig,
     config,
     lib,
     ...
   }: let
-    inherit (osConfig.theme) colors font;
+    inherit (config.theme) colors font;
   in {
     config = lib.mkIf config.programs.i3bar-river.enable {
       programs.i3bar-river.settings = with colors; {

@@ -1,16 +1,9 @@
-{
-  flake-file.inputs = {
-    md3.url = "github:PunchlY/md3";
-  };
-
-  flake.modules.nixos.theme = {
-    config,
-    lib,
+{...}: let
+  shared = {
     pkgs,
+    lib,
     ...
-  }: let
-    cfg = config.theme;
-  in {
+  }: {
     options.theme = {
       cursor = {
         name = lib.mkOption {
@@ -27,15 +20,27 @@
         };
       };
     };
+  };
+in {
+  flake-file.inputs = {
+    md3.url = "github:PunchlY/md3";
+  };
+
+  flake.modules.nixos.theme = {config, ...}: let
+    cfg = config.theme;
+  in {
+    imports = [shared];
 
     config = {
       environment.variables.XCURSOR_SIZE = toString cfg.cursor.size;
     };
   };
 
-  flake.modules.homeManager.theme = {osConfig, ...}: {
+  flake.modules.homeManager.theme = {config, ...}: {
+    imports = [shared];
+
     home.pointerCursor = {
-      inherit (osConfig.theme.cursor) name package size;
+      inherit (config.theme.cursor) name package size;
       x11.enable = true;
       gtk.enable = true;
     };

@@ -50,12 +50,8 @@
     };
   };
 
-  flake.modules.homeManager.theme = {
-    osConfig,
-    config,
-    ...
-  }: let
-    inherit (osConfig.theme) font;
+  flake.modules.homeManager.theme = {config, ...}: let
+    inherit (config.theme) font;
     cfg = config.programs.wiliwili;
   in {
     config = lib.mkIf cfg.enable {

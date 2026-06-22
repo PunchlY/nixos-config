@@ -1,7 +1,8 @@
-{lib, ...}: {
-  flake.modules.nixos.theme = {
+{lib, ...}: let
+  shared = {
     config,
     pkgs,
+    lib,
     ...
   }: let
     cfg = config.theme;
@@ -20,10 +21,12 @@
           default = 14;
           type = with lib.types; either ints.unsigned float;
         };
-        path = lib.mkOption {internal = true;};
+        path = lib.mkOption {
+          internal = true;
+          readOnly = true;
+        };
       };
     };
-
     config = {
       theme.font.path =
         pkgs.runCommandLocal "font"
@@ -38,18 +41,23 @@
           ln -s "$(fc-match "$FAMILY_NAME" --format %{file})" "$out"
         '';
 
-      fonts = {
-        packages = [cfg.font.package];
-        fontconfig.defaultFonts =
-          lib.genAttrs
-          [
-            "monospace"
-            "serif"
-            "sansSerif"
-          ]
-          (_family: lib.mkBefore [cfg.font.name]);
-      };
+      fonts.fontconfig.defaultFonts =
+        lib.genAttrs
+        [
+          "monospace"
+          "serif"
+          "sansSerif"
+        ]
+        (_family: lib.mkBefore [cfg.font.name]);
     };
+  };
+in {
+  flake.modules.nixos.theme = {config, ...}: let
+    cfg = config.theme;
+  in {
+    imports = [shared];
+
+    fonts.packages = [cfg.font.package];
   };
 
   flake.modules.nixos.base = {
@@ -99,6 +107,10 @@
           ];
         };
     };
+  };
+
+  flake.modules.homeManager.theme = {
+    imports = [shared];
   };
 
   flake.modules.homeManager.nixos = {osConfig, ...}: {
