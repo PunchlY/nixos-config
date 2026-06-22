@@ -17,9 +17,6 @@
     ...
   }: {
     config = lib.mkIf config.programs.vscodium.enable {
-      home.packages = with pkgs; [
-        biome
-      ];
       programs.vscodium = {
         package = pkgs.vscodium;
         profiles.default = {
@@ -106,6 +103,7 @@
             "js/ts.tsdk.path" = pkgs.bun-types.tsdk.path;
             "js/ts.implicitProjectConfig.target" = "ESNext";
 
+            "biome.lsp.bin" = lib.getExe pkgs.biome;
             "biome.configurationPath" = (pkgs.formats.json {}).generate "biome.json" {
               formatter = {
                 indentStyle = "space";
