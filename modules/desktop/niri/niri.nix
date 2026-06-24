@@ -124,7 +124,10 @@
         settings.on-button-left = ''exec makoctl menu -n "$id" -- fuzzel --dmenu --prompt "Select action: " --minimal-lines'';
       };
 
-      services.cliphist.enable = true;
+      services.cliphist = {
+        enable = true;
+        clipboardPackage = pkgs.wl-clipboard-rs;
+      };
       programs.niri.settings.binds."Mod+V" = {
         hotkey-overlay.title = "Open Clipboard";
         action.spawn = "cliphist-fuzzel-img";
