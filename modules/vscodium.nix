@@ -110,7 +110,12 @@
               };
             };
 
-            "nix.formatterPath" = [(lib.getExe pkgs.alejandra)];
+            # "nix.formatterPath" = [(lib.getExe pkgs.alejandra)];
+            "nix.enableLanguageServer" = true;
+            "nix.serverPath" = lib.getExe pkgs.nil;
+            "nix.serverSettings".nil = {
+              formatting.command = [(lib.getExe pkgs.alejandra)];
+            };
 
             "vscode-just.lspPath" = lib.getExe pkgs.just-lsp;
           };
