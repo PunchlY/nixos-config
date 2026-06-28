@@ -219,15 +219,8 @@
       ksre.enable = true;
       minecraft.enable = true;
       # retroarch.enable = true;
+      BD2.enable = true;
 
-      steam.shortcuts."BD2" = {
-        appname = "Brown Dust 2";
-        exe = "${pkgs.requireFile {
-          name = "BD2StarterSetup_gpg_240430.exe";
-          url = "https://www.browndust2.com/";
-          hash = "sha256-+6UqG1E6MiutypOgZmTjpjofqr5Vfablb6bI6fOhQKw=";
-        }}";
-      };
       steam.shortcuts."PVZRH" = {
         appname = "Plants vs. Zombies: RH";
         exe = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";

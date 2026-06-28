@@ -91,7 +91,7 @@
                   ));
               };
               exe = lib.mkOption {
-                type = lib.types.either lib.types.str (lib.types.listOf lib.types.str);
+                type = lib.types.either lib.types.str (lib.types.listOf lib.types.anything);
                 apply = v:
                   if lib.isList v
                   then lib.escapeShellArgs v
