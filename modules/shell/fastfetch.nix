@@ -11,12 +11,12 @@
       };
 
       programs.fastfetch = {
-        package = pkgs.fastfetch.minimal;
+        package = pkgs.fastfetch-unwrapped;
 
         settings = {
           logo = {
             # https://github.com/elenapan/dotfiles/blob/deddf27a486535ea555ec87d2ae7ee895d02fb3e/bin/bunnyfetch
-            source = lib.strings.concatMapStrings (x: "    " + x + "\n") [
+            source = lib.strings.concatMapStringsSep "\n" (x: "    " + x) [
               ''$1(\ /)''
               "( . .)"
               ''c($2"$1)($2"$1)''
