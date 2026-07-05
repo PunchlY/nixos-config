@@ -53,8 +53,6 @@
 
       pywincontrols = final.python3Packages.callPackage ./pywincontrols.nix {};
 
-      unblockneteasemusic = final.callPackage ./unblockneteasemusic.nix {};
-
       waydroid-launcher = final.callPackage ./waydroid-launcher/package.nix {};
 
       wayllpaper = final.callPackage ./wayllpaper.nix {};

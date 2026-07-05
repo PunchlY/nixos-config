@@ -50,8 +50,6 @@
 
     services.dbus.enable = true;
 
-    services.unblockneteasemusic.enable = true;
-
     hardware.bluetooth.enable = true;
 
     services.aria2.enable = true;
@@ -208,7 +206,6 @@
       scrcpy
 
       telegram-desktop
-      (gtk-nocsd.wrapper netease-cloud-music-gtk)
 
       (gtk-nocsd.wrapper gnome-mines)
 
