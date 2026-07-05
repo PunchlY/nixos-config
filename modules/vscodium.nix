@@ -45,6 +45,10 @@
             jnoortheen.nix-ide
 
             nefrob.vscode-just-syntax
+
+            mkhl.shfmt
+
+            thegeeklab.yamlfmt-ng
           ];
           userSettings = {
             "terminal.integrated.stickyScroll.enabled" = false;
@@ -118,6 +122,12 @@
             };
 
             "vscode-just.lspPath" = lib.getExe pkgs.just-lsp;
+
+            "shfmt.executablePath" = lib.getExe pkgs.shfmt;
+            "shfmt.executableArgs" = ["-i" "2" "-s"];
+
+            "yamlfmt.path" = lib.getExe pkgs.yamlfmt;
+            "yamlfmt.autoInstall" = false;
           };
           userSettings."[typescript]" = {
             "editor.defaultFormatter" = "biomejs.biome";
@@ -139,6 +149,12 @@
           };
           userSettings."[just]" = {
             "editor.defaultFormatter" = "nefrob.vscode-just-syntax";
+          };
+          userSettings."[shellscript]" = {
+            "editor.defaultFormatter" = "mkhl.shfmt";
+          };
+          userSettings."[yaml]" = {
+            "editor.defaultFormatter" = "thegeeklab.yamlfmt-ng";
           };
         };
       };
