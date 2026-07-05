@@ -27,17 +27,19 @@
     config = lib.mkIf cfg.enable {
       home.packages = [cfg.package];
 
-      services.steam = lib.mkIf config.services.steam.enable {
-        shortcuts.katawa-shoujo-re-engineered = {
-          appname = "Katawa Shoujo: Re-Engineered";
-          exe = [(lib.getExe cfg.package)];
-          icon = "${cfg.package}/share/icons/hicolor/512x512/apps/katawa-shoujo-re-engineered.png";
-        };
-        grids.katawa-shoujo-re-engineered = {
-          grid = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/presplash_background.png";
-          horizontal = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/presplash_background.png";
-          hero = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/event/other_iwanako.png";
-          logo = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/gui/logo/credo.png";
+      programs.steam.config = lib.mkIf config.programs.steam.config.enable {
+        nonSteamApps."Katawa Shoujo: Re-Engineered" = {
+          desktopEntry.enable = false;
+
+          target = cfg.package;
+
+          artwork = {
+            cover = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/presplash_background.png";
+            header = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/presplash_background.png";
+            hero = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/event/other_iwanako.png";
+            icon = "${cfg.package}/share/icons/hicolor/512x512/apps/katawa-shoujo-re-engineered.png";
+            logo = "${cfg.package}/share/kataswa-shoujo-re-engineered/game/gui/logo/credo.png";
+          };
         };
       };
     };

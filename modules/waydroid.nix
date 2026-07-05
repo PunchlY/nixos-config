@@ -13,8 +13,7 @@
     ...
   }: {
     config = lib.mkIf config.virtualisation.waydroid.enable {
-      environment.systemPackages = with pkgs; [
-        waydroid-launcher
+      environment.systemPackages = [
         inputs'.waydroid-script.packages.default
       ];
 

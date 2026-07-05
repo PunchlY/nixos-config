@@ -38,4 +38,6 @@ replaceVarsWith {
       };
     };
   };
+
+  meta.mainProgram = "waydroid-launcher";
 }

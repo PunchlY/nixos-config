@@ -31,8 +31,6 @@
       desktopSession = "gamescope-wayland";
     };
 
-    hm.games = {
-      minecraft.enable = true;
-    };
+    hm.programs.prismlauncher.enable = true;
   };
 }

@@ -212,19 +212,23 @@
       (libinput.override {eventGUISupport = true;})
     ];
 
-    hm.games = {
-      ksre.enable = true;
-      minecraft.enable = true;
-      # retroarch.enable = true;
-      BD2.enable = true;
+    hm.programs.prismlauncher.enable = true;
 
-      steam.shortcuts."PVZRH" = {
-        appname = "Plants vs. Zombies: RH";
-        exe = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
+    hm.programs.katawa-shoujo-re-engineered.enable = true;
+
+    hm.programs.steam.config = {
+      enable = true;
+
+      nonSteamApps."Brown Dust 2".enable = true;
+
+      nonSteamApps.Waydroid = {
+        target = pkgs.waydroid-launcher;
+        desktopEntry.enable = false;
       };
 
-      steam.shortcuts.Waydroid = {
-        exe = "waydroid-launcher";
+      nonSteamApps."Plants vs. Zombies: RH" = {
+        target = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
+        compatTool = "proton_experimental";
       };
     };
   };

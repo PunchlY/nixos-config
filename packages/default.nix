@@ -39,6 +39,8 @@
 
       custom-scripts = final.callPackage ./custom-scripts/package.nix {};
 
+      db2 = final.callPackage ./db2.nix {};
+
       fuzzel-polkit-agent = final.callPackage ./fuzzel-polkit-agent/package.nix {};
 
       gtk-nocsd = final.callPackage ./gtk-nocsd.nix {};
