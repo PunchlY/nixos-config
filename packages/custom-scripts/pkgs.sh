@@ -1,7 +1,5 @@
 #! @runtimeShell@
-set -o errexit
-set -o nounset
-set -o pipefail
+set -euo pipefail
 
 mapfile -t paths < <(
   if (($#)); then

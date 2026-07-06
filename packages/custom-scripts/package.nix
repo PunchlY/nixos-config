@@ -2,6 +2,8 @@
   symlinkJoin,
   replaceVarsWith,
   runtimeShell,
+  git,
+  opencode,
   nixfmt,
   yq-go,
   coreutils,
@@ -28,6 +30,13 @@
         runtimeShell
         nixfmt
         yq-go
+        ;
+    };
+    git-ai-commit.replacements = {
+      inherit
+        runtimeShell
+        git
+        opencode
         ;
     };
     ips.replacements = {
