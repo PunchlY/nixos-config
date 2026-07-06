@@ -32,7 +32,7 @@
         yq-go
         ;
     };
-    git-ai-commit.replacements = {
+    ai-commit.replacements = {
       inherit
         runtimeShell
         git
