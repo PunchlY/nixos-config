@@ -43,6 +43,7 @@
       "systemctl status"
       "journalctl"
       "dmesg"
+      "echo"
     ];
   in {
     programs.opencode = lib.mkIf config.programs.opencode.enable {
