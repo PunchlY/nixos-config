@@ -22,34 +22,34 @@
         profiles.default = {
           enableUpdateCheck = false;
           enableExtensionUpdateCheck = false;
-          extensions = with (lib.foldl' lib.recursiveUpdate {} [
-            pkgs.open-vsx
-            pkgs.vscode-marketplace
-            pkgs.vscode-extensions
-          ]); [
-            ms-ceintl.vscode-language-pack-zh-hans
-            ririd.packages
-            formulahendry.auto-complete-tag
-            formulahendry.auto-close-tag
-            formulahendry.auto-rename-tag
-            ibecker.treefmt-vscode
-            christian-kohler.path-intellisense
-            sirtori.indenticator
-            kisstkondoros.vscode-gutter-preview
-            jeanp413.open-remote-ssh
-            intellsmi.comment-translate
-            codeinchinese.englishchinesedictionary
+          extensions =
+            (with pkgs.vscode-extensions; [
+              biomejs.biome
 
-            biomejs.biome
+              nefrob.vscode-just-syntax
+            ])
+            ++ (with pkgs.vscode-marketplace; [
+              ms-ceintl.vscode-language-pack-zh-hans
+              ririd.packages
+              formulahendry.auto-complete-tag
+              formulahendry.auto-close-tag
+              formulahendry.auto-rename-tag
+              ibecker.treefmt-vscode
+              christian-kohler.path-intellisense
+              sirtori.indenticator
+              kisstkondoros.vscode-gutter-preview
+              intellsmi.comment-translate
+              codeinchinese.englishchinesedictionary
 
-            jnoortheen.nix-ide
+              jnoortheen.nix-ide
 
-            nefrob.vscode-just-syntax
+              mkhl.shfmt
 
-            mkhl.shfmt
-
-            thegeeklab.yamlfmt-ng
-          ];
+              thegeeklab.yamlfmt-ng
+            ])
+            ++ (with pkgs.open-vsx; [
+              jeanp413.open-remote-ssh
+            ]);
           userSettings = {
             "terminal.integrated.stickyScroll.enabled" = false;
             "terminal.integrated.initialHint" = false;
