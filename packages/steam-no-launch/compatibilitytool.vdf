@@ -1,0 +1,13 @@
+"compatibilitytools"
+{
+  "compat_tools"
+  {
+    "no-launch"
+    {
+      "install_path" "."
+      "display_name" "No Launch"
+      "from_oslist"  "windows"
+      "to_oslist"    "linux"
+    }
+  }
+}

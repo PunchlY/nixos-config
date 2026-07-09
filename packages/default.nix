@@ -23,6 +23,8 @@
     };
 
     overlayAttrs = {
+      balatro = final.callPackage ./balatro/package.nix {};
+
       bun-types = final.callPackage ./bun-types/package.nix {};
 
       cmd-polkit = pkgs.cmd-polkit.overrideAttrs {
@@ -55,9 +57,22 @@
 
       pywincontrols = final.python3Packages.callPackage ./pywincontrols.nix {};
 
+      steam-no-launch = final.callPackage ./steam-no-launch/package.nix {};
+
       waydroid-launcher = final.callPackage ./waydroid-launcher/package.nix {};
 
       wayllpaper = final.callPackage ./wayllpaper.nix {};
+
+      wiliwili = pkgs.wiliwili.overrideAttrs {
+        version = "1.6.0";
+        src = final.fetchFromGitHub {
+          owner = "xfangfang";
+          repo = "wiliwili";
+          tag = "v1.6.0";
+          fetchSubmodules = true;
+          hash = "sha256-J6oUMUzfogsIBj1GpwWmKhjphTV628rG+3w28Dc81Fw=";
+        };
+      };
 
       wleird = final.callPackage ./wleird.nix {};
     };

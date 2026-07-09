@@ -1,0 +1,11 @@
+--- a/main.lua
++++ b/main.lua
+@@ -87,7 +87,7 @@
+ 	G:start_up()
+ 	--Steam integration
+ 	local os = love.system.getOS()
+-	if os == 'OS X' or os == 'Windows' then 
++	if os == 'OS X' or os == 'Windows' or os == 'Linux' then 
+ 		local st = nil
+ 		--To control when steam communication happens, make sure to send updates to steam as little as possible
+ 		if os == 'OS X' then

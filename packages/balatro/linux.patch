@@ -1,0 +1,16 @@
+--- a/globals.lua
++++ b/globals.lua
+@@ -56,6 +56,13 @@
+         self.F_CRASH_REPORTS = false
+     end
+ 
++    if love.system.getOS() == 'Linux' then
++        self.F_SAVE_TIMER = 5
++        self.F_DISCORD = true
++        self.F_ENGLISH_ONLY = false
++        self.F_CRASH_REPORTS = false
++    end
++
+     if love.system.getOS() == 'Nintendo Switch' then
+         self.F_HIDE_BETA_LANGS = true
+         self.F_BASIC_CREDITS = true
