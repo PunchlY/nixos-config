@@ -40,6 +40,7 @@ in {
     imports = [shared];
 
     home.pointerCursor = {
+      enable = true;
       inherit (config.theme.cursor) name package size;
       x11.enable = true;
       gtk.enable = true;
