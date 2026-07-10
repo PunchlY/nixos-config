@@ -12,38 +12,34 @@
   makeDesktopItem,
   requireFile,
   autoPatchelfHook,
+  lua51Packages,
+  withSteam ? true,
   withMods ? true,
 }:
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation (_finalAttrs: {
   pname = "balatro";
   version = "1.0.1o";
 
-  src =
-    runCommandLocal "balatro-source" {
-      src = requireFile {
-        name = "Balatro.exe";
-        url = "https://store.steampowered.com/app/2379780/Balatro/";
-        hash = "sha256-DXX+FkrM8zEnNNSzesmHiN0V8Ljk+buLf5DE5Z3pP0c=";
-      };
-      nativeBuildInputs = [
-        p7zip
-      ];
-    } ''
-      7z x $src -o$out -y
+  src = runCommandLocal "balatro-source" {
+    src = requireFile {
+      name = "Balatro.exe";
+      url = "https://store.steampowered.com/app/2379780/Balatro/";
+      hash = "sha256-DXX+FkrM8zEnNNSzesmHiN0V8Ljk+buLf5DE5Z3pP0c=";
+    };
+    nativeBuildInputs = [
+      p7zip
+    ];
+  } "7z x $src -o$out -y";
 
-      if [ -d "$out/assets" ]; then
-        mv "$out/assets/"* "$out/"
-        rmdir "$out/assets"
-      elif [ -d "$out/Assets" ]; then
-        mv "$out/Assets/"* "$out/"
-        rmdir "$out/Assets"
-      fi
-    '';
+  steamAppId = 2379780;
 
-  patches = [
-    ./linux.patch
-    ./steam_api.patch
-  ];
+  patches =
+    [
+      ./globals.patch
+    ]
+    ++ lib.optionals withSteam [
+      ./steam.patch
+    ];
 
   srcIcon = fetchurl {
     name = "balatro.png";
@@ -105,15 +101,18 @@ stdenv.mkDerivation (finalAttrs: {
     cat ${lib.getExe love} $loveFile > $out/share/Balatro
     chmod +x $out/share/Balatro
 
-    install -Dm755 $steamApi "$out/share/libsteam_api.so"
-    install -Dm755 $luasteam "$out/share/luasteam.so"
+    ${lib.optionalString withSteam ''
+      install -Dm755 $steamApi "$out/share/libsteam_api.so"
+      install -Dm755 $luasteam "$out/share/luasteam.so"
+      install -Dm755 ${lua51Packages.lua-https}/lib/lua/5.1/https.so "$out/share/https.so"
 
-    echo 2379780 > "$out/share/steam_appid.txt"
+      echo -e "$steamAppId" > "$out/share/steam_appid.txt"
+    ''}
 
     makeWrapper $out/share/Balatro $out/bin/balatro ${lib.optionalString withMods ''
       --prefix LD_PRELOAD : '${lovely-injector}/lib/liblovely.so' \
       --prefix LD_LIBRARY_PATH : '${lib.makeLibraryPath [curl]}' \
-    ''} --set LUA_CPATH "$out/share/luasteam.so"
+    ''} --set LUA_CPATH "$out/share/?.so;;"
 
     runHook postInstall
   '';

@@ -57,8 +57,6 @@
 
       pywincontrols = final.python3Packages.callPackage ./pywincontrols.nix {};
 
-      steam-no-launch = final.callPackage ./steam-no-launch/package.nix {};
-
       waydroid-launcher = final.callPackage ./waydroid-launcher/package.nix {};
 
       wayllpaper = final.callPackage ./wayllpaper.nix {};
