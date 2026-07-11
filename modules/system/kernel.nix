@@ -5,11 +5,11 @@
 
   flake-file.nixConfig = {
     substituters = [
-      "https://cache.xinux.uz"
+      # "https://cache.xinux.uz"
       "https://attic.xuyh0120.win/lantian"
     ];
     trusted-public-keys = [
-      "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0="
+      # "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0="
       "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
     ];
   };
