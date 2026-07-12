@@ -184,6 +184,12 @@
       exec = "libinput debug-gui";
     };
 
+    hm.xdg.desktopEntries.bulletty = {
+      name = "bulletty";
+      exec = "bulletty";
+      terminal = true;
+    };
+
     hm.home.packages = with pkgs; [
       custom-scripts
       just
@@ -200,6 +206,22 @@
       android-tools
       appimage-run
       xdg-user-dirs
+      screen
+      lazygit
+
+      terminal-toys
+      terminal-colors
+      terminal-typeracer
+      era
+
+      # feed reader
+      bulletty
+
+      # An ncurses spreadsheet program for terminal
+      sc-im
+
+      # terminal calculator
+      quich
 
       (gtk-nocsd.wrapper pwvucontrol)
       (gtk-nocsd.wrapper crosspipe)
