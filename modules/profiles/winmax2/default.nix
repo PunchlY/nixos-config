@@ -251,22 +251,9 @@
         desktopEntry.enable = false;
       };
 
-      nonSteamApps."Plants vs. Zombies: RH" = {
-        target = "${pkgs.pvz-rh}/PlantsVsZombiesRH.exe";
-        compatTool = "proton_experimental";
-      };
+      nonSteamApps."Plants vs. Zombies: RH".enable = true;
 
-      apps.Balatro = {
-        id = 2379780;
-        launchOptions.preHook = ''
-          export XDG_DATA_HOME="$STEAM_COMPAT_DATA_PATH/pfx/drive_c/users/steamuser/AppData/Roaming"
-          game_command=("${pkgs.balatro}/bin/balatro")
-        '';
-      };
-      nonSteamApps."Balatro Mod Manager" = {
-        target = pkgs.balatro-mod-manager;
-        desktopEntry.enable = false;
-      };
+      apps.Balatro.enable = true;
     };
   };
 }

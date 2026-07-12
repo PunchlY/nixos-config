@@ -1,10 +1,9 @@
 {
-  flake.modules.nixos.base = {lib, ...}: {
-    nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "katawa-shoujo-re-engineered"
-      ];
-    nixpkgs.config.permittedInsecurePackages = [
+  nixpkgs.config = {
+    allowUnfreePackages = [
+      "katawa-shoujo-re-engineered"
+    ];
+    permittedInsecurePackages = [
       "python3.12-ecdsa-0.19.1"
     ];
   };

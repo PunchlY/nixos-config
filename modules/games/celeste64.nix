@@ -1,9 +1,8 @@
 {
-  flake.modules.nixos.base = {lib, ...}: {
-    nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "celeste64"
-      ];
+  nixpkgs.config = {
+    allowUnfreePackages = [
+      "celeste64"
+    ];
   };
 
   flake.modules.homeManager.base = {

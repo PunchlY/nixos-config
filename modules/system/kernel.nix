@@ -14,7 +14,7 @@
     ];
   };
 
-  flake.modules.nixos.base = {pkgs, ...}: {
+  flake.modules.nixos.base = {
     nixpkgs.overlays = [
       inputs.nix-cachyos-kernel.overlays.pinned
     ];

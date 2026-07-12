@@ -9,9 +9,6 @@
       "flakes"
       "pipe-operators"
     ];
-    extra-experimental-features = [
-      # "pipe-operators"
-    ];
   };
 
   flake.modules.nixos.base = {
