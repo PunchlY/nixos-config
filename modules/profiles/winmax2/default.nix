@@ -218,6 +218,8 @@
 
     hm.programs.katawa-shoujo-re-engineered.enable = true;
 
+    hm.programs.celeste64.enable = true;
+
     hm.programs.steam.config = {
       enable = true;
 

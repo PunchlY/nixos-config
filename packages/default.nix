@@ -27,6 +27,16 @@
 
       bun-types = final.callPackage ./bun-types/package.nix {};
 
+      celeste64 = pkgs.celeste64.overrideAttrs (oldAttrs: {
+        nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [final.makeWrapper];
+        postFixup =
+          (oldAttrs.postFixup or "")
+          + ''
+            wrapProgram $out/bin/Celeste64 \
+              --set SDL_VIDEO_HIGHDPI_DISABLED "1"
+          '';
+      });
+
       cmd-polkit = pkgs.cmd-polkit.overrideAttrs {
         version = "0.4.0-0.270";
         src = pkgs.fetchFromGitHub {
