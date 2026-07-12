@@ -34,7 +34,6 @@
               formulahendry.auto-complete-tag
               formulahendry.auto-close-tag
               formulahendry.auto-rename-tag
-              ibecker.treefmt-vscode
               christian-kohler.path-intellisense
               sirtori.indenticator
               kisstkondoros.vscode-gutter-preview
@@ -101,8 +100,6 @@
               "https://developer.microsoft.com/json-schemas/" = true;
               "https://biomejs.dev" = true;
             };
-
-            "treefmt.command" = lib.getExe pkgs.treefmt;
 
             "js/ts.tsdk.path" = pkgs.bun-types.tsdk.path;
             "js/ts.implicitProjectConfig.target" = "ESNext";
