@@ -2,17 +2,16 @@
   configurations.nixos.winmax2.theme = {
     enable = true;
     wallpaper = {
-      runCommand,
+      runCommandLocal,
       fetchurl,
       imagemagick,
     }:
-      runCommand "wallpaper.png" {
+      runCommandLocal "wallpaper.png" {
         src = fetchurl {
           url = "https://pixiv.cat/68936009.jpg";
           sha256 = "sha256-s8eDdjoZaTWcSodD3xOQX6iGYHLa9sf9DnTw8Dzitgc=";
         };
         nativeBuildInputs = [imagemagick];
-        preferLocalBuild = true;
       } "magick $src -fuzz 10% -trim +repage $out";
   };
 

@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.base = {
     config,
-    pkgs,
     lib,
     ...
   }: let
@@ -9,7 +8,7 @@
   in {
     config = lib.mkIf cfg.enable {
       programs.tray-tui.settings = {
-          columns = 1;
+        columns = 1;
       };
 
       xdg.desktopEntries.tray-tui = {

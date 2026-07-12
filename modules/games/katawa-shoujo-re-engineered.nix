@@ -1,6 +1,5 @@
 {
   flake.modules.nixos.base = {lib, ...}: {
-    nixpkgs.config.allowUnfree = true;
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
         "katawa-shoujo-re-engineered"
