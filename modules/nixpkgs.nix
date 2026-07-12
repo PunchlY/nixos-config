@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   self,
   lib,
   ...
@@ -14,6 +15,10 @@
         type = lib.types.listOf lib.types.singleLineStr;
         default = [];
       };
+    };
+    overlays = lib.mkOption {
+      type = lib.types.listOf lib.types.unspecified;
+      default = [];
     };
   };
 
@@ -37,7 +42,11 @@
     flake.nixosModules = self.modules.nixos;
 
     flake.modules.nixos.base = {
-      nixpkgs.config = config.nixpkgs.config;
+      nixpkgs = config.nixpkgs;
+    };
+
+    perSystem = {system, ...}: {
+      _module.args.pkgs = import inputs.nixpkgs (config.nixpkgs // {inherit system;});
     };
   };
 }

@@ -4,9 +4,7 @@
     ../packages
   ];
 
-  flake.modules.nixos.base = {
-    nixpkgs.overlays = [inputs.self.overlays.default];
-  };
+  nixpkgs.overlays = [inputs.self.overlays.default];
 
   perSystem = {config, ...}: {
     packages = config.overlayAttrs;

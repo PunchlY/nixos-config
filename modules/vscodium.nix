@@ -6,9 +6,7 @@
     };
   };
 
-  flake.modules.nixos.base = {
-    nixpkgs.overlays = [inputs.nix-vscode-extensions.overlays.default];
-  };
+  nixpkgs.overlays = [inputs.nix-vscode-extensions.overlays.default];
 
   flake.modules.homeManager.base = {
     config,

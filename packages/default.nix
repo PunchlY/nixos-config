@@ -6,22 +6,13 @@
     };
   };
 
-  flake.modules.nixos.base = {
-    nixpkgs.overlays = [inputs.bun2nix.overlays.default];
-  };
+  nixpkgs.overlays = [inputs.bun2nix.overlays.default];
 
   perSystem = {
-    system,
     final,
     pkgs,
     ...
   }: {
-    _module.args.pkgs = import inputs.nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-      overlays = [inputs.bun2nix.overlays.default];
-    };
-
     overlayAttrs = {
       balatro = final.callPackage ./balatro/package.nix {};
 

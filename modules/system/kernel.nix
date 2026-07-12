@@ -14,9 +14,7 @@
     ];
   };
 
-  flake.modules.nixos.base = {
-    nixpkgs.overlays = [
-      inputs.nix-cachyos-kernel.overlays.pinned
-    ];
-  };
+  nixpkgs.overlays = [
+    inputs.nix-cachyos-kernel.overlays.pinned
+  ];
 }
