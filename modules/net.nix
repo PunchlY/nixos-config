@@ -1,6 +1,14 @@
-{
+{inputs, ...}: {
+  flake-file.inputs = {
+    stevenblack-blocklist = {
+      url = "github:StevenBlack/hosts";
+      flake = false;
+    };
+  };
+
   flake.modules.nixos.base = {
     config,
+    pkgs,
     lib,
     ...
   }: {
@@ -19,6 +27,14 @@
       '';
     };
 
+    networking.hostFiles = [
+      (pkgs.runCommandLocal "blocklist-hosts" {
+          src = inputs.stevenblack-blocklist;
+          nativeBuildInputs = [pkgs.gawk];
+        } ''
+          awk '/^# Start StevenBlack/,0' "$src/hosts" > $out
+        '')
+    ];
     networking.hosts = {
       "0.0.0.0" = [
         "overseauspider.yuanshen.com"

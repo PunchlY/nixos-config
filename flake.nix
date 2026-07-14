@@ -9,7 +9,6 @@
       "flakes"
       "pipe-operators"
     ];
-    extra-experimental-features = [ ];
     substituters = [
       "https://attic.xuyh0120.win/lantian"
       "https://mirrors.ustc.edu.cn/nix-channels/store"
@@ -73,6 +72,10 @@
     steam-config-nix = {
       url = "github:different-name/steam-config-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stevenblack-blocklist = {
+      url = "github:StevenBlack/hosts";
+      flake = false;
     };
     tldr-pages = {
       url = "github:tldr-pages/tldr";

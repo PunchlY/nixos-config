@@ -691,6 +691,7 @@
         "nur": "nur",
         "sops-nix": "sops-nix",
         "steam-config-nix": "steam-config-nix",
+        "stevenblack-blocklist": "stevenblack-blocklist",
         "tldr-pages": "tldr-pages",
         "treefmt-nix": "treefmt-nix_4",
         "waydroid-script": "waydroid-script"
@@ -735,6 +736,22 @@
       "original": {
         "owner": "different-name",
         "repo": "steam-config-nix",
+        "type": "github"
+      }
+    },
+    "stevenblack-blocklist": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783688126,
+        "narHash": "sha256-o48hbEhbJu6sa5E7VbnenFmFbEQk8LHvZWo9aNiAeQs=",
+        "owner": "StevenBlack",
+        "repo": "hosts",
+        "rev": "2720feb242cd9b2568e7a4562ab522a94c8b4836",
+        "type": "github"
+      },
+      "original": {
+        "owner": "StevenBlack",
+        "repo": "hosts",
         "type": "github"
       }
     },
