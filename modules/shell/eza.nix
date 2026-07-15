@@ -13,7 +13,7 @@
         extraOptions = [
           "--classify=auto"
           "--group-directories-first"
-          "--hyperlink"
+          "--hyperlink=auto"
         ];
       };
     };
