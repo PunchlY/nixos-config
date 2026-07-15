@@ -1,6 +1,6 @@
 {
   replaceVarsWith,
-  bash,
+  runtimeShell,
   jq,
   jc,
   expect,
@@ -17,7 +17,7 @@ replaceVarsWith {
   dir = "bin";
   isExecutable = true;
   replacements = {
-    inherit bash gnugrep cage;
+    inherit runtimeShell gnugrep cage;
 
     startup = replaceVarsWith {
       name = "waydroid-app";
@@ -26,7 +26,7 @@ replaceVarsWith {
       isExecutable = true;
       replacements = {
         inherit
-          bash
+          runtimeShell
           jq
           jc
           expect

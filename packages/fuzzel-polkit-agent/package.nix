@@ -1,6 +1,6 @@
 {
   replaceVarsWith,
-  bash,
+  runtimeShell,
   jq,
   fuzzel,
   cmd-polkit,
@@ -13,14 +13,14 @@ replaceVarsWith {
   dir = "libexec";
   isExecutable = true;
   replacements = {
-    inherit bash cmd-polkit;
+    inherit runtimeShell cmd-polkit;
     auth = replaceVarsWith {
       name = "fuzzel-polkit-agent-auth";
       src = ./auth.sh;
       isExecutable = true;
       replacements = {
         inherit
-          bash
+          runtimeShell
           jq
           fuzzel
           libnotify

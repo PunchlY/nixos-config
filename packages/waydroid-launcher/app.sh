@@ -1,6 +1,5 @@
-#! @bash@/bin/bash
-set -o nounset
-set -o pipefail
+#! @runtimeShell@
+set -uo pipefail
 
 OUTPUT="$(@wlr-randr@/bin/wlr-randr --json | @jq@/bin/jq -r .[0].name)"
 CUSTOM_MODE="$(@xrandr@/bin/xrandr | @jc@/bin/jc --xrandr -p | @jq@/bin/jq -r '.screens.[0] | "\(.current_width)x\(.current_height)"')"

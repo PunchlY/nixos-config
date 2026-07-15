@@ -1,2 +1,2 @@
-#! @bash@/bin/bash
+#! @runtimeShell@
 exec @cmd-polkit@/bin/cmd-polkit-agent -sv -c @auth@

@@ -7,7 +7,6 @@
   nixfmt,
   yq-go,
   coreutils,
-  parallel,
   gawk,
   gnugrep,
   jq,
@@ -51,7 +50,6 @@
       inherit
         runtimeShell
         coreutils
-        parallel
         gawk
         gnugrep
         jq

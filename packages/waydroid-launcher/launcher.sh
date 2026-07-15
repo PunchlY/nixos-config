@@ -1,4 +1,4 @@
-#! @bash@/bin/bash
+#! @runtimeShell@
 
 if ! command -v waydroid >/dev/null 2>&1; then
   exit
