@@ -58,6 +58,8 @@
 
       pywincontrols = final.python3Packages.callPackage ./pywincontrols.nix {};
 
+      scrcpy-finder = final.callPackage ./scrcpy-finder/package.nix {};
+
       waydroid-launcher = final.callPackage ./waydroid-launcher/package.nix {};
 
       wayllpaper = final.callPackage ./wayllpaper.nix {};

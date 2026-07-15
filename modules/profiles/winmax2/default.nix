@@ -227,6 +227,7 @@
       (gtk-nocsd.wrapper crosspipe)
 
       scrcpy
+      scrcpy-finder
 
       telegram-desktop
 
