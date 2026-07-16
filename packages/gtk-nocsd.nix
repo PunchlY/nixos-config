@@ -3,6 +3,7 @@
   fetchFromCodeberg,
   pkg-config,
   libadwaita,
+  glib,
   symlinkJoin,
   makeWrapper,
   execline,
@@ -10,24 +11,30 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "gtk-nocsd";
-  version = "4.0";
+  version = "4.3";
 
   src = fetchFromCodeberg {
     owner = "MorsMortium";
     repo = "GTK-NoCSD";
     tag = finalAttrs.version;
-    hash = "sha256-PHP5KSld1FrQCHj3Xdt+juBqGU3au7LWh976B1YtFPY=";
+    hash = "sha256-Luzib8zWL/Spsdz5cCxlCQLienhG4X0Qwald/Fw3FUY=";
   };
 
   nativeBuildInputs = [
     pkg-config
-    libadwaita
     makeWrapper
+  ];
+
+  buildInputs = [
+    libadwaita
+    glib
   ];
 
   makeFlags = [
     "DESTDIR=$(out)"
     "PREFIX="
+    "NOOPT=1"
+    "NODOC=1"
   ];
 
   postInstall = ''
