@@ -242,6 +242,8 @@
 
     hm.programs.celeste64.enable = true;
 
+    hm.programs.shattered-pixel-dungeon.enable = true;
+
     hm.programs.steam.config = {
       enable = true;
 
