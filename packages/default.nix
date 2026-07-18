@@ -60,6 +60,8 @@
 
       scrcpy-finder = final.callPackage ./scrcpy-finder/package.nix {};
 
+      the-powder-toy-chinese = final.callPackage ./the-powder-toy-chinese.nix {};
+
       waydroid-launcher = final.callPackage ./waydroid-launcher/package.nix {};
 
       wayllpaper = final.callPackage ./wayllpaper.nix {};
