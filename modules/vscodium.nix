@@ -43,6 +43,9 @@
               mkhl.shfmt
 
               thegeeklab.yamlfmt-ng
+
+              sumneko.lua
+              johnnymorganz.stylua
             ])
             ++ (with pkgs.open-vsx; [
               jeanp413.open-remote-ssh
@@ -123,6 +126,12 @@
 
             "yamlfmt.path" = lib.getExe pkgs.yamlfmt;
             "yamlfmt.autoInstall" = false;
+
+            "stylua.styluaPath" = lib.getExe pkgs.stylua;
+            "stylua.configPath" = (pkgs.formats.toml {}).generate "stylua.toml" {
+              indent_type = "Spaces";
+              indent_width = 2;
+            };
           };
           userSettings."[typescript]" = {
             "editor.defaultFormatter" = "biomejs.biome";
@@ -150,6 +159,12 @@
           };
           userSettings."[yaml]" = {
             "editor.defaultFormatter" = "thegeeklab.yamlfmt-ng";
+          };
+          userSettings."[lua]" = {
+            "editor.defaultFormatter" = "JohnnyMorganz.stylua";
+          };
+          userSettings."[luau]" = {
+            "editor.defaultFormatter" = "JohnnyMorganz.stylua";
           };
         };
       };
