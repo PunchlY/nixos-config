@@ -43,4 +43,8 @@
       onSteamRunning = "close";
     };
   };
+
+  flake.modules.homeManager.nixos = {osConfig, ...}: {
+    programs.steam.config.enable = osConfig.  programs.steam.enable;
+  };
 }
