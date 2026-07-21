@@ -46,6 +46,8 @@
       nonSteamApps."Brown Dust 2".enable = true;
 
       apps.Balatro.enable = true;
+
+      apps.Helltaker.enable = true;
     };
   };
 }

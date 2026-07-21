@@ -258,6 +258,8 @@
       nonSteamApps."Plants vs. Zombies: RH".enable = true;
 
       apps.Balatro.enable = true;
+
+      apps.Helltaker.enable = true;
     };
   };
 }
