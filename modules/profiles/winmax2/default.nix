@@ -125,13 +125,14 @@
 
     hm.programs.yazi.enable = true;
 
-    hm.programs.obs-studio = {
+    programs.obs-studio = {
       enable = true;
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
         obs-backgroundremoval
         obs-pipewire-audio-capture
       ];
+      enableVirtualCamera = true;
     };
 
     hm.programs.wiliwili.enable = true;
