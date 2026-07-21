@@ -175,6 +175,8 @@
 
     hm.programs.tray-tui.enable = true;
 
+    hm.programs.aseprite.enable = true;
+
     hm.xdg.desktopEntries.webcam = {
       name = "webcam";
       exec = "mpv av://v4l2:/dev/video0 --profile=low-latency --untimed --vf=hflip";
