@@ -1,6 +1,6 @@
 {
   configurations.nixos.nixos.module = {pkgs, ...}: {
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
@@ -30,7 +30,22 @@
       autoStart = true;
       desktopSession = "gamescope-wayland";
     };
+    services.udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+    '';
+
+    hm.programs.wiliwili.enable = true;
 
     hm.programs.prismlauncher.enable = true;
+
+    hm.programs.celeste64.enable = true;
+
+    hm.programs.shattered-pixel-dungeon.enable = true;
+
+    hm.programs.steam.config = {
+      nonSteamApps."Brown Dust 2".enable = true;
+
+      apps.Balatro.enable = true;
+    };
   };
 }

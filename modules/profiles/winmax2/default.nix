@@ -245,8 +245,6 @@
     hm.programs.shattered-pixel-dungeon.enable = true;
 
     hm.programs.steam.config = {
-      enable = true;
-
       nonSteamApps."Brown Dust 2".enable = true;
 
       nonSteamApps.Waydroid = {
