@@ -25,6 +25,8 @@
 
     services.mihomo.enable = true;
 
+    services.waydroid-nvidia.enable = true;
+
     jovian.steam = {
       enable = true;
       autoStart = true;
@@ -48,6 +50,8 @@
       apps.Balatro.enable = true;
 
       apps.Helltaker.enable = true;
+
+      nonSteamApps.Waydroid.enable = true;
     };
   };
 }

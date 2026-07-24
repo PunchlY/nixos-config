@@ -250,10 +250,7 @@
     hm.programs.steam.config = {
       nonSteamApps."Brown Dust 2".enable = true;
 
-      nonSteamApps.Waydroid = {
-        target = pkgs.waydroid-launcher;
-        desktopEntry.enable = false;
-      };
+      nonSteamApps.Waydroid.enable = true;
 
       nonSteamApps."Plants vs. Zombies: RH".enable = true;
 

@@ -12,13 +12,13 @@
     lib,
     ...
   }: {
-    config = lib.mkIf config.virtualisation.waydroid.enable {
+    config = lib.mkIf (config.virtualisation.waydroid.enable || config.services.waydroid-nvidia.enable) {
       environment.systemPackages = [
         inputs'.waydroid-script.packages.default
       ];
 
       # Tell waydroid to use memfd and not ashmem
-      systemd.tmpfiles.settings."99-waydroid-settings"."/var/lib/waydroid/waydroid_base.prop".C = {
+      systemd.tmpfiles.settings.waydroid-settings."/var/lib/waydroid/waydroid_base.prop".C = {
         user = "root";
         group = "root";
         mode = "0644";
