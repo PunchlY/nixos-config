@@ -6,7 +6,7 @@
     ];
   };
 
-  configurations.nixos.nixos.module = {config, ...}: {
+  configurations.nixos.nixos.module = {
     imports = [
       inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6h-hybrid
     ];

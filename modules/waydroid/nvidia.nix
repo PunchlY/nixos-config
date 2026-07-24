@@ -10,7 +10,6 @@
 
   flake.modules.nixos.base = {
     config,
-    pkgs,
     lib,
     ...
   }: {
