@@ -12,6 +12,6 @@
     ];
 
     hardware.nvidia.prime.amdgpuBusId = "PCI:05:0:0";
-    hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.latest;
+    hardware.nvidia.branch = "latest";
   };
 }
