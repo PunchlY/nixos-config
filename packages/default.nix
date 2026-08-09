@@ -28,6 +28,8 @@
           '';
       });
 
+      cmd = final.callPackage ./cmd.nix {};
+
       cmd-polkit = pkgs.cmd-polkit.overrideAttrs {
         version = "0.4.0-0.270";
         src = pkgs.fetchFromGitHub {
