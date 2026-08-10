@@ -693,11 +693,11 @@
         "systems": "systems_5"
       },
       "locked": {
-        "lastModified": 1786081493,
-        "narHash": "sha256-Wsn6zhnQR4lAmoSPV/K3sAgU3mkl2HuQuE9mCuPjeuw=",
+        "lastModified": 1786367779,
+        "narHash": "sha256-ysXTpJkQOMK9FpItxVaoG0EEQTfJVlh4sL7Td3lpDd0=",
         "owner": "different-name",
         "repo": "steam-config-nix",
-        "rev": "08f708c7678a23f28b09c3ab7cd68b0e568cf3b6",
+        "rev": "c4650de5e651a1dd4b2e81c82ec5a5edb04d8446",
         "type": "github"
       },
       "original": {

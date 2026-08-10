@@ -17,7 +17,7 @@
         apps.Balatro = {
           enable = lib.mkDefault false;
           id = 2379780;
-          launchOptions.preHook = ''
+          preHook = ''
             Mods="$XDG_DATA_HOME/Balatro/Mods"
             export XDG_DATA_HOME="$STEAM_COMPAT_DATA_PATH/pfx/drive_c/users/steamuser/AppData/Roaming"
             mkdir -p "$XDG_DATA_HOME/Balatro"
