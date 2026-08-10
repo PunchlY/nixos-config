@@ -15,14 +15,15 @@
             "${pkgs.writeShellScript "bun" ''
               export BUN_INSTALL=/usr/local/bun
               [ -d "$BUN_INSTALL" ] && exit
-              sudo mkdir -p "$BUN_INSTALL"
-              sudo chown -R root:users "$BUN_INSTALL"
-              sudo chmod -R g+rwX "$BUN_INSTALL"
+              mkdir -p "$BUN_INSTALL"
 
               curl -fsSL https://bun.sh/install | bash
 
-              SHELL=bash sudo "$BUN_INSTALL/bin/bun" completions /etc/bash_completion.d
-              sudo tee /etc/profile.d/bun.sh >/dev/null <<'EOF'
+              chgrp -R users "$BUN_INSTALL"
+              chmod -R g+rwX "$BUN_INSTALL"
+
+              SHELL=bash "$BUN_INSTALL/bin/bun" completions /etc/bash_completion.d
+              tee /etc/profile.d/bun.sh >/dev/null <<'EOF'
               export BUN_INSTALL="/usr/local/bun"
               export PATH="$BUN_INSTALL/bin:$PATH"
               EOF
@@ -30,13 +31,16 @@
             "${pkgs.writeShellScript "nvm" ''
               export NVM_DIR=/usr/local/nvm
               [ -d "$NVM_DIR" ] && exit
-              sudo mkdir -p "$NVM_DIR"
-              sudo chown -R root:users "$NVM_DIR"
-              sudo chmod -R g+rwX "$NVM_DIR"
+              mkdir -p "$NVM_DIR"
 
               curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/refs/heads/master/install.sh | PROFILE=/dev/null bash
 
-              sudo tee /etc/profile.d/nvm.sh >/dev/null <<'EOF'
+              ( \. "$NVM_DIR/nvm.sh"; nvm install --lts )
+
+              chgrp -R users "$NVM_DIR"
+              chmod -R g+rwX "$NVM_DIR"
+
+              tee /etc/profile.d/nvm.sh >/dev/null <<'EOF'
               export NVM_DIR=/usr/local/nvm
               [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
               EOF
