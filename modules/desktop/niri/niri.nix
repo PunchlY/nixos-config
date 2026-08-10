@@ -416,34 +416,14 @@
 
       programs.niri.settings.binds."Mod+Escape" = {
         hotkey-overlay.title = "Open Command Menu";
-        action.spawn-sh = let
-          menu =
-            [
-              {
-                key = "Suspend";
-                cmd = "systemctl suspend";
-              }
-              {
-                key = "Reboot";
-                cmd = "systemctl reboot";
-              }
-              {
-                key = "Shutdown";
-                cmd = "systemctl poweroff";
-              }
-            ]
-            ++ lib.optional osConfig.programs.steam.enable
-            {
-              key = "Game Mode";
-              cmd = "steamosctl switch-to-game-mode";
-            };
-        in ''
-          cmds=( ${lib.escapeShellArgs (lib.catAttrs "cmd" menu)} )
-          index=$(fuzzel --dmenu --index --only-match --minimal-lines <<< ${lib.escapeShellArg (lib.concatStringsSep "\n" (lib.catAttrs "key" menu))})
-          [ -z "$index" ] && exit 0
-          [ "$index" -lt 0 ] && exit 0
-          eval "''${cmds[$index]}"
-        '';
+        action.spawn =
+          [(lib.getExe pkgs.just)]
+          ++ lib.cli.toCommandLineGNU {} {
+            unsorted = true;
+            choose = true;
+            chooser = "fuzzel --dmenu --only-match --minimal-lines";
+            justfile = "${./justfile}";
+          };
       };
     };
   };

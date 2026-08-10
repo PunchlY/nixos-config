@@ -1,0 +1,11 @@
+Suspend:
+    systemctl suspend
+
+Reboot:
+    systemctl reboot
+
+Shutdown:
+    systemctl poweroff
+
+GameMode:
+    steamosctl switch-to-game-mode
