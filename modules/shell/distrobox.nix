@@ -4,8 +4,38 @@
     pkgs,
     lib,
     ...
-  }: {
-    config = lib.mkIf config.programs.distrobox.enable {
+  }: let
+    cfg = config.programs.distrobox;
+    mkDistroboxWrapper = {
+      name,
+      prefix ? "/usr",
+      bin ? "/bin/${name}",
+      container,
+    }:
+      pkgs.writeShellScriptBin name ''
+        if [ -z "''${CONTAINER_ID}" ]; then
+          exec "${lib.getExe' cfg.package "distrobox-enter"}" -n ${lib.escapeShellArg container} -- ${lib.escapeShellArg "${prefix}${bin}"} "$@"
+        elif [ -n "''${CONTAINER_ID}" ] && [ "''${CONTAINER_ID}" != ${lib.escapeShellArg container} ]; then
+          exec distrobox-host-exec ${lib.escapeShellArg name} "$@"
+        else
+          exec ${lib.escapeShellArg "${prefix}${bin}"} "$@"
+        fi
+      '';
+  in {
+    config = lib.mkIf cfg.enable {
+      home.packages = [
+        (mkDistroboxWrapper {
+          container = "fedora";
+          name = "bun";
+          prefix = "/usr/local/bun";
+        })
+        (mkDistroboxWrapper {
+          container = "fedora";
+          name = "bunx";
+          prefix = "/usr/local/bun";
+        })
+      ];
+
       programs.distrobox = {
         settings.container_additional_volumes = "/nix/store:/nix/store:ro /etc/profiles/per-user:/etc/profiles/per-user:ro /etc/static/profiles/per-user:/etc/static/profiles/per-user:ro";
 
