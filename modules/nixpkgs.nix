@@ -44,9 +44,5 @@
     flake.modules.nixos.base = {
       nixpkgs = config.nixpkgs;
     };
-
-    perSystem = {system, ...}: {
-      _module.args.pkgs = import inputs.nixpkgs (config.nixpkgs // {inherit system;});
-    };
   };
 }

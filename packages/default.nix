@@ -1,4 +1,10 @@
-{inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: let
+  overlays = [inputs.bun2nix.overlays.default];
+in {
   flake-file.inputs = {
     bun2nix = {
       url = "github:nix-community/bun2nix";
@@ -6,13 +12,19 @@
     };
   };
 
-  nixpkgs.overlays = [inputs.bun2nix.overlays.default];
+  nixpkgs.overlays = overlays;
 
   perSystem = {
+    system,
     final,
     pkgs,
     ...
   }: {
+    _module.args.pkgs = import inputs.nixpkgs {
+      inherit system overlays;
+      inherit (config.nixpkgs) config;
+    };
+
     overlayAttrs = {
       balatro = final.callPackage ./balatro/package.nix {};
 
