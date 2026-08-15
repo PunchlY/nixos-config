@@ -11,16 +11,15 @@ update:
 write-flake:
     nix run ".#write-flake" --offline --no-write-lock-file --no-net
 
-repl hostname=`hostname`:
-    nix repl ".#nixosConfigurations.{{ hostname }}"
+repl $hostname=`hostname`:
+    nix repl ".#nixosConfigurations.$hostname"
 
 clean:
     sudo nix profile wipe-history --profile /nix/var/nix/profiles/system
     sudo nix-collect-garbage --delete-old
 
-fmt path=".":
-    nix fmt --offline --no-write-lock-file --no-net -- {{ path }}
+fmt $path=".":
+    nix fmt --offline --no-write-lock-file --no-net -- $path
 
-updatekeys:
+updatekeys: && (fmt "secrets")
     sops updatekeys secrets/*
-    @just fmt secrets
