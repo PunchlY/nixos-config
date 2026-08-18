@@ -23,8 +23,6 @@
 
     security.polkit.enable = true;
 
-    services.mihomo.enable = true;
-
     services.waydroid-nvidia.enable = true;
 
     jovian.steam = {

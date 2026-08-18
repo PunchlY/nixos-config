@@ -57,7 +57,7 @@
 
     services.searx.enable = true;
 
-    services.mihomo.enable = true;
+    services.daed.enable = true;
 
     programs.chromium.enable = true;
 
