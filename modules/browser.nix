@@ -1,19 +1,19 @@
-{moduleWithSystem, ...}: {
-  flake-file.inputs = {
-    browser-previews = {
-      url = "github:nix-community/browser-previews";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+{
+  nixpkgs.config = {
+    allowUnfreePackages = [
+      "google-chrome"
+    ];
   };
 
-  flake.modules.nixos.base = moduleWithSystem ({inputs'}: {
+  flake.modules.nixos.base = {
     config,
+    pkgs,
     lib,
     ...
   }: {
     config = lib.mkIf config.programs.chromium.enable {
       environment.systemPackages = [
-        (inputs'.browser-previews.packages.google-chrome.override {
+        (pkgs.google-chrome.override {
           commandLineArgs = [
             "--disable-features=${lib.strings.concatMapStrings (x: x + ",") [
               "OptimizationGuideOnDeviceModel"
@@ -54,7 +54,7 @@
         };
       };
     };
-  });
+  };
 
   flake.modules.nixos.theme = {
     config,
