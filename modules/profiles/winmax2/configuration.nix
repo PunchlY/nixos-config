@@ -106,10 +106,7 @@
       QT_SCALE_FACTOR = "1.5";
     };
 
-    programs.localsend = {
-      enable = true;
-      package = pkgs.gtk-nocsd.wrapper pkgs.localsend;
-    };
+    programs.localsend.enable = true;
 
     hm.programs.git.enable = true;
 
@@ -160,6 +157,10 @@
     hm.programs.fd.enable = true;
 
     hm.programs.grep.enable = true;
+
+    hm.programs.ripgrep.enable = true;
+
+    hm.programs.ripgrep-all.enable = true;
 
     hm.programs.bat.enable = true;
 
@@ -226,11 +227,13 @@
       # terminal calculator
       quich
 
+      nur.repos.moraxyc.man-pages-zh
+
       (gtk-nocsd.wrapper pwvucontrol)
       (gtk-nocsd.wrapper crosspipe)
+      kazumi
 
       scrcpy
-      scrcpy-finder
 
       telegram-desktop
 
