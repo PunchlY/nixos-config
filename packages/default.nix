@@ -18,6 +18,7 @@ in {
     system,
     final,
     pkgs,
+    lib,
     ...
   }: {
     _module.args.pkgs = import inputs.nixpkgs {
@@ -72,8 +73,6 @@ in {
 
       pywincontrols = final.python3Packages.callPackage ./pywincontrols.nix {};
 
-      scrcpy-finder = final.callPackage ./scrcpy-finder/package.nix {};
-
       the-powder-toy-chinese = final.callPackage ./the-powder-toy-chinese.nix {};
 
       waydroid-launcher = final.callPackage ./waydroid-launcher/package.nix {};
@@ -93,5 +92,14 @@ in {
 
       wleird = final.callPackage ./wleird.nix {};
     };
+
+    apps = let
+      binPath = "${lib.getBin final.custom-scripts}/bin";
+    in
+      builtins.readDir binPath
+      |> lib.mapAttrs (name: _: {
+        type = "app";
+        program = "${binPath}/${name}";
+      });
   };
 }

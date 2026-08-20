@@ -1,64 +1,72 @@
 {
   symlinkJoin,
   replaceVarsWith,
-  runtimeShell,
-  git,
-  opencode,
-  nixfmt,
-  yq-go,
-  coreutils,
-  gawk,
-  gnugrep,
-  jq,
-  iproute2,
-  util-linux,
+  makeDesktopItem,
+  copyDesktopItems,
+  callPackage,
   lib,
 }: let
-  mkScript = name: {
-    src ? ./${name}.sh,
-    replacements ? {},
-  }:
-    replaceVarsWith {
-      inherit name src replacements;
-      dir = "bin";
-      isExecutable = true;
-    };
-  scripts = lib.mapAttrs mkScript {
-    "2nix".replacements = {
-      inherit
-        runtimeShell
-        nixfmt
-        yq-go
-        ;
-    };
-    ai-commit.replacements = {
-      inherit
-        runtimeShell
-        git
-        opencode
-        ;
-    };
-    ips.replacements = {
-      inherit
-        runtimeShell
-        iproute2
-        util-linux
-        gawk
-        ;
-    };
-    pkgs.replacements = {
-      inherit
-        runtimeShell
-        coreutils
-        gawk
-        gnugrep
-        jq
-        ;
-    };
-  };
+  getVars = lib.flip lib.pipe [
+    builtins.readFile
+    (builtins.split "@([a-zA-Z_][0-9A-Za-z_'-]*)@")
+    (builtins.filter builtins.isList)
+    (map builtins.head)
+    lib.unique
+  ];
+  mkScript = script: let
+    fn =
+      if lib.isFunction script
+      then script
+      else let
+        attrs =
+          if lib.isPath script
+          then {src = script;}
+          else script;
+        vars = getVars attrs.src;
+      in
+        lib.setFunctionArgs
+        (replacements: attrs // {inherit replacements;})
+        (lib.genAttrs vars (_: false));
+  in
+    callPackage (lib.mirrorFunctionArgs fn (
+      args: let
+        attrs = fn args;
+        name = baseNameOf attrs.src;
+        ext = lib.last (lib.splitString "." name);
+      in
+        replaceVarsWith (
+          {
+            name = lib.removeSuffix ".${ext}" name;
+          }
+          // attrs
+          // {
+            dir = "bin";
+            isExecutable = true;
+          }
+        )
+    )) {};
 in
-  symlinkJoin (_finalAttrs: {
+  symlinkJoin (finalAttrs: {
     name = "cutstom-scripts";
-    paths = lib.attrValues scripts;
-    passthru.scripts = scripts;
+    paths = lib.map mkScript [
+      ./scripts/2nix.sh
+      ./scripts/ai-commit.sh
+      ./scripts/ips.sh
+      ./scripts/nstore.sh
+      ./scripts/pkgs.sh
+      ./scripts/qrscan.sh
+      {
+        src = ./scripts/scrcpy-finder.sh;
+        desktopItems = [
+          (makeDesktopItem {
+            name = "scrcpy-finder";
+            exec = "scrcpy-finder";
+            desktopName = "Scrcpy Finder";
+          })
+        ];
+        nativeBuildInputs = [
+          copyDesktopItems
+        ];
+      }
+    ];
   })

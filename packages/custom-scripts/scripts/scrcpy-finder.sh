@@ -9,16 +9,17 @@ fi
 
 menu() {
   if ((is_tty)); then
-    @fzf@/bin/fzf --accept-nth 1 --with-nth {2..}
+    @fzy@/bin/fzy
   else
-    @fuzzel@/bin/fuzzel --dmenu --accept-nth 1 --only-match --no-run-if-empty --with-nth {2..}
+    @fuzzel@/bin/fuzzel --dmenu --only-match --no-run-if-empty
   fi
 }
 
 find() {
   @net-tools@/bin/arp -a |
+    menu |
     @jc@/bin/jc --arp |
-    @jq@/bin/jq -r '.[] | .address + "\t" + .name' | menu
+    @jq@/bin/jq -r '.[0].address'
 }
 
 tcpip="$(find)"
