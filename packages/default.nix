@@ -57,6 +57,8 @@ in {
 
       custom-scripts = final.callPackage ./custom-scripts/package.nix {};
 
+      cronstrue = final.callPackage ./cronstrue.nix {};
+
       db2 = final.callPackage ./db2.nix {};
 
       fuzzel-polkit-agent = final.callPackage ./fuzzel-polkit-agent/package.nix {};
