@@ -18,7 +18,7 @@ buildPythonApplication (finalAttrs: {
   };
 
   preBuild = ''
-    sed -i "s/'K406'/'K406','K121','K123'/" gpdconfig/wincontrols/hardware.py
+    substituteInPlace gpdconfig/wincontrols/hardware.py --replace-fail "'K406'" "'K406','K121','K123'"
   '';
 
   nativeBuildInputs = [setuptools];
