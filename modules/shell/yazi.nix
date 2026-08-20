@@ -13,7 +13,6 @@
       programs.yazi = {
         extraPackages = with pkgs; [
           hexyl
-          xdg-user-dirs
         ];
         enableBashIntegration = true;
         shellWrapperName = "y";
@@ -44,18 +43,12 @@
         keymap.mgr.prepend_keymap = [
           {
             desc = "Go to download dir";
-            on = [
-              "g"
-              "d"
-            ];
-            run = ''cd "$(xdg-user-dir DOWNLOAD)"'';
+            on = ["g" "d"];
+            run = "cd ${config.xdg.userDirs.download}";
           }
           {
             desc = "Chmod on selected files";
-            on = [
-              "c"
-              "m"
-            ];
+            on = ["c" "m"];
             run = "plugin chmod";
           }
           {
@@ -65,18 +58,12 @@
           }
           {
             desc = "Hidden or showed the parent pane";
-            on = [
-              "T"
-              "a"
-            ];
+            on = ["T" "a"];
             run = "plugin toggle-pane min-parent";
           }
           {
             desc = "Hidden or showed the preview pane";
-            on = [
-              "T"
-              "c"
-            ];
+            on = ["T" "c"];
             run = "plugin toggle-pane min-preview";
           }
         ];
@@ -93,22 +80,23 @@
           require("toggle-pane"):entry("min-parent")
         '';
         plugins = {
-          inherit (pkgs.yaziPlugins) chmod;
-          inherit (pkgs.yaziPlugins) git;
-          inherit (pkgs.yaziPlugins) mount;
-          inherit (pkgs.yaziPlugins) piper;
-          inherit (pkgs.yaziPlugins) sudo;
-          inherit (pkgs.yaziPlugins) toggle-pane;
+          inherit
+            (pkgs.yaziPlugins)
+            chmod
+            git
+            mount
+            piper
+            sudo
+            toggle-pane
+            ;
         };
         settings.plugin.prepend_fetchers = [
           {
-            id = "git";
             url = "*";
             run = "git";
             group = "git";
           }
           {
-            id = "git";
             url = "*/";
             run = "git";
             group = "git";

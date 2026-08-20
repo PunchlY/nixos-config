@@ -1,7 +1,8 @@
 default:
     nh os switch . -- --offline --no-write-lock-file --no-net
 
-rebuild: write-flake
+rebuild:
+    nix run ".#write-flake"
     nh os switch .
 
 update:
