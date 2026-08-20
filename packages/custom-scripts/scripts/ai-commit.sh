@@ -16,4 +16,4 @@ prompt="$(
   echo 'Generate a commit message from the staged changes and recent commit style, then commit only the currently staged content. Do not modify files, stage additional changes, amend, or push.'
 )"
 
-@opencode@/bin/opencode run -m opencode/big-pickle "$prompt"
+@opencode@/bin/opencode run "$prompt"
