@@ -1,5 +1,5 @@
 {
-  configurations.nixos.nixos.module = {pkgs, ...}: {
+  configurations.nixos.tap.module = {pkgs, ...}: {
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
 
     boot.loader.systemd-boot.enable = true;

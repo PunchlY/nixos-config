@@ -1,5 +1,5 @@
 {
-  configurations.nixos.nixos.module = {
+  configurations.nixos.tap.module = {
     config,
     lib,
     modulesPath,

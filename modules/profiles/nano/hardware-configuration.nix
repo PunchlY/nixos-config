@@ -1,5 +1,5 @@
 {
-  configurations.nixos.winmax2.module = {
+  configurations.nixos.nano.module = {
     config,
     lib,
     modulesPath,

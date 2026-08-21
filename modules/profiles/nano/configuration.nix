@@ -1,5 +1,5 @@
 {
-  configurations.nixos.winmax2.theme = {
+  configurations.nixos.nano.theme = {
     enable = true;
     wallpaper = {
       runCommandLocal,
@@ -15,7 +15,7 @@
       } "magick $src -fuzz 10% -trim +repage $out";
   };
 
-  configurations.nixos.winmax2.module = {pkgs, ...}: {
+  configurations.nixos.nano.module = {pkgs, ...}: {
     boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
 
     boot.loader.systemd-boot.enable = true;
