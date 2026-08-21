@@ -1,33 +1,35 @@
-{
-  config,
-  inputs,
-  ...
-}: let
-  overlays = [inputs.bun2nix.overlays.default];
-in {
+{inputs, ...}: {
   flake-file.inputs = {
     bun2nix = {
       url = "github:nix-community/bun2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    bun = {
+      url = "github:Daste745/nix-bun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  nixpkgs.overlays = overlays;
+  nixpkgs.overlays = [inputs.bun2nix.overlays.default];
 
   perSystem = {
-    system,
+    config,
     final,
     pkgs,
+    inputs',
     lib,
     ...
   }: {
-    _module.args.pkgs = import inputs.nixpkgs {
-      inherit system overlays;
-      inherit (config.nixpkgs) config;
-    };
+    packages = config.overlayAttrs;
 
     overlayAttrs = {
       balatro = final.callPackage ./balatro/package.nix {};
+
+      bun-latest =
+        builtins.attrNames inputs'.bun.packages
+        |> lib.sort (a: b: builtins.compareVersions a b < 0)
+        |> lib.last
+        |> lib.flip builtins.getAttr inputs'.bun.packages;
 
       bun-types = final.callPackage ./bun-types/package.nix {};
 
@@ -103,5 +105,13 @@ in {
         type = "app";
         program = "${binPath}/${name}";
       });
+    legacyPackages.vscode-typescript-next = pkgs.open-vsx.nsttt.native-preview.overrideAttrs (oldAttrs: {
+      nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [pkgs.yq-go];
+      postPatch =
+        (oldAttrs.postPatch or "")
+        + ''
+          yq -i '.engines.vscode = "^1.110.0"' package.json
+        '';
+    });
   };
 }

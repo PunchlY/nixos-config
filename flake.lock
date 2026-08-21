@@ -2,23 +2,21 @@
   "nodes": {
     "bun": {
       "inputs": {
-        "flake-utils": "flake-utils",
         "nixpkgs": [
-          "md3",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1778645875,
-        "narHash": "sha256-U08xIMQdbk2M91M4e9DuyxVftiMiAu5P7oWgp2B9Jg0=",
-        "owner": "aster-void",
-        "repo": "bunnix",
-        "rev": "455d8733ee806436aa8bba50435c70ea50245b10",
+        "lastModified": 1787235501,
+        "narHash": "sha256-GeXUjwFVozvX7wCSt0GVH+lUeZQ6dQusENVJU3c3xCQ=",
+        "owner": "Daste745",
+        "repo": "nix-bun",
+        "rev": "b9a222a6564b0bd3b3e28e9a4bc4f46873db46a4",
         "type": "github"
       },
       "original": {
-        "owner": "aster-void",
-        "repo": "bunnix",
+        "owner": "Daste745",
+        "repo": "nix-bun",
         "type": "github"
       }
     },
@@ -69,6 +67,28 @@
       "original": {
         "owner": "nix-community",
         "repo": "bun2nix",
+        "type": "github"
+      }
+    },
+    "bun_2": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "md3",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778645875,
+        "narHash": "sha256-U08xIMQdbk2M91M4e9DuyxVftiMiAu5P7oWgp2B9Jg0=",
+        "owner": "aster-void",
+        "repo": "bunnix",
+        "rev": "455d8733ee806436aa8bba50435c70ea50245b10",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aster-void",
+        "repo": "bunnix",
         "type": "github"
       }
     },
@@ -302,7 +322,7 @@
     },
     "md3": {
       "inputs": {
-        "bun": "bun",
+        "bun": "bun_2",
         "bun2nix": "bun2nix_2",
         "nixpkgs": "nixpkgs",
         "systems": "systems_3",
@@ -597,6 +617,7 @@
     },
     "root": {
       "inputs": {
+        "bun": "bun",
         "bun2nix": "bun2nix",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts_2",

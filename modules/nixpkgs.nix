@@ -1,9 +1,15 @@
 {
+  inputs,
   config,
   self,
   lib,
   ...
 }: {
+  imports = [
+    inputs.flake-parts.flakeModules.easyOverlay
+    ../packages
+  ];
+
   options.nixpkgs = {
     config = {
       allowUnfreePackages = lib.mkOption {
@@ -41,7 +47,17 @@
     flake.nixosModules = self.modules.nixos;
 
     flake.modules.nixos.base = {
-      nixpkgs = config.nixpkgs;
+      nixpkgs = {
+        inherit (config.nixpkgs) config;
+        overlays = config.nixpkgs.overlays ++ [self.overlays.default];
+      };
+    };
+
+    perSystem = {system, ...}: {
+      _module.args.pkgs = import inputs.nixpkgs {
+        inherit system;
+        inherit (config.nixpkgs) config overlays;
+      };
     };
   };
 }

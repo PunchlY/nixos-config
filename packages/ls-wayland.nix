@@ -3,7 +3,7 @@
   fetchFromGitLab,
   lib,
 }:
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "ls-wayland";
   version = "1.0.0-0.4";
 

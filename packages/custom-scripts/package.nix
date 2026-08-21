@@ -46,7 +46,7 @@
         )
     )) {};
 in
-  symlinkJoin (finalAttrs: {
+  symlinkJoin (_finalAttrs: {
     name = "cutstom-scripts";
     paths = lib.map mkScript [
       ./scripts/2nix.sh

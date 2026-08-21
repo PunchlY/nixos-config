@@ -1,13 +1,13 @@
 {
   stdenvNoCC,
-  runCommandLocal,
   bun2nix,
   bun,
+  runCommandLocal,
   lib,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "bun-types";
-  version = "1.3.14";
+  version = "1.4.0";
   src = lib.fileset.toSource {
     root = ./.;
     fileset = lib.fileset.unions [
@@ -18,32 +18,29 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   bunDeps = bun2nix.fetchBunDeps {
     bunNix = ./bun.nix;
-    overrides = {
-      "typescript@6.0.3" = pkg:
-        runCommandLocal "typescript-patched" {
-          src = pkg;
-          push = ''
-            /// <reference path="../../@types/bun/index.d.ts" />
-          '';
-        } ''
-          cp -R "$src" "$out"
-          chmod -R u+w "$out"
-          echo "$push" >> "$out/lib/lib.esnext.d.ts"
-        '';
-    };
   };
 
   nativeBuildInputs = [bun];
 
-  buildPhase = ''
-    export BUN_INSTALL_CACHE_DIR="$(mktemp -d)"
-    cp -r "$bunDeps"/share/bun-cache/. "$BUN_INSTALL_CACHE_DIR"
-    bun install --linker hoisted
-  '';
+  env.BUN_INSTALL_CACHE_DIR = "${finalAttrs.bunDeps}/share/bun-cache";
 
   installPhase = ''
+    runHook preInstall
     mkdir $out
-    mv * $out
+    cp -R . $out
+    env -C $out bun install --linker hoisted
+    runHook postInstall
+  '';
+
+  fixupPhase = ''
+    runHook preFixup
+    file=$out/node_modules/typescript/lib/lib.esnext.d.ts
+    chmod u+w "$file"
+    cat <<EOF >> $file
+    /// <reference path="../../bun-types/index.d.ts" />
+    EOF
+    chmod u-w "$file"
+    runHook postFixup
   '';
 
   passthru.tsdk.path = "${finalAttrs.finalPackage}/node_modules/typescript/lib";

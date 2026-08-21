@@ -34,7 +34,7 @@
         priority = 2;
       };
 
-      programs.yamlfmt.enable = true;
+      programs.deno.enable = true;
     };
   };
 }
