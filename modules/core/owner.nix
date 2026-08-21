@@ -3,6 +3,9 @@
     name = "PunchlY";
     username = "punchly";
     email = "punchly9lin@gmail.com";
+    keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDMvu8NSsF7TP9JxxPhHeij113Kmw61KSPfpbLQvpsoY punchly@winmax2"
+    ];
   };
 
   flake.modules.nixos.base = {lib, ...}: {
@@ -25,9 +28,7 @@
         "input"
       ];
 
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDMvu8NSsF7TP9JxxPhHeij113Kmw61KSPfpbLQvpsoY punchly@winmax2"
-      ];
+      openssh.authorizedKeys.keys = self.meta.owner.keys;
     };
 
     hm.programs.git = {

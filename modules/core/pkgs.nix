@@ -7,7 +7,7 @@
 }: {
   imports = [
     inputs.flake-parts.flakeModules.easyOverlay
-    ../packages
+    ../../packages
   ];
 
   options.nixpkgs = {
@@ -30,6 +30,10 @@
   config = {
     flake-file.inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+      nur = {
+        url = "github:nix-community/NUR";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
     };
 
     flake-file.nixConfig = {
@@ -43,6 +47,8 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
+
+    nixpkgs.overlays = [inputs.nur.overlays.default];
 
     flake.nixosModules = self.modules.nixos;
 
