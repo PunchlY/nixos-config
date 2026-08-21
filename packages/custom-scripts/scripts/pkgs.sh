@@ -26,7 +26,7 @@ else
 fi
 
 show() {
-  nix derivation show "$2" |
+  @nix@/bin/nix derivation show "$2" |
     if ((is_tty)); then
       @jq@/bin/jq -r '.derivations.[] | "\u001b]8;;file:///nix/store/" + (.outputs.bin.path // .outputs.out.path | @uri) + "\u0007" + .name + "\u001b]8;;\u0007"'
     else
