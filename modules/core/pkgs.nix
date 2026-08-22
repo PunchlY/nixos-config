@@ -48,22 +48,19 @@
       ];
     };
 
-    nixpkgs.overlays = [inputs.nur.overlays.default];
+    nixpkgs.overlays = [
+      inputs.nur.overlays.default
+      self.overlays.default
+    ];
 
     flake.nixosModules = self.modules.nixos;
 
     flake.modules.nixos.base = {
-      nixpkgs = {
-        inherit (config.nixpkgs) config;
-        overlays = config.nixpkgs.overlays ++ [self.overlays.default];
-      };
+      nixpkgs = config.nixpkgs;
     };
 
     perSystem = {system, ...}: {
-      _module.args.pkgs = import inputs.nixpkgs {
-        inherit system;
-        inherit (config.nixpkgs) config overlays;
-      };
+      _module.args.final = import inputs.nixpkgs (config.nixpkgs // {inherit system;});
     };
   };
 }
