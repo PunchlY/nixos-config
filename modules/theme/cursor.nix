@@ -22,10 +22,6 @@
     };
   };
 in {
-  flake-file.inputs = {
-    md3.url = "github:PunchlY/md3";
-  };
-
   flake.modules.nixos.theme = {config, ...}: let
     cfg = config.theme;
   in {
