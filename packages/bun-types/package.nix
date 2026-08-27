@@ -2,7 +2,6 @@
   stdenvNoCC,
   bun2nix,
   bun,
-  runCommandLocal,
   lib,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {

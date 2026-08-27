@@ -2,11 +2,32 @@
   mkColors = pkgs: wallpaper:
     withSystem pkgs.stdenv.hostPlatform.system ({inputs', ...}:
       pkgs.runCommandLocal "generated-theme" {
-        src = wallpaper;
+        inherit wallpaper;
         nativeBuildInputs = [
-          inputs'.md3.packages.default
+          pkgs.imagemagick
+          inputs'.oktheme.packages.default
         ];
-      } "md3 --dark <$src >$out"
+      } ''
+        read -r source < <(
+          magick "$wallpaper" \
+            -seed 0 \
+            -resize '256>' \
+            -colorspace oklch \
+            -kmeans 8 \
+            -colorspace oklch \
+            -format '%c' \
+            histogram:info: |
+            sort -nr
+        )
+        if [[ $source =~ oklch\(([0-9.-]+),([0-9.-]+),([0-9.-]+)\) ]]; then
+          l="''${BASH_REMATCH[1]}"
+          c="''${BASH_REMATCH[2]}"
+          h="''${BASH_REMATCH[3]}"
+        else
+          exit 1
+        fi
+        oktheme "oklch($l $c $h)" >$out
+      ''
       |> pkgs.lib.importJSON
       |> builtins.mapAttrs (
         _name: value:
@@ -43,7 +64,7 @@
   };
 in {
   flake-file.inputs = {
-    md3.url = "github:PunchlY/md3";
+    oktheme.url = "github:PunchlY/oktheme";
   };
 
   flake.modules.nixos.theme = {

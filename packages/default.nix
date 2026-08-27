@@ -30,6 +30,13 @@
         |> lib.sort (a: b: builtins.compareVersions a b < 0)
         |> lib.last
         |> lib.flip builtins.getAttr inputs'.bun.packages;
+      # bun-latest = lib.pipe inputs'.bun.packages [
+      #   lib.attrNames
+      #   (lib.sort (a: b: lib.compareVersions a b < 0))
+      #   lib.last
+      #   lib.getAttr
+      # ]
+      # inputs'.bun.packages;
 
       bun-types = final.callPackage ./bun-types/package.nix {};
 
