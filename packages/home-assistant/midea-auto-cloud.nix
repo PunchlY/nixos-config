@@ -7,13 +7,13 @@
 buildHomeAssistantComponent (finalAttrs: {
   owner = "sususweet";
   domain = "midea_auto_cloud";
-  version = "0.3.4-pre1";
+  version = "0.4.15";
 
   src = fetchFromGitHub {
     owner = finalAttrs.owner;
     repo = "midea_auto_cloud";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-7Lp7XpVTfNQczQLC10R2b0NWUIM2/g2yXCu2Rd9vdJg=";
+    hash = "sha256-m6vFZlBwk32DFQtk/6W0PXwLtJGv91hvCEp4xGL6fjg=";
   };
 
   dependencies = [

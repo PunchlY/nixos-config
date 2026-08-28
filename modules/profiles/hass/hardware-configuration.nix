@@ -1,5 +1,5 @@
 {
-  configurations.nixos.ha-server.module = {
+  configurations.nixos.hass.module = {
     config,
     lib,
     modulesPath,

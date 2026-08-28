@@ -6,14 +6,13 @@
 buildHomeAssistantComponent (finalAttrs: {
   owner = "banto6";
   domain = "haier";
-  version = "1.2.0";
+  version = "1.3.0";
 
   src = fetchFromGitHub {
     owner = finalAttrs.owner;
     repo = "haier";
     rev = "v${finalAttrs.version}";
-    fetchSubmodules = false;
-    sha256 = "sha256-92tla8+fvvym6cpz1ZQCjZZwx769diAN7GUzRM6DwGs=";
+    hash = "sha256-ZVz2Tfkrhq1xpYU4D749wTTePvqOEWmyNse3evDBUgk=";
   };
 
   meta = {

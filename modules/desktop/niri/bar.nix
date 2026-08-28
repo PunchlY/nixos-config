@@ -27,13 +27,6 @@
             ];
           }
           {
-            block = "service_status";
-            service = "mihomo";
-            active_format = " 󰄛 ";
-            inactive_format = "";
-            merge_with_next = true;
-          }
-          {
             block = "net";
             format = " $icon |";
             inactive_format = "";
