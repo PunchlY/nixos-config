@@ -103,24 +103,6 @@
           tag = "v3.0.3";
           hash = "sha256-ZOFnvtaH+nHRkAZN8Xvhm2Yu2CkKJEydSkLwoPVc8mM=";
         };
-
-        "Balatro/Mods/AchievementsEnabler.lua".text = ''
-          --- STEAMODDED HEADER
-          --- MOD_NAME: Achievements Enabler
-          --- MOD_ID: AchievementsEnabler
-          --- MOD_AUTHOR: [Steamo]
-          --- MOD_DESCRIPTION: Mod to activate Achievements
-          --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
-
-          ----------------------------------------------
-          ------------MOD CODE -------------------------
-
-          sendDebugMessage("AchievementsEnabler Activated!", "AchievementsEnabler")
-          G.F_NO_ACHIEVEMENTS = false
-
-          ----------------------------------------------
-          ------------MOD CODE END----------------------
-        '';
       };
     };
   };
