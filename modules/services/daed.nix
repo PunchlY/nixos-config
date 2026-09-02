@@ -13,10 +13,6 @@
 
       package = lib.mkPackageOption pkgs "daed" {};
 
-      configPath = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-      };
-
       openFirewall = lib.mkOption {
         type = lib.types.bool;
         default = true;
@@ -42,6 +38,8 @@
       networking = lib.mkIf cfg.openFirewall {
         firewall.allowedTCPPorts = [cfg.port];
       };
+      environment.etc."daed/geoip.dat".source = "${pkgs.v2ray-geoip}/share/v2ray/geoip.dat";
+      environment.etc."daed/geosite.dat".source = "${pkgs.v2ray-domain-list-community}/share/v2ray/geosite.dat";
       systemd.services.daed = {
         wantedBy = ["multi-user.target"];
         serviceConfig = {
@@ -49,7 +47,7 @@
             [(lib.getExe cfg.package) "run"]
             ++ lib.cli.toCommandLineGNU {} {
               disable-timestamp = true;
-              config = cfg.configPath;
+              config = "/etc/daed";
               listen = "${cfg.address}:${toString cfg.port}";
               api-only = cfg.apiOnly;
             }
