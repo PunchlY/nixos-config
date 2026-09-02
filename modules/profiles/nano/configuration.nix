@@ -73,10 +73,17 @@
           ids = ["*"];
           settings = {
             main = {
-              capslock = "layer(hyper)";
+              capslock = "layer(capslock)";
+              tab = "overload(tab, tab)";
             };
-            "hyper:S-C-A-M" = {
+            "capslock:C" = {
               tab = "capslock";
+            };
+            tab = {
+              h = "left";
+              j = "down";
+              k = "up";
+              l = "right";
             };
           };
         };
